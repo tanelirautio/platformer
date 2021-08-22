@@ -3,33 +3,16 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class Controller2D : MonoBehaviour
+public class Controller2D : RaycastController
 {
-    public LayerMask m_collisionMask;
-
-    const float SKINWIDTH = 0.015f;
-    public int horizontalRayCount = 4;
-    public int verticalRayCount = 4;
-
     [SerializeField] private float m_maxClimbAngle = 80;
     [SerializeField] private float m_maxDescentAngle = 80;
    
-    private float m_horizontalRaySpacing;
-    private float m_verticalRaySpacing;
-
-    BoxCollider2D m_collider;
-    RaycastOrigins m_raycastOrigins;
     public CollisionInfo collisions;
 
-    private void Awake()
+    public override void Start()
     {
-        m_collider = GetComponent<BoxCollider2D>();
-
-    }
-
-    private void Start()
-    {
-        CalculateRaySpacing();
+        base.Start();
     }
 
     public void Move(Vector3 velocity)
@@ -195,33 +178,7 @@ public class Controller2D : MonoBehaviour
         }
     }
 
-    void UpdateRaycastOrigins()
-    {
-        Bounds bounds = m_collider.bounds;
-        bounds.Expand(SKINWIDTH * -2);
 
-        m_raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-        m_raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-        m_raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-        m_raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
-    }
-    void CalculateRaySpacing()
-    {
-        Bounds bounds = m_collider.bounds;
-        bounds.Expand(SKINWIDTH * -2);
-
-        horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);
-        verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
-
-        m_horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
-        m_verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
-    }
-
-    struct RaycastOrigins
-    {
-        public Vector2 topLeft, topRight;
-        public Vector2 bottomLeft, bottomRight;
-    }
 
     public struct CollisionInfo
     {
