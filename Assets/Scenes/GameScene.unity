@@ -227,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313827123}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.16, y: 4.24, z: 0}
+  m_LocalPosition: {x: -1.37, y: 1.43, z: 0}
   m_LocalScale: {x: 3.158589, y: 0.26833746, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -245,18 +245,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0ca3c3c83a397479b8267bcece33b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collisionMask:
+  collisionMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   horizontalRayCount: 4
   verticalRayCount: 4
-  m_horizontalRaySpacing: 0
-  m_verticalRaySpacing: 0
+  horizontalRaySpacing: 0
+  verticalRaySpacing: 0
   m_collider: {fileID: 0}
   passengerMask:
     serializedVersion: 2
     m_Bits: 128
-  move: {x: 0, y: -0.1, z: 0}
+  move: {x: 0, y: -0.5, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,13 +1227,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a227dd939ad6aae45944975a6eff7ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collisionMask:
+  collisionMask:
     serializedVersion: 2
     m_Bits: 64
   horizontalRayCount: 4
   verticalRayCount: 4
-  m_horizontalRaySpacing: 0
-  m_verticalRaySpacing: 0
+  horizontalRaySpacing: 0
+  verticalRaySpacing: 0
   m_collider: {fileID: 0}
   m_maxClimbAngle: 80
   m_maxDescentAngle: 75

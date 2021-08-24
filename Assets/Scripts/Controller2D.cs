@@ -15,7 +15,7 @@ public class Controller2D : RaycastController
         base.Start();
     }
 
-    public void Move(Vector3 velocity)
+    public void Move(Vector3 velocity, bool standingOnPlatform = false)
     {
         UpdateRaycastOrigins();
         collisions.Reset();
@@ -35,6 +35,11 @@ public class Controller2D : RaycastController
         }
 
         transform.Translate(velocity);
+
+        if(standingOnPlatform)
+        {
+            collisions.below = true;
+        }
     }
 
     void HorizontalCollisions(ref Vector3 velocity)
@@ -45,13 +50,18 @@ public class Controller2D : RaycastController
         for (int i = 0; i < horizontalRayCount; i++)
         {
             Vector2 rayOrigin = (directionX == -1) ? m_raycastOrigins.bottomLeft : m_raycastOrigins.bottomRight;
-            rayOrigin += Vector2.up * (m_horizontalRaySpacing * i);
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, m_collisionMask);
+            rayOrigin += Vector2.up * (horizontalRaySpacing * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
 
             Debug.DrawRay(rayOrigin, Vector2.right * directionX * rayLength, Color.yellow);
 
             if (hit)
             {
+                if(hit.distance == 0)
+                {
+                    continue;
+                }
+
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
                 if (i == 0 && slopeAngle <= m_maxClimbAngle)
                 {
@@ -98,8 +108,8 @@ public class Controller2D : RaycastController
         for (int i = 0; i < verticalRayCount; i++)
         {
             Vector2 rayOrigin = (directionY == -1) ? m_raycastOrigins.bottomLeft : m_raycastOrigins.topLeft;
-            rayOrigin += Vector2.right * (m_verticalRaySpacing * i + velocity.x);
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, m_collisionMask);
+            rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
             
             Debug.DrawRay(rayOrigin, Vector2.up * directionY * rayLength, Color.red);
 
@@ -123,7 +133,7 @@ public class Controller2D : RaycastController
             float directionX = Mathf.Sign(velocity.x);
             rayLength = Math.Abs(velocity.x) + SKINWIDTH;
             Vector2 rayOrigin = ((directionX == -1) ? m_raycastOrigins.bottomLeft : m_raycastOrigins.bottomRight) + Vector2.up * velocity.y;
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, m_collisionMask);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
             if(hit)
             {
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
@@ -154,7 +164,7 @@ public class Controller2D : RaycastController
     {
         float directionX = Mathf.Sign(velocity.x);
         Vector2 rayOrigin = (directionX == -1) ? m_raycastOrigins.bottomRight : m_raycastOrigins.bottomLeft;
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, -Vector2.up, Mathf.Infinity, m_collisionMask);
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, -Vector2.up, Mathf.Infinity, collisionMask);
         if(hit)
         {
             float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
