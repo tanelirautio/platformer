@@ -4,46 +4,110 @@ using System.Collections;
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
-    public float m_jumpHeight = 4;
-    public float m_timeToJumpApex = 0.4f;
+    public float jumpHeight = 4;
+    public float timeToJumpApex = 0.4f;
 
-    float m_accelerationTimeAirborne = 0.2f;
-    float m_accelerationTimeGrounded = 0.1f;
-    private float m_moveSpeed = 6;
+    float accelerationTimeAirborne = 0.2f;
+    float accelerationTimeGrounded = 0.1f;
+    private float moveSpeed = 6;
 
-    private float m_gravity;
-    private float m_jumpVelocity;
-    private Vector3 m_velocity;
-    private float m_velocityXSmoothing;
+    public Vector2 wallJumpClimb;
+    public Vector2 wallJumpOff;
+    public Vector2 wallLeap;
 
-    private Controller2D m_controller;
+    public float wallSlideSpeedMax = 3;
+    public float wallStickTime = 0.25f;
+    public float timeToWallUnstick;
+
+    private float gravity;
+    private float jumpVelocity;
+    private Vector3 velocity;
+    private float velocityXSmoothing;
+
+    private Controller2D controller;
 
     private void Awake()
     {
-        m_controller = GetComponent<Controller2D>();
+        controller = GetComponent<Controller2D>();
 
-        m_gravity = -(2 * m_jumpHeight) / Mathf.Pow(m_timeToJumpApex, 2);
-        m_jumpVelocity = Mathf.Abs(m_gravity) * m_timeToJumpApex;
-        print("Gravity: " + m_gravity + "  Jump Velocity: " + m_jumpVelocity);
+        gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
     }
 
     private void Update()
     {
-        if(m_controller.collisions.above || m_controller.collisions.below)
-        {
-            m_velocity.y = 0;
-        }
-
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        int wallDirX = (controller.collisions.left) ? -1 : 1;
 
-        if(Input.GetKeyDown(KeyCode.Space) && m_controller.collisions.below)
+        float targetVelocityX = input.x * moveSpeed;
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+
+        bool wallSliding = false;
+        if((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && velocity.y < 0)
         {
-            m_velocity.y = m_jumpVelocity;
+            wallSliding = true;
+
+            if(velocity.y < -wallSlideSpeedMax)
+            {
+                velocity.y = -wallSlideSpeedMax;
+            }
+
+            if (timeToWallUnstick > 0)
+            {
+                velocityXSmoothing = 0;
+                velocity.x = 0;
+
+                if (input.x != wallDirX && input.x != 0)
+                {
+                    timeToWallUnstick -= Time.deltaTime;
+                }
+                else
+                {
+                    timeToWallUnstick = wallStickTime;
+                }
+            }
+            else
+            {
+                timeToWallUnstick = wallStickTime;
+            }
         }
 
-        float targetVelocityX = input.x * m_moveSpeed;
-        m_velocity.x = Mathf.SmoothDamp(m_velocity.x, targetVelocityX, ref m_velocityXSmoothing, (m_controller.collisions.below)?m_accelerationTimeGrounded:m_accelerationTimeAirborne);
-        m_velocity.y += m_gravity * Time.deltaTime;
-        m_controller.Move(m_velocity * Time.deltaTime);
+        if(controller.collisions.above || controller.collisions.below)
+        {
+            velocity.y = 0;
+        }
+
+
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if(wallSliding)
+            {
+                if(wallDirX == input.x)
+                {
+                    velocity.x = -wallDirX * wallJumpClimb.x;
+                    velocity.y = wallJumpClimb.y;
+                }
+                else if(input.x == 0)
+                {
+                    velocity.x = -wallDirX * wallJumpOff.x;
+                    velocity.y = wallJumpOff.y;
+                }
+                else
+                {
+                    velocity.x = -wallDirX * wallLeap.x;
+                    velocity.y = wallLeap.y;
+
+                }
+            }
+            if (controller.collisions.below)
+            {
+                velocity.y = jumpVelocity;
+            }
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 }
