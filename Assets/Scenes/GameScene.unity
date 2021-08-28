@@ -276,8 +276,8 @@ GameObject:
   - component: {fileID: 369527945}
   - component: {fileID: 369527944}
   m_Layer: 6
-  m_Name: Wall1
-  m_TagString: Untagged
+  m_Name: Platform
+  m_TagString: Through
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -367,8 +367,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 369527942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.43, y: 5.6017, z: 0}
-  m_LocalScale: {x: 0.43075714, y: 11.3572, z: 1}
+  m_LocalPosition: {x: -3.78, y: 2.29, z: 0}
+  m_LocalScale: {x: -3.1095273, y: 0.56506974, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -1438,7 +1438,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773eb28ce1e32cf44af7c7a8cfbaeed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 4
+  maxJumpHeight: 4
+  minJumpHeight: 1
   timeToJumpApex: 0.4
   wallJumpClimb: {x: 7.5, y: 16}
   wallJumpOff: {x: 8.5, y: 7}
@@ -1533,7 +1534,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: -6367560908665664636, guid: cd947491a13509945aa1b644f9db3ef2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
