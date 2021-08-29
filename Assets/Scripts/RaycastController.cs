@@ -13,28 +13,32 @@ public class RaycastController : MonoBehaviour
     [HideInInspector] public float horizontalRaySpacing;
     [HideInInspector] public float verticalRaySpacing;
 
-    [HideInInspector] public BoxCollider2D m_collider;
-    public RaycastOrigins m_raycastOrigins;
+    [HideInInspector] public BoxCollider2D collider;
+    public RaycastOrigins raycastOrigins;
+
+    public virtual void Awake()
+    {
+        collider = GetComponent<BoxCollider2D>();
+    }
 
     public virtual void Start()
     {
-        m_collider = GetComponent<BoxCollider2D>();
         CalculateRaySpacing();
     }
 
     public void UpdateRaycastOrigins()
     {
-        Bounds bounds = m_collider.bounds;
+        Bounds bounds = collider.bounds;
         bounds.Expand(SKINWIDTH * -2);
 
-        m_raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-        m_raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-        m_raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-        m_raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
+        raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
+        raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
+        raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
+        raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
     }
     public void CalculateRaySpacing()
     {
-        Bounds bounds = m_collider.bounds;
+        Bounds bounds = collider.bounds;
         bounds.Expand(SKINWIDTH * -2);
 
         horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);
