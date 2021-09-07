@@ -252,7 +252,7 @@ MonoBehaviour:
   verticalRayCount: 4
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
-  collider: {fileID: 0}
+  m_collider: {fileID: 0}
   passengerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AssetsPPU: 8
+  m_AssetsPPU: 16
   m_RefResolutionX: 320
   m_RefResolutionY: 180
   m_UpscaleRT: 0
@@ -1616,7 +1616,7 @@ MonoBehaviour:
   verticalRayCount: 4
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
-  collider: {fileID: 0}
+  m_collider: {fileID: 0}
   maxSlopeAngle: 45
   playerInput: {x: 0, y: 0}
 --- !u!61 &1972698308
