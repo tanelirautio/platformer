@@ -72,12 +72,23 @@ public class TitleMenu : MonoBehaviour
                 charData["active"].gameObject.SetActive(true);
                 charData["inactive"].gameObject.SetActive(false);
                 charData["character"].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                Animator animator = charData["character"].gameObject.GetComponent<Animator>();
+                if (animator)
+                {
+                    animator.enabled = true;
+                    animator.SetBool("grounded", true);
+                }
             }
             else
             {
                 charData["active"].gameObject.SetActive(false);
                 charData["inactive"].gameObject.SetActive(true);
                 charData["character"].gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+                Animator animator = charData["character"].gameObject.GetComponent<Animator>();
+                if (animator)
+                {
+                    animator.enabled = false;
+                }
             }
         }
 
