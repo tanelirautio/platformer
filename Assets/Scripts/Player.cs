@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
 
     private Controller2D controller;
 
+    private GameObject selection;
+
     Vector2 directionalInput;
     bool wallSliding;
     int wallDirX;
@@ -41,6 +43,12 @@ public class Player : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+    }
+
+    private void Start()
+    {
+        selection = GameObject.Find("CharacterSelection");
+        print("Selected character: " + selection.GetComponent<CharacterData>().SelectedCharacter);
     }
 
     private void Update()
