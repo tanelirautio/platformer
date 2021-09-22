@@ -10,17 +10,10 @@ public class TitleMenu : MonoBehaviour
     private int selectedCharacter = 0;
     private bool selectionChanged = false;
 
-    private GameObject selection;
-
     public TextMeshPro titleText;
     public GameObject[] characters = new GameObject[4];
 
     private Dictionary<int, Dictionary<string, Transform>> charTransforms = new Dictionary<int, Dictionary<string, Transform>>();
-
-    private void Awake()
-    {
-        selection = GameObject.Find("CharacterSelection");
-    }
 
     void Start()
     {
@@ -92,7 +85,7 @@ public class TitleMenu : MonoBehaviour
                     animator.SetBool("grounded", true);
                 }
 
-                selection.GetComponent<CharacterData>().SelectedCharacter = selectedCharacter;
+                PlayerStats.SelectedCharacter = selectedCharacter;
             }
             else
             {

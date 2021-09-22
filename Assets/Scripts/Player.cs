@@ -28,8 +28,12 @@ public class Player : MonoBehaviour
     private float velocityXSmoothing;
 
     private Controller2D controller;
+    
+    private Animator animator;
+    public RuntimeAnimatorController[] animators = new RuntimeAnimatorController[4];
+    public Sprite[] characters = new Sprite[4];
 
-    private GameObject selection;
+    private SpriteRenderer spriteRenderer;
 
     Vector2 directionalInput;
     bool wallSliding;
@@ -43,18 +47,23 @@ public class Player : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
     {
-        selection = GameObject.Find("CharacterSelection");
-        print("Selected character: " + selection.GetComponent<CharacterData>().SelectedCharacter);
+        print("Selected character: " + PlayerStats.SelectedCharacter);
+        animator.runtimeAnimatorController = animators[PlayerStats.SelectedCharacter];
+        spriteRenderer.sprite = characters[PlayerStats.SelectedCharacter];
     }
 
     private void Update()
     {
         CalculateVelocity();
         HandleWallSliding();
+
 
         controller.Move(velocity * Time.deltaTime, directionalInput);
 
@@ -68,6 +77,39 @@ public class Player : MonoBehaviour
             {
                 velocity.y = 0;
             }
+        }
+
+        HandleAnimation();
+
+    }
+
+    private void HandleAnimation()
+    {
+        spriteRenderer.flipX = controller.collisions.faceDir == -1 ? true : false;
+
+        if (controller.collisions.below || Mathf.Abs(velocity.y) < 0.1f)
+        {
+            bool anim = animator.GetBool("grounded");
+            if(anim == false)
+            {
+                print("Grounded");
+            }
+
+            animator.SetBool("grounded", true);
+
+
+            if (Mathf.Abs(velocity.x) > 0.01f)
+            {
+                animator.SetBool("run", true);
+            }
+            else
+            {
+                animator.SetBool("run", false);
+            }
+        }
+        else
+        {
+            animator.SetBool("grounded", false);
         }
     }
 
