@@ -89,14 +89,7 @@ public class Player : MonoBehaviour
 
         if (controller.collisions.below || Mathf.Abs(velocity.y) < 0.1f)
         {
-            bool anim = animator.GetBool("grounded");
-            if(anim == false)
-            {
-                print("Grounded");
-            }
-
             animator.SetBool("grounded", true);
-
 
             if (Mathf.Abs(velocity.x) > 0.01f)
             {
