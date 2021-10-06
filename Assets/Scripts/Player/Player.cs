@@ -30,8 +30,19 @@ public class Player : MonoBehaviour
     private Controller2D controller;
     
     private Animator animator;
+    private string currentAnimState;
     public RuntimeAnimatorController[] animators = new RuntimeAnimatorController[4];
     public Sprite[] characters = new Sprite[4];
+    private float PLAYER_VELOCITY_X_THRESHOLD = 5.0f;
+
+    //animation states
+    const string PLAYER_IDLE = "idle";
+    const string PLAYER_JUMP = "jump";
+    const string PLAYER_RUN = "run";
+    const string PLAYER_HIT = "hit";
+    const string PLAYER_FALL = "fall";
+
+    bool isGrounded = true;
 
     private SpriteRenderer spriteRenderer;
 
@@ -87,23 +98,40 @@ public class Player : MonoBehaviour
     {
         spriteRenderer.flipX = controller.collisions.faceDir == -1 ? true : false;
 
-        if (controller.collisions.below || Mathf.Abs(velocity.y) < 0.1f)
+        if(controller.collisions.below)
         {
-            animator.SetBool("grounded", true);
-
-            if (Mathf.Abs(velocity.x) > 0.01f)
+            if (Mathf.Abs(velocity.x) > PLAYER_VELOCITY_X_THRESHOLD)
             {
-                animator.SetBool("run", true);
+                ChangeAnimationState(PLAYER_RUN);
             }
             else
             {
-                animator.SetBool("run", false);
+                ChangeAnimationState(PLAYER_IDLE);
             }
         }
         else
         {
-            animator.SetBool("grounded", false);
+            if (velocity.y > 0)
+            {
+                ChangeAnimationState(PLAYER_JUMP);
+            }
+            else
+            {
+                ChangeAnimationState(PLAYER_FALL);
+            }
         }
+    }
+
+    private void ChangeAnimationState(string newAnimState)
+    {
+        if(currentAnimState == newAnimState)
+        {
+            return;
+        }
+
+        animator.Play(newAnimState);
+        currentAnimState = newAnimState;
+
     }
 
     public void SetDirectionalInput(Vector2 input)
