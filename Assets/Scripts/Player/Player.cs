@@ -29,26 +29,13 @@ public class Player : MonoBehaviour
 
     private Controller2D controller;
     
-    private Animator animator;
-    private string currentAnimState;
-    public RuntimeAnimatorController[] animators = new RuntimeAnimatorController[4];
-    public Sprite[] characters = new Sprite[4];
-    private float PLAYER_VELOCITY_X_THRESHOLD = 5.0f;
-
-    //animation states
-    const string PLAYER_IDLE = "idle";
-    const string PLAYER_JUMP = "jump";
-    const string PLAYER_RUN = "run";
-    const string PLAYER_HIT = "hit";
-    const string PLAYER_FALL = "fall";
-
-    bool isGrounded = true;
-
-    private SpriteRenderer spriteRenderer;
-
     Vector2 directionalInput;
     bool wallSliding;
     int wallDirX;
+
+    private PlayerScore score;
+    private PlayerHealth health;
+    private PlayerAnimation anim;
 
     private void Awake()
     {
@@ -59,22 +46,20 @@ public class Player : MonoBehaviour
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
 
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        score = GetComponent<PlayerScore>();
+        health = GetComponent<PlayerHealth>();
+        anim = GetComponent<PlayerAnimation>();
     }
 
     private void Start()
     {
-        print("Selected character: " + PlayerStats.SelectedCharacter);
-        animator.runtimeAnimatorController = animators[PlayerStats.SelectedCharacter];
-        spriteRenderer.sprite = characters[PlayerStats.SelectedCharacter];
+
     }
 
     private void Update()
     {
         CalculateVelocity();
         HandleWallSliding();
-
 
         controller.Move(velocity * Time.deltaTime, directionalInput);
 
@@ -90,47 +75,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        HandleAnimation();
-
-    }
-
-    private void HandleAnimation()
-    {
-        spriteRenderer.flipX = controller.collisions.faceDir == -1 ? true : false;
-
-        if(controller.collisions.below)
-        {
-            if (Mathf.Abs(velocity.x) > PLAYER_VELOCITY_X_THRESHOLD)
-            {
-                ChangeAnimationState(PLAYER_RUN);
-            }
-            else
-            {
-                ChangeAnimationState(PLAYER_IDLE);
-            }
-        }
-        else
-        {
-            if (velocity.y > 0)
-            {
-                ChangeAnimationState(PLAYER_JUMP);
-            }
-            else
-            {
-                ChangeAnimationState(PLAYER_FALL);
-            }
-        }
-    }
-
-    private void ChangeAnimationState(string newAnimState)
-    {
-        if(currentAnimState == newAnimState)
-        {
-            return;
-        }
-
-        animator.Play(newAnimState);
-        currentAnimState = newAnimState;
+        anim.HandleAnimation(controller, velocity);
 
     }
 

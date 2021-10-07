@@ -15,7 +15,6 @@ public class Collectable : MonoBehaviour
 
     public Type type;
 
-
     private Transform obj;
     private Transform points;
     private TextMeshPro text;
