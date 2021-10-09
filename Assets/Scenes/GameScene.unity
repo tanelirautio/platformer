@@ -2461,7 +2461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1936326036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2585,6 +2585,10 @@ MonoBehaviour:
   maxJumpHeight: 4
   minJumpHeight: 1
   timeToJumpApex: 0.4
+  accTimeAirborne: 0.2
+  accTimeGrounded: 0.1
+  moveSpeed: 6
+  wallslideEnabled: 0
   wallJumpClimb: {x: 7.5, y: 16}
   wallJumpOff: {x: 8.5, y: 7}
   wallLeap: {x: 18, y: 17}

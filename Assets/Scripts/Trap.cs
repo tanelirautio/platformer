@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
+    private Player player;
     private PlayerHealth playerHealth;
 
     public enum Type
@@ -15,6 +16,7 @@ public class Trap : MonoBehaviour
 
     void Awake()
     {
+        player = GameObject.Find("Player").GetComponent<Player>();
         playerHealth = GameObject.Find("Player").GetComponent<PlayerHealth>();
     }
 
@@ -29,6 +31,7 @@ public class Trap : MonoBehaviour
         {
             print("hit player");
             playerHealth.TakeDamage(type);
+            player.TakeDamage(collision.transform.position);
         }
     }
 }

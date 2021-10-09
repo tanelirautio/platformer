@@ -5,18 +5,22 @@ using System;
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
+
+    [Header("Jump Settings")]
     public float maxJumpHeight = 4;
     public float minJumpHeight = 1;
     public float timeToJumpApex = 0.4f;
 
-    float accelerationTimeAirborne = 0.2f;
-    float accelerationTimeGrounded = 0.1f;
-    private float moveSpeed = 6;
+    [Header("Move Settings")]
+    [SerializeField] private float accTimeAirborne = 0.2f;
+    [SerializeField] private float accTimeGrounded = 0.1f;
+    [SerializeField] private float moveSpeed = 6;
 
-    public Vector2 wallJumpClimb;
+    [Header("Wall Jump Settings")]
+    public bool wallslideEnabled = false;
+    [ConditionalField("wallslideEnabled")] public Vector2 wallJumpClimb;
     public Vector2 wallJumpOff;
     public Vector2 wallLeap;
-
     public float wallSlideSpeedMax = 3;
     public float wallStickTime = 0.25f;
     public float timeToWallUnstick;
@@ -51,15 +55,15 @@ public class Player : MonoBehaviour
         anim = GetComponent<PlayerAnimation>();
     }
 
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
         CalculateVelocity();
-        HandleWallSliding();
+
+        if (wallslideEnabled)
+        {
+            HandleWallSliding();
+        }
 
         controller.Move(velocity * Time.deltaTime, directionalInput);
 
@@ -168,7 +172,12 @@ public class Player : MonoBehaviour
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accTimeGrounded : accTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
+    }
+
+    public void TakeDamage(Vector2 hitPosition)
+    {
+        //TODO: disable controller for a while, move player out of the hit pos 
     }
 }
