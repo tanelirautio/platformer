@@ -30,8 +30,12 @@ public class Trap : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             print("hit player");
-            playerHealth.TakeDamage(type);
-            player.TakeDamage(collision.transform.position);
+            if (!player.isGracePeriod())
+            {
+                playerHealth.TakeDamage(type);
+                player.TakeDamage(transform.position);
+                player.setGracePeriod();
+            }
         }
     }
 }

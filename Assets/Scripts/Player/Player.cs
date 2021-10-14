@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using DG.Tweening;
 
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
 
     [Header("Wall Jump Settings")]
     public bool wallslideEnabled = false;
-    [ConditionalField("wallslideEnabled")] public Vector2 wallJumpClimb;
+    public Vector2 wallJumpClimb;
     public Vector2 wallJumpOff;
     public Vector2 wallLeap;
     public float wallSlideSpeedMax = 3;
@@ -40,6 +41,9 @@ public class Player : MonoBehaviour
     private PlayerScore score;
     private PlayerHealth health;
     private PlayerAnimation anim;
+
+    const float GRACE_PERIOD_LENGTH = 0.5f;
+    private bool gracePeriod = false;
 
     private void Awake()
     {
@@ -176,8 +180,37 @@ public class Player : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
 
+    public GameObject test;
+
     public void TakeDamage(Vector2 hitPosition)
     {
-        //TODO: disable controller for a while, move player out of the hit pos 
+        Vector3 dir = transform.position - (Vector3)hitPosition;
+
+        print("Hit position: " + hitPosition);
+        print("Player position: " + transform.position);
+        print("Dir: " + dir);
+
+        Vector3 movePos = transform.position + (dir * 1.1f);
+        print("Move player to position: " + movePos);
+        GameObject.Instantiate(test, movePos, Quaternion.identity);
+        transform.DOMove(movePos, 0.3f); //.SetEase(Ease.OutElastic);
+
+        //TODO: disable controller for tween time 
+    }
+
+    public void setGracePeriod()
+    {
+        gracePeriod = true;
+        Invoke("EndGracePeriod", GRACE_PERIOD_LENGTH);
+    }
+
+    public bool isGracePeriod()
+    {
+        return gracePeriod;
+    }
+
+    private void EndGracePeriod()
+    {
+        gracePeriod = false;
     }
 }

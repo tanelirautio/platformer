@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    const float GRACE_PERIOD_LENGTH = 0.5f;
-
     const int DAMAGE = 1;
     const int MAX_HEALTH = 5;
 
@@ -23,8 +21,6 @@ public class PlayerHealth : MonoBehaviour
     private Animator[] uiHealthAnim = new Animator[MAX_HEALTH];
 
     private PlayerAnimation playerAnim;
-
-    private bool gracePeriod = false;
 
     private void Awake()
     {
@@ -52,11 +48,6 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(Trap.Type trapType)
     {
-        if(gracePeriod)
-        {
-            return;
-        }
-
         currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, startingHealth);
 
         Animator anim = uiHealthAnim[currentHealth];
@@ -64,21 +55,15 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth > 0)
         {
-            gracePeriod = true;
-            Invoke("EndGracePeriod", GRACE_PERIOD_LENGTH);
             playerAnim.TakeDamage();
             print("player hurt!");
             //player hurt
         }
         else
         {
+            playerAnim.TakeDamage();
             print("player dead!");
             //dead
         }
-    }
-
-    private void EndGracePeriod()
-    {
-        gracePeriod = false;
     }
 }
