@@ -75,6 +75,21 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Trap")
+        {
+            print("hit player");
+            if (!player.isGracePeriod())
+            {
+                TakeDamage(Trap.Type.SPIKE); //TODO: Query the Trap type
+                player.TakeDamage(collision.transform.position);
+                player.setGracePeriod();
+            }
+        }
+    }
+
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Trap")
@@ -88,4 +103,5 @@ public class PlayerHealth : MonoBehaviour
             }
         }
     }
+    */
 }

@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     private PlayerHealth health;
     private PlayerAnimation anim;
 
-    const float GRACE_PERIOD_LENGTH = 0.5f;
+    const float GRACE_PERIOD_LENGTH = 5.0f;
     private bool gracePeriod = false;
 
     private void Awake()
@@ -180,26 +180,20 @@ public class Player : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
 
-    public GameObject test;
-
     public void TakeDamage(Vector2 hitPosition)
     {
         Vector3 dir = transform.position - (Vector3)hitPosition;
-
-        print("Hit position: " + hitPosition);
-        print("Player position: " + transform.position);
-        print("Dir: " + dir);
-
         Vector3 movePos = transform.position + (dir * 1.1f);
-        print("Move player to position: " + movePos);
-        GameObject.Instantiate(test, movePos, Quaternion.identity);
-        transform.DOMove(movePos, 0.3f); //.SetEase(Ease.OutElastic);
+        transform.DOMove(movePos, 0.3f); //TODO remove magic number
 
-        //TODO: disable controller for tween time 
+        //TODO: disable controller when tween is playing(?)
+        //Check if it is needed
     }
 
     public void setGracePeriod()
     {
+        //TODO: notify via anim that player is in grace period (flash to white etc.?)
+
         gracePeriod = true;
         Invoke("EndGracePeriod", GRACE_PERIOD_LENGTH);
     }
