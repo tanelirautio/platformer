@@ -4,38 +4,11 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    private Player player;
-    private PlayerHealth playerHealth;
 
     public enum Type
     {
-        Spike,
+        SPIKE,
     }
 
     public Type type;
-
-    void Awake()
-    {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        playerHealth = GameObject.Find("Player").GetComponent<PlayerHealth>();
-    }
-
-    void Update()
-    {
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            print("hit player");
-            if (!player.isGracePeriod())
-            {
-                playerHealth.TakeDamage(type);
-                player.TakeDamage(transform.position);
-                player.setGracePeriod();
-            }
-        }
-    }
 }

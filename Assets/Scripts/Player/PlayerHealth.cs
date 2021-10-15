@@ -20,11 +20,15 @@ public class PlayerHealth : MonoBehaviour
     public GameObject[] uiHealth = new GameObject[MAX_HEALTH];
     private Animator[] uiHealthAnim = new Animator[MAX_HEALTH];
 
+    private Player player;
     private PlayerAnimation playerAnim;
+    private UIController uiController;
 
     private void Awake()
     {
+        player = GetComponent<Player>();
         playerAnim = GetComponent<PlayerAnimation>();
+        uiController = GameObject.Find("UICanvas").GetComponent<UIController>();
     }
 
     void Start()
@@ -63,7 +67,25 @@ public class PlayerHealth : MonoBehaviour
         {
             playerAnim.TakeDamage();
             print("player dead!");
-            //dead
+
+            //TODO this is just for testing
+            //Move this to player class - play death anim and disable controller
+            uiController.Fade(true, 0.5f);
+
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Trap")
+        {
+            print("hit player");
+            if (!player.isGracePeriod())
+            {
+                TakeDamage(Trap.Type.SPIKE);
+                player.TakeDamage(collision.transform.position);
+                player.setGracePeriod();
+            }
         }
     }
 }
