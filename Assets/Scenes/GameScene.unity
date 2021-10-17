@@ -2858,6 +2858,7 @@ GameObject:
   - component: {fileID: 1972698315}
   - component: {fileID: 1972698314}
   - component: {fileID: 1972698316}
+  - component: {fileID: 1972698317}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2884,12 +2885,6 @@ MonoBehaviour:
   accTimeGrounded: 0.1
   moveSpeed: 6
   wallslideEnabled: 0
-  wallJumpClimb: {x: 7.5, y: 16}
-  wallJumpOff: {x: 8.5, y: 7}
-  wallLeap: {x: 18, y: 17}
-  wallSlideSpeedMax: 3
-  wallStickTime: 0.25
-  timeToWallUnstick: 0
 --- !u!114 &1972698307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3108,6 +3103,24 @@ MonoBehaviour:
   - {fileID: -6367560908665664636, guid: d348dff3819df794186a80cb95777629, type: 3}
   - {fileID: -6367560908665664636, guid: 40de9a8703e2e5a47882b0b86451c741, type: 3}
   - {fileID: -6367560908665664636, guid: 3750f45c844123341b9a777a96cb1eca, type: 3}
+--- !u!114 &1972698317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972698305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f0d5375cfdfb046975adf18eedd59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallJumpClimb: {x: 0, y: 0}
+  wallJumpOff: {x: 0, y: 0}
+  wallLeap: {x: 0, y: 0}
+  wallSlideSpeedMax: 3
+  wallStickTime: 0.25
+  timeToWallUnstick: 0
 --- !u!1 &1979480691
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,12 +19,14 @@ public class Player : MonoBehaviour
 
     [Header("Wall Jump Settings")]
     public bool wallslideEnabled = false;
+    /*
     public Vector2 wallJumpClimb;
     public Vector2 wallJumpOff;
     public Vector2 wallLeap;
     public float wallSlideSpeedMax = 3;
     public float wallStickTime = 0.25f;
     public float timeToWallUnstick;
+    */
 
     private float gravity;
     private float maxJumpVelocity;
@@ -35,15 +37,16 @@ public class Player : MonoBehaviour
     private Controller2D controller;
     
     Vector2 directionalInput;
-    bool wallSliding;
-    int wallDirX;
 
     private PlayerScore score;
     private PlayerHealth health;
     private PlayerAnimation anim;
+    private PlayerWallSliding wallSliding;
 
     const float GRACE_PERIOD_LENGTH = 5.0f;
     private bool gracePeriod = false;
+
+    private bool controllerDisabled = false;
 
     private void Awake()
     {
@@ -57,6 +60,7 @@ public class Player : MonoBehaviour
         score = GetComponent<PlayerScore>();
         health = GetComponent<PlayerHealth>();
         anim = GetComponent<PlayerAnimation>();
+        wallSliding = GetComponent<PlayerWallSliding>();
     }
 
 
@@ -66,20 +70,23 @@ public class Player : MonoBehaviour
 
         if (wallslideEnabled)
         {
-            HandleWallSliding();
+            wallSliding.HandleWallSliding(controller, directionalInput, velocity, velocityXSmoothing);
         }
 
-        controller.Move(velocity * Time.deltaTime, directionalInput);
-
-        if (controller.collisions.above || controller.collisions.below)
+        if (!controllerDisabled)
         {
-            if (controller.collisions.slidingDownMaxSlope)
+            controller.Move(velocity * Time.deltaTime, directionalInput);
+
+            if (controller.collisions.above || controller.collisions.below)
             {
-                velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
-            }
-            else
-            {
-                velocity.y = 0;
+                if (controller.collisions.slidingDownMaxSlope)
+                {
+                    velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
+                }
+                else
+                {
+                    velocity.y = 0;
+                }
             }
         }
 
@@ -96,22 +103,7 @@ public class Player : MonoBehaviour
     {
         if (wallSliding)
         {
-            if (wallDirX == directionalInput.x)
-            {
-                velocity.x = -wallDirX * wallJumpClimb.x;
-                velocity.y = wallJumpClimb.y;
-            }
-            else if (directionalInput.x == 0)
-            {
-                velocity.x = -wallDirX * wallJumpOff.x;
-                velocity.y = wallJumpOff.y;
-            }
-            else
-            {
-                velocity.x = -wallDirX * wallLeap.x;
-                velocity.y = wallLeap.y;
-
-            }
+            wallSliding.OnJumpInputDown(directionalInput, ref velocity);
         }
         if (controller.collisions.below)
         {
@@ -139,39 +131,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void HandleWallSliding()
-    {
-        wallDirX = (controller.collisions.left) ? -1 : 1;
-        wallSliding = false;
-        if ((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && velocity.y < 0)
-        {
-            wallSliding = true;
-
-            if (velocity.y < -wallSlideSpeedMax)
-            {
-                velocity.y = -wallSlideSpeedMax;
-            }
-
-            if (timeToWallUnstick > 0)
-            {
-                velocityXSmoothing = 0;
-                velocity.x = 0;
-
-                if (directionalInput.x != wallDirX && directionalInput.x != 0)
-                {
-                    timeToWallUnstick -= Time.deltaTime;
-                }
-                else
-                {
-                    timeToWallUnstick = wallStickTime;
-                }
-            }
-            else
-            {
-                timeToWallUnstick = wallStickTime;
-            }
-        }
-    }
 
     private void CalculateVelocity()
     {
