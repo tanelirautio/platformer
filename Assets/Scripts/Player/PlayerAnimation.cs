@@ -6,6 +6,10 @@ public class PlayerAnimation : MonoBehaviour
 {
     const float PLAYER_VELOCITY_X_THRESHOLD = 5.0f;
 
+    public Material baseMaterial;
+    public Material hitMaterial;
+    private Material currentMaterial;
+
     //animation states
     const string PLAYER_IDLE = "idle";
     const string PLAYER_JUMP = "jump";
@@ -18,12 +22,14 @@ public class PlayerAnimation : MonoBehaviour
     public RuntimeAnimatorController[] animators = new RuntimeAnimatorController[4];
     public Sprite[] characters = new Sprite[4];
 
+    private Player player;
     private SpriteRenderer spriteRenderer;
 
     private bool isTakingDamage = false;
 
     private void Awake()
     {
+        player = GetComponent<Player>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -37,7 +43,23 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        
+        //TODO: flash between base and hit material when in grace period
+        if(player.isGracePeriod())
+        {
+            if (currentMaterial != hitMaterial)
+            {
+                spriteRenderer.material = hitMaterial;
+                currentMaterial = hitMaterial;
+            }
+        }
+        else
+        {
+            if(currentMaterial != baseMaterial)
+            {
+                spriteRenderer.material = baseMaterial;
+                currentMaterial = baseMaterial;
+            }
+        }
     }
 
     public void TakeDamage()
