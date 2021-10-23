@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     const float PLAYER_VELOCITY_X_THRESHOLD = 5.0f;
+    const float PLAYER_GRACE_PERIOD_FLASH_TIME = 0.25f;
 
     public Material baseMaterial;
     public Material hitMaterial;
@@ -27,6 +28,9 @@ public class PlayerAnimation : MonoBehaviour
 
     private bool isTakingDamage = false;
 
+    private float time = 0;
+    private bool changeMaterial = false;
+
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -43,14 +47,30 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        //TODO: flash between base and hit material when in grace period
         if(player.isGracePeriod())
         {
-            if (currentMaterial != hitMaterial)
+            if (changeMaterial)
             {
-                spriteRenderer.material = hitMaterial;
-                currentMaterial = hitMaterial;
+                if (currentMaterial != hitMaterial)
+                {
+                    spriteRenderer.material = hitMaterial;
+                    currentMaterial = hitMaterial;
+                }
+                else
+                {
+                    spriteRenderer.material = baseMaterial;
+                    currentMaterial = baseMaterial;
+                }
+                changeMaterial = false;
             }
+
+            time += Time.deltaTime;
+            if(time > PLAYER_GRACE_PERIOD_FLASH_TIME)
+            {
+                changeMaterial = true;
+                time = 0;
+            }
+
         }
         else
         {
@@ -58,6 +78,7 @@ public class PlayerAnimation : MonoBehaviour
             {
                 spriteRenderer.material = baseMaterial;
                 currentMaterial = baseMaterial;
+                time = 0;
             }
         }
     }
@@ -65,6 +86,7 @@ public class PlayerAnimation : MonoBehaviour
     public void TakeDamage()
     {
         isTakingDamage = true;
+        changeMaterial = true;
         Invoke("DamageComplete", 0.5f); //cheesy way
     }
 

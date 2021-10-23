@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     private PlayerAnimation anim;
     private PlayerWallSliding wallSliding;
 
-    const float GRACE_PERIOD_LENGTH = 5.0f;
+    const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
 
     private bool controllerDisabled = false;
