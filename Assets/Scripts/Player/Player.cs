@@ -158,4 +158,27 @@ public class Player : MonoBehaviour
     {
         gracePeriod = false;
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Trap")
+        {
+            print("hit player");
+            if (!isGracePeriod())
+            {
+                health.TakeDamage(Trap.Type.SPIKE); //TODO: Query the Trap type
+                TakeDamage(collision.transform.position);
+                setGracePeriod();
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Finish")
+        {
+            // TODO: level finish - fade to black, load next level (or level menu)
+            print("finish level");
+        }
+    }
 }
