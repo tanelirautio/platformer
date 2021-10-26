@@ -83,6 +83,11 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
+    public void Die()
+    {
+
+    }
+
     public void TakeDamage()
     {
         isTakingDamage = true;

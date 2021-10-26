@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     private PlayerHealth health;
     private PlayerAnimation anim;
     private PlayerWallSliding wallSliding;
+    private GameObject spawnPoint;
+    private UIController uiController;
 
     const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
@@ -42,6 +44,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        spawnPoint = GameObject.Find("SpawnPoint");
+        transform.position = spawnPoint.transform.position;
+
         controller = GetComponent<Controller2D>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -53,6 +58,7 @@ public class Player : MonoBehaviour
         health = GetComponent<PlayerHealth>();
         anim = GetComponent<PlayerAnimation>();
         wallSliding = GetComponent<PlayerWallSliding>();
+        uiController = GameObject.Find("UICanvas").GetComponent<UIController>();
     }
 
 
@@ -166,9 +172,26 @@ public class Player : MonoBehaviour
             print("hit player");
             if (!isGracePeriod())
             {
-                health.TakeDamage(Trap.Type.SPIKE); //TODO: Query the Trap type
-                TakeDamage(collision.transform.position);
-                setGracePeriod();
+
+                int currentHealth = health.TakeDamage(Trap.Type.SPIKE); //TODO: Query the Trap type
+
+                if (currentHealth > 0)
+                {
+                    anim.TakeDamage();
+                    TakeDamage(collision.transform.position);
+                    setGracePeriod();
+                    print("player hurt!");
+                }
+                else
+                {
+                    anim.Die();
+                    print("player dead!");
+
+                    //TODO this is just for testing
+                    //Move this to player class - play death anim and disable controller
+                    uiController.Fade(true, 0.5f);
+
+                }
             }
         }
     }

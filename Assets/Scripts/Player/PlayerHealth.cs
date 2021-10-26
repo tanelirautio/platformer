@@ -20,17 +20,6 @@ public class PlayerHealth : MonoBehaviour
     public GameObject[] uiHealth = new GameObject[MAX_HEALTH];
     private Animator[] uiHealthAnim = new Animator[MAX_HEALTH];
 
-    private Player player;
-    private PlayerAnimation playerAnim;
-    private UIController uiController;
-
-    private void Awake()
-    {
-        player = GetComponent<Player>();
-        playerAnim = GetComponent<PlayerAnimation>();
-        uiController = GameObject.Find("UICanvas").GetComponent<UIController>();
-    }
-
     void Start()
     {
         currentHealth = startingHealth;
@@ -50,22 +39,24 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Trap.Type trapType)
+    public int TakeDamage(Trap.Type trapType)
     {
         currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, startingHealth);
-
         Animator anim = uiHealthAnim[currentHealth];
         anim.Play(HEALTH_REMOVE);
+        return currentHealth;
 
+        /*
         if (currentHealth > 0)
         {
             playerAnim.TakeDamage();
+            player.setGracePeriod();
             print("player hurt!");
             //player hurt
         }
         else
         {
-            playerAnim.TakeDamage();
+            playerAnim.Die();
             print("player dead!");
 
             //TODO this is just for testing
@@ -73,6 +64,7 @@ public class PlayerHealth : MonoBehaviour
             uiController.Fade(true, 0.5f);
 
         }
+        */
     }
 
 }
