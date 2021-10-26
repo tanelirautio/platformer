@@ -20,14 +20,30 @@ public class CameraFollow : MonoBehaviour
     float smoothVelocityY;
 
     bool lookAheadStopped;
+    bool isFollowingPlayer = true;
 
     private void Start()
     {
         focusArea = new FocusArea(target.m_collider.bounds, focusAreaSize);
     }
 
+    public void Reset()
+    {
+        isFollowingPlayer = true;
+    }
+
+    public void StopFollowingPlayer()
+    {
+        isFollowingPlayer = false;
+    }
+
     private void LateUpdate()
     {
+        if(!isFollowingPlayer)
+        {
+            return;
+        }
+
         focusArea.Update(target.m_collider.bounds);
 
         Vector2 focusPosition = focusArea.centre + Vector2.up * verticalOffset;

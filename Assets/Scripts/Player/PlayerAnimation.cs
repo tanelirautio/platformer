@@ -17,6 +17,7 @@ public class PlayerAnimation : MonoBehaviour
     const string PLAYER_RUN = "run";
     const string PLAYER_HIT = "hit";
     const string PLAYER_FALL = "fall";
+    const string PLAYER_DEAD = "double_jump";
 
     private Animator animator;
     private string currentAnimState;
@@ -27,6 +28,7 @@ public class PlayerAnimation : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private bool isTakingDamage = false;
+    private bool isDead = false;
 
     private float time = 0;
     private bool changeMaterial = false;
@@ -43,6 +45,12 @@ public class PlayerAnimation : MonoBehaviour
         print("Selected character: " + PlayerStats.SelectedCharacter);
         animator.runtimeAnimatorController = animators[PlayerStats.SelectedCharacter];
         spriteRenderer.sprite = characters[PlayerStats.SelectedCharacter];
+    }
+
+    public void Reset()
+    {
+        isTakingDamage = false;
+        isDead = false;
     }
 
     void Update()
@@ -85,7 +93,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Die()
     {
-
+        isDead = true;
     }
 
     public void TakeDamage()
@@ -105,6 +113,11 @@ public class PlayerAnimation : MonoBehaviour
         if(isTakingDamage)
         {
             ChangeAnimationState(PLAYER_HIT);
+            return;
+        }
+        if(isDead)
+        {
+            ChangeAnimationState(PLAYER_DEAD);
             return;
         }
 

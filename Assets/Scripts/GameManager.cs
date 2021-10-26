@@ -6,13 +6,7 @@ namespace pf
 {
     public class GameManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-            print("gamemanager start");
-        }
 
-        // Update is called once per frame
         void Update()
         {
             // TODO: this is for debugging

@@ -45,26 +45,6 @@ public class PlayerHealth : MonoBehaviour
         Animator anim = uiHealthAnim[currentHealth];
         anim.Play(HEALTH_REMOVE);
         return currentHealth;
-
-        /*
-        if (currentHealth > 0)
-        {
-            playerAnim.TakeDamage();
-            player.setGracePeriod();
-            print("player hurt!");
-            //player hurt
-        }
-        else
-        {
-            playerAnim.Die();
-            print("player dead!");
-
-            //TODO this is just for testing
-            //Move this to player class - play death anim and disable controller
-            uiController.Fade(true, 0.5f);
-
-        }
-        */
     }
 
 }

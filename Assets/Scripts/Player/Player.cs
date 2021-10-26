@@ -36,16 +36,22 @@ public class Player : MonoBehaviour
     private PlayerWallSliding wallSliding;
     private GameObject spawnPoint;
     private UIController uiController;
+    private CameraFollow cameraFollow;
 
     const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
+
+    private bool isDead = false;
 
     private bool controllerDisabled = false;
 
     private void Awake()
     {
         spawnPoint = GameObject.Find("SpawnPoint");
-        transform.position = spawnPoint.transform.position;
+        if (spawnPoint)
+        {
+            transform.position = spawnPoint.transform.position;
+        }
 
         controller = GetComponent<Controller2D>();
 
@@ -59,20 +65,26 @@ public class Player : MonoBehaviour
         anim = GetComponent<PlayerAnimation>();
         wallSliding = GetComponent<PlayerWallSliding>();
         uiController = GameObject.Find("UICanvas").GetComponent<UIController>();
+        cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
     }
 
+    private void Spawn()
+    {
+        controllerDisabled = false;
+        isDead = false;
+    }
 
     private void Update()
     {
         CalculateVelocity();
 
-        if (wallslideEnabled)
-        {
-            wallSliding.HandleWallSliding(controller, directionalInput, velocity, velocityXSmoothing);
-        }
-
         if (!controllerDisabled)
         {
+            if (wallslideEnabled)
+            {
+                wallSliding.HandleWallSliding(controller, directionalInput, velocity, velocityXSmoothing);
+            }
+
             controller.Move(velocity * Time.deltaTime, directionalInput);
 
             if (controller.collisions.above || controller.collisions.below)
@@ -87,6 +99,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            controller.collisions.Reset();
+        }
 
         anim.HandleAnimation(controller, velocity);
 
@@ -99,6 +115,11 @@ public class Player : MonoBehaviour
 
     public void OnJumpInputDown()
     {
+        if(controllerDisabled)
+        {
+            return;
+        }
+
         if (wallSliding)
         {
             wallSliding.OnJumpInputDown(directionalInput, ref velocity);
@@ -170,7 +191,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Trap")
         {
             print("hit player");
-            if (!isGracePeriod())
+            if (!isGracePeriod() && !isDead)
             {
 
                 int currentHealth = health.TakeDamage(Trap.Type.SPIKE); //TODO: Query the Trap type
@@ -184,13 +205,19 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
+                    controllerDisabled = true;
+                    cameraFollow.StopFollowingPlayer();
                     anim.Die();
                     print("player dead!");
 
-                    //TODO this is just for testing
-                    //Move this to player class - play death anim and disable controller
-                    uiController.Fade(true, 0.5f);
+                    // TODO: tween movement should arc
+                    transform.DOMove(transform.position + (-Vector3.up * 10), 1.0f);
+                    //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
+                    //myTransform.DOMoveY(3, 2).SetEase(Ease.InQuad);
 
+                    isDead = true;
+                    uiController.Fade(true, 1.0f);
+                    // TODO: respawn at spawn point
                 }
             }
         }
