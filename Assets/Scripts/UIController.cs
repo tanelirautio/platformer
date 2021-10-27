@@ -10,6 +10,8 @@ public class UIController : MonoBehaviour
 
     private Image img;
 
+    const float TIME_STEP = 60.0f;
+
     private void Awake()
     {
         blackOutSquare.SetActive(true);
@@ -38,6 +40,19 @@ public class UIController : MonoBehaviour
         StartCoroutine(FadeBlackOutSquare(fadeToBlack, fadeSpeed));
     }
 
+    public void FadeImmediately(bool fadeToBlack = true)
+    {
+        Color objectColor = img.color;
+        if (fadeToBlack)
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 1);
+        }
+        else
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
+        }
+        blackOutSquare.GetComponent<Image>().color = objectColor;
+    }
 
     private IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadeSpeed = 1.0f)
     {
@@ -52,7 +67,7 @@ public class UIController : MonoBehaviour
                 fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
                 objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
                 
-                if(step >= 60)
+                if(step >= TIME_STEP)
                 {
                     step = 0;
                 }
@@ -72,7 +87,7 @@ public class UIController : MonoBehaviour
                 fadeAmount = objectColor.a - (fadeSpeed * Time.deltaTime);
                 objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
 
-                if (step >= 60)
+                if (step >= TIME_STEP)
                 {
                     step = 0;
                 }

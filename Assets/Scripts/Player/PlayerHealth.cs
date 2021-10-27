@@ -22,15 +22,22 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
+        Reset();
+    }
+
+    public void Reset()
+    {
         currentHealth = startingHealth;
 
-        for(int i=0; i < MAX_HEALTH; i++)
+        for (int i = 0; i < MAX_HEALTH; i++)
         {
             uiHealthAnim[i] = uiHealth[i].GetComponent<Animator>();
 
-            if(i < startingHealth)
+            if (i < startingHealth)
             {
                 uiHealth[i].SetActive(true);
+                Animator anim = uiHealthAnim[i];
+                anim.Play(HEALTH_FULL);
             }
             else
             {

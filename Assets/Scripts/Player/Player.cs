@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
 
+    const float FADE_SPEED = 1.0f;
     private bool isDead = false;
 
     private bool controllerDisabled = false;
@@ -48,11 +49,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         spawnPoint = GameObject.Find("SpawnPoint");
-        if (spawnPoint)
-        {
-            transform.position = spawnPoint.transform.position;
-        }
-
         controller = GetComponent<Controller2D>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -68,10 +64,24 @@ public class Player : MonoBehaviour
         cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
     }
 
+    private void Start()
+    {
+        uiController.FadeImmediately(true);
+        Spawn();
+    }
+
     private void Spawn()
     {
         controllerDisabled = false;
         isDead = false;
+        anim.Reset();
+        health.Reset();
+        uiController.Fade(false, FADE_SPEED);
+        if (spawnPoint)
+        {
+            transform.position = spawnPoint.transform.position;
+            print("Spawning at: " + transform.position);
+        }
     }
 
     private void Update()
@@ -170,8 +180,6 @@ public class Player : MonoBehaviour
 
     public void setGracePeriod()
     {
-        //TODO: notify via anim that player is in grace period (flash to white etc.?)
-
         gracePeriod = true;
         Invoke("EndGracePeriod", GRACE_PERIOD_LENGTH);
     }
@@ -193,7 +201,6 @@ public class Player : MonoBehaviour
             print("hit player");
             if (!isGracePeriod() && !isDead)
             {
-
                 int currentHealth = health.TakeDamage(Trap.Type.SPIKE); //TODO: Query the Trap type
 
                 if (currentHealth > 0)
@@ -211,13 +218,15 @@ public class Player : MonoBehaviour
                     print("player dead!");
 
                     // TODO: tween movement should arc
-                    transform.DOMove(transform.position + (-Vector3.up * 10), 1.0f);
+                    transform.DOMove(transform.position + (-Vector3.up * 3), 1.0f);
                     //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
                     //myTransform.DOMoveY(3, 2).SetEase(Ease.InQuad);
 
                     isDead = true;
-                    uiController.Fade(true, 1.0f);
-                    // TODO: respawn at spawn point
+                    uiController.Fade(true, FADE_SPEED);
+
+                    //TODO: Ask do you want to continue, do not spawn directly!
+                    Invoke("Spawn", FADE_SPEED * 2);
                 }
             }
         }
