@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
 {
-    private float score;
+    private int currentScore;
 
     // Start is called before the first frame update
     void Start()
@@ -16,5 +16,18 @@ public class PlayerScore : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void AddScore(int score)
+    {
+        currentScore += score;
+
+        //debug
+        print("Current score: " + currentScore);
+    }
+
+    public int GetScore()
+    {
+        return currentScore;
     }
 }

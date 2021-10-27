@@ -19,11 +19,15 @@ public class Collectable : MonoBehaviour
     private Transform points;
     private TextMeshPro text;
 
+    private PlayerScore score;
+
     private Dictionary<Type, int> collectables;
 
     private void Awake()
     {
         DOTween.Init();
+
+        score = GameObject.Find("Player").GetComponent<PlayerScore>();
 
         obj = transform.Find("Object");
         points = transform.Find("Points");
@@ -54,7 +58,7 @@ public class Collectable : MonoBehaviour
             {
                 points.gameObject.SetActive(true);
 
-                //TODO: player score update
+                score.AddScore(collectables[type]);
 
                 //TODO: create DOTween sequence which contains all tweens
                 points.transform.DOMoveY(transform.position.y + 2, 1);
@@ -78,10 +82,5 @@ public class Collectable : MonoBehaviour
         Color c = text.color;
         c.a = value;
         text.color = c;
-    }
-
-    void Update()
-    {
-        
     }
 }
