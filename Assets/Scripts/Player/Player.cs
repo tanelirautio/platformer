@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
@@ -225,8 +226,7 @@ public class Player : MonoBehaviour
                     isDead = true;
                     uiController.Fade(true, FADE_SPEED);
 
-                    //TODO: Ask do you want to continue, do not spawn directly!
-                    Invoke("Spawn", FADE_SPEED * 2);
+                    Invoke("LoadContinueScene", FADE_SPEED * 2);
                 }
             }
         }
@@ -239,5 +239,10 @@ public class Player : MonoBehaviour
             // TODO: level finish - fade to black, load next level (or level menu)
             print("finish level");
         }
+    }
+
+    private void LoadContinueScene()
+    {
+        SceneManager.LoadScene("ContinueScene", LoadSceneMode.Single);
     }
 }

@@ -30,7 +30,7 @@ public class TitleMenu : MonoBehaviour
             charTransforms.Add(i, transforms);
         }
 
-        checkSelectedCharacter();
+        CheckSelectedCharacter();
     }
 
     // Update is called once per frame
@@ -58,7 +58,7 @@ public class TitleMenu : MonoBehaviour
 
         if (selectionChanged)
         {
-            checkSelectedCharacter();
+            CheckSelectedCharacter();
             selectionChanged = false;
         }
 
@@ -68,7 +68,7 @@ public class TitleMenu : MonoBehaviour
         }
     }
 
-    private void checkSelectedCharacter()
+    private void CheckSelectedCharacter()
     {
         for(int i=0; i<4; i++)
         {

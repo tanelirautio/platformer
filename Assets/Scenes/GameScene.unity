@@ -3263,7 +3263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828643d90e6a7c541a9ba7da8c426f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 5
+  startingHealth: 1
   uiHealth:
   - {fileID: 1454900523}
   - {fileID: 2071791484}

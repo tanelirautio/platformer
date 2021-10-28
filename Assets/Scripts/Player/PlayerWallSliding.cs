@@ -11,7 +11,7 @@ public class PlayerWallSliding : MonoBehaviour
     public float wallStickTime = 0.25f;
     public float timeToWallUnstick;
 
-    private bool wallSliding = false;
+    private bool wallSliding;
     private int wallDirX;
 
     public void HandleWallSliding(Controller2D controller, Vector2 directionalInput, Vector2 velocity, float velocityXSmoothing)
