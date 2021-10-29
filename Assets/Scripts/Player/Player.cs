@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         isDead = false;
         anim.Reset();
         health.Reset();
-        uiController.Fade(false, FADE_SPEED);
+        uiController.Fade(false, FADE_SPEED*2);
         if (spawnPoint)
         {
             transform.position = spawnPoint.transform.position;

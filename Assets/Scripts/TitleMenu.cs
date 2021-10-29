@@ -9,14 +9,36 @@ public class TitleMenu : MonoBehaviour
 {
     private int selectedCharacter = 0;
     private bool selectionChanged = false;
+    private bool changingScene = false;
 
     public TextMeshPro titleText;
+    public TextMeshPro nameText;
+    public TextMeshPro descriptionText;
     public GameObject[] characters = new GameObject[4];
 
     private Dictionary<int, Dictionary<string, Transform>> charTransforms = new Dictionary<int, Dictionary<string, Transform>>();
 
+    private string[] names = new string[4] { "Leo", "Viivi", "Venla", "Milja" };
+    private string[] descriptions = new string[4]
+    {
+        "Ninja frog extraordinaire",
+        "Pink & wild ",
+        "Michiefs in small package",
+        "Small and agile"
+    };
+
+    private UIController uiController;
+    const float FADE_SPEED = 1.0f;
+
+    private void Awake()
+    {
+        uiController = GameObject.Find("UICanvas").GetComponent<UIController>();
+    }
+
     void Start()
     {
+        changingScene = false;
+
         titleText.outlineColor = Color.black;
         titleText.outlineWidth = 0.2f;
 
@@ -36,6 +58,11 @@ public class TitleMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(changingScene)
+        {
+            return;
+        }
+
         //quick hack to get something working, replace with real input manager
         if(Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -64,13 +91,20 @@ public class TitleMenu : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+            uiController.Fade(true, FADE_SPEED);
+            Invoke("ChangeScene", FADE_SPEED * 2);
+            changingScene = true;
         }
+    }
+
+    private void ChangeScene()
+    {
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 
     private void CheckSelectedCharacter()
     {
-        for(int i=0; i<4; i++)
+        for(int i = 0; i < 4; i++)
         {
             var charData = charTransforms[i];
             if(i == selectedCharacter)
@@ -84,6 +118,8 @@ public class TitleMenu : MonoBehaviour
                     animator.enabled = true;
                     animator.SetBool("grounded", true);
                 }
+                nameText.text = names[i];
+                descriptionText.text = descriptions[i];
 
                 PlayerStats.SelectedCharacter = selectedCharacter;
             }
