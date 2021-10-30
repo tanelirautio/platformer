@@ -40,8 +40,8 @@ public class Collectable : MonoBehaviour
     {
         collectables = new Dictionary<Type, int>()
         {
-            { Type.Apple, 1000 },
-            { Type.Carrot, 500 }
+            { Type.Apple, 100 },
+            { Type.Carrot, 50 }
         };
     }
 

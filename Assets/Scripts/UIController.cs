@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
 
     private Image img;
 
-    const float TIME_STEP = 60.0f;
+    const float TIME_STEP = 0.0f;
 
     private void Awake()
     {

@@ -60,7 +60,7 @@ public class PlayerScore : MonoBehaviour
             
             string str = currentUiScore.ToString();
             scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
         coroutineRunning = false;
     }
