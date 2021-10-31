@@ -36,8 +36,8 @@ public class Player : MonoBehaviour
     private PlayerAnimation anim;
     private PlayerWallSliding wallSliding;
     private GameObject spawnPoint;
-    private UIController uiController;
     private CameraFollow cameraFollow;
+    private LevelLoader levelLoader;
 
     const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
@@ -61,13 +61,13 @@ public class Player : MonoBehaviour
         health = GetComponent<PlayerHealth>();
         anim = GetComponent<PlayerAnimation>();
         wallSliding = GetComponent<PlayerWallSliding>();
-        uiController = GameObject.Find("UICanvas").GetComponent<UIController>();
         cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
+
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
     }
 
     private void Start()
     {
-        uiController.FadeImmediately(true);
         Spawn();
     }
 
@@ -77,7 +77,6 @@ public class Player : MonoBehaviour
         isDead = false;
         anim.Reset();
         health.Reset();
-        uiController.Fade(false, FADE_SPEED*2);
         if (spawnPoint)
         {
             transform.position = spawnPoint.transform.position;
@@ -224,9 +223,7 @@ public class Player : MonoBehaviour
                     //myTransform.DOMoveY(3, 2).SetEase(Ease.InQuad);
 
                     isDead = true;
-                    uiController.Fade(true, FADE_SPEED);
-
-                    Invoke("LoadContinueScene", FADE_SPEED * 2);
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
                 }
             }
         }
@@ -239,10 +236,5 @@ public class Player : MonoBehaviour
             // TODO: level finish - fade to black, load next level (or level menu)
             print("finish level");
         }
-    }
-
-    private void LoadContinueScene()
-    {
-        SceneManager.LoadScene("ContinueScene", LoadSceneMode.Single);
     }
 }

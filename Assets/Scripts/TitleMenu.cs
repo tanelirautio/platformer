@@ -9,7 +9,6 @@ public class TitleMenu : MonoBehaviour
 {
     private int selectedCharacter = 0;
     private bool selectionChanged = false;
-    private bool changingScene = false;
 
     public TextMeshPro titleText;
     public TextMeshPro nameText;
@@ -27,18 +26,15 @@ public class TitleMenu : MonoBehaviour
         "Small and agile"
     };
 
-    private UIController uiController;
-    const float FADE_SPEED = 1.0f;
+    private LevelLoader levelLoader;
 
     private void Awake()
     {
-        uiController = GameObject.Find("UICanvas").GetComponent<UIController>();
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
     }
 
     void Start()
     {
-        changingScene = false;
-
         titleText.outlineColor = Color.black;
         titleText.outlineWidth = 0.2f;
 
@@ -55,14 +51,8 @@ public class TitleMenu : MonoBehaviour
         CheckSelectedCharacter();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(changingScene)
-        {
-            return;
-        }
-
         //quick hack to get something working, replace with real input manager
         if(Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -91,15 +81,8 @@ public class TitleMenu : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
-            uiController.Fade(true, FADE_SPEED);
-            Invoke("ChangeScene", FADE_SPEED * 2);
-            changingScene = true;
+            levelLoader.LoadScene((int)LevelLoader.Scenes.Game);
         }
-    }
-
-    private void ChangeScene()
-    {
-        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 
     private void CheckSelectedCharacter()

@@ -9,6 +9,8 @@ namespace pf
 {
     public class ContinueMenu : MonoBehaviour
     {
+        private LevelLoader levelLoader;
+
         enum Selection
         {
             Yes,
@@ -18,6 +20,11 @@ namespace pf
         private Selection selection = Selection.Yes;
         private GameObject yesImage;
         private GameObject noImage;
+
+        private void Awake()
+        {
+            levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        }
 
         private void Start()
         {
@@ -53,13 +60,12 @@ namespace pf
             {
                 if (selection == Selection.Yes)
                 {
-
-                    SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.Game);
                 }
                 else
                 {
                     // TODO: load real Main Menu scene instead 
-                    SceneManager.LoadScene("CharacterSelectScene", LoadSceneMode.Single);
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
                 }
             }
         }
