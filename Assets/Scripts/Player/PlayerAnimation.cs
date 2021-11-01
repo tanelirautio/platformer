@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    const float PLAYER_VELOCITY_X_THRESHOLD = 5.0f;
+    const float PLAYER_VELOCITY_X_THRESHOLD = 0.5f;
     const float PLAYER_GRACE_PERIOD_FLASH_TIME = 0.25f;
 
     public Material baseMaterial;
