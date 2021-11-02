@@ -41,7 +41,7 @@ public class Movement
         this.timeToJumpApex = timeToJumpApex;
 
         gravity = -2 * maxJumpHeight / Mathf.Pow(timeToJumpApex, 2);
-        gravityDown = gravity * 1.25f;
+        gravityDown = gravity * 1.5f;
 
         jumpForce = 2 * maxJumpHeight / timeToJumpApex;
     }

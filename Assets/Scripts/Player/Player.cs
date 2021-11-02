@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     private GameObject spawnPoint;
     private CameraFollow cameraFollow;
     private LevelLoader levelLoader;
+    private GameObject uiCanvas;
 
     const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
         cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
 
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        uiCanvas = GameObject.Find("UICanvas");
     }
 
     private void Start()
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour
         isDead = false;
         anim.Reset();
         health.Reset();
+        uiCanvas.SetActive(true);
         if (spawnPoint)
         {
             transform.position = spawnPoint.transform.position;
@@ -73,7 +76,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (!controllerDisabled)
+        {
+            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+        else
+        {
+            input.x = 0;
+            input.y = 0;
+        }
+
         movement.CalculateVelocityX(input.x, (controller.collisions.below) ? accTimeGrounded : accTimeAirborne);
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -166,6 +178,18 @@ public class Player : MonoBehaviour
         {
             // TODO: level finish - fade to black, load next level (or level menu)
             print("finish level");
+            controllerDisabled = true;
+            uiCanvas.SetActive(false);
+
+            // TODO: debug, if we reach the last scene, just go to menu
+            if (levelLoader.GetCurrentSceneIndex() == 3)
+            {
+                levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
+            }
+            else
+            {
+                levelLoader.LoadNextScene();
+            }
         }
     }
 }

@@ -81,7 +81,7 @@ public class TitleMenu : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
-            levelLoader.LoadScene((int)LevelLoader.Scenes.Game);
+            levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
         }
     }
 

@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour
     {
         CharacterSelect = 0,
         Continue = 1,
-        Game = 2
+        StartLevel = 2
     }
 
     public void LoadScene(int levelIndex)
@@ -24,6 +24,11 @@ public class LevelLoader : MonoBehaviour
     public void LoadNextScene()
     {
         StartCoroutine(MakeTransition(SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    public int GetCurrentSceneIndex()
+    {
+        return SceneManager.GetActiveScene().buildIndex;
     }
 
     private IEnumerator MakeTransition(int levelIndex)

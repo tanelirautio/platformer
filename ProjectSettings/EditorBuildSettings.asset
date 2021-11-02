@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ContinueScene.unity
     guid: 792f3a29da37e354482bb35d743408d9
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+    path: Assets/Scenes/Level_0.unity
     guid: ee9b11a596e4d69499b357349f57cf7c
+  - enabled: 1
+    path: Assets/Scenes/Level_1.unity
+    guid: a400d2ee7fe16c648922a190772387ba
   m_configObjects: {}
