@@ -142,9 +142,11 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Trap")
         {
+            Trap.Type type = collision.gameObject.GetComponent<Trap>().type;
+
             if (!isGracePeriod() && !isDead)
             {
-                int currentHealth = health.TakeDamage(Trap.Type.SPIKE); //TODO: Query the Trap type
+                int currentHealth = health.TakeDamage(type);
 
                 if (currentHealth > 0)
                 {

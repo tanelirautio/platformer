@@ -48,6 +48,8 @@ public class PlayerHealth : MonoBehaviour
 
     public int TakeDamage(Trap.Type trapType)
     {
+        print("Trap type: " + trapType.ToString());
+
         currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, startingHealth);
         Animator anim = uiHealthAnim[currentHealth];
         anim.Play(HEALTH_REMOVE);

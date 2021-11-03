@@ -51,6 +51,9 @@ TagManager:
   - name: Trap
     uniqueID: 3694172455
     locked: 0
+  - name: Objects
+    uniqueID: 1497314983
+    locked: 0
   - name: Ground
     uniqueID: 549216451
     locked: 0
