@@ -11,9 +11,10 @@ public class LevelLoader : MonoBehaviour
 
     public enum Scenes
     {
-        CharacterSelect = 0,
-        Continue = 1,
-        StartLevel = 2
+        MainMenu = 0,
+        CharacterSelect = 1,
+        Continue = 2,
+        StartLevel = 3
     }
 
     public void LoadScene(int levelIndex)

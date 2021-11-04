@@ -183,10 +183,10 @@ public class Player : MonoBehaviour
             controllerDisabled = true;
             uiCanvas.SetActive(false);
 
-            // TODO: debug, if we reach the last scene, just go to menu
-            if (levelLoader.GetCurrentSceneIndex() == 3)
+            // TODO: debug, if we reach the last scene, just go to main menu...
+            if (levelLoader.GetCurrentSceneIndex() == 4)
             {
-                levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
+                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
             }
             else
             {

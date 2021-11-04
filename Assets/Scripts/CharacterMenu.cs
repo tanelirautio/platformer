@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TitleMenu : MonoBehaviour
+public class CharacterMenu : MonoBehaviour
 {
     private int selectedCharacter = 0;
     private bool selectionChanged = false;
