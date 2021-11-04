@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 229120531}
   - component: {fileID: 229120533}
   - component: {fileID: 229120532}
+  - component: {fileID: 229120534}
   m_Layer: 0
   m_Name: Options
   m_TagString: Untagged
@@ -216,7 +217,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OPTIONS
+  m_text: options
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -329,6 +330,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &229120534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229120530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8be28f7e8d074b42b15a6734e5c299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
 --- !u!1 &903147152
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +354,7 @@ GameObject:
   - component: {fileID: 903147153}
   - component: {fileID: 903147155}
   - component: {fileID: 903147154}
+  - component: {fileID: 903147156}
   m_Layer: 0
   m_Name: Load Game
   m_TagString: Untagged
@@ -386,7 +401,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LOAD GAME
+  m_text: load_game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -499,6 +514,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &903147156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903147152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8be28f7e8d074b42b15a6734e5c299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: load_game
 --- !u!1 &1215694890
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,6 +759,7 @@ GameObject:
   - component: {fileID: 1384419692}
   - component: {fileID: 1384419694}
   - component: {fileID: 1384419693}
+  - component: {fileID: 1384419695}
   m_Layer: 0
   m_Name: Quit
   m_TagString: Untagged
@@ -777,7 +806,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT GAME
+  m_text: quit_game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -890,6 +919,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1384419695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384419691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8be28f7e8d074b42b15a6734e5c299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
 --- !u!1 &1717830462
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,6 +943,7 @@ GameObject:
   - component: {fileID: 1717830465}
   - component: {fileID: 1717830464}
   - component: {fileID: 1717830463}
+  - component: {fileID: 1717830466}
   m_Layer: 0
   m_Name: New Game
   m_TagString: Untagged
@@ -928,7 +971,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NEW GAME
+  m_text: new_game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -1060,6 +1103,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 3}
   m_SizeDelta: {x: 35, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1717830466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717830462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8be28f7e8d074b42b15a6734e5c299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: new_game
 --- !u!1001 &1760142388
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1337,6 +1393,7 @@ GameObject:
   - component: {fileID: 2050800782}
   - component: {fileID: 2050800784}
   - component: {fileID: 2050800783}
+  - component: {fileID: 2050800785}
   m_Layer: 0
   m_Name: Statistics
   m_TagString: Untagged
@@ -1383,7 +1440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: STATISTICS
+  m_text: statistics
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -1496,6 +1553,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2050800785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050800781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8be28f7e8d074b42b15a6734e5c299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
 --- !u!1 &2123319045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,6 +1577,7 @@ GameObject:
   - component: {fileID: 2123319046}
   - component: {fileID: 2123319048}
   - component: {fileID: 2123319047}
+  - component: {fileID: 2123319049}
   m_Layer: 0
   m_Name: Achievements
   m_TagString: Untagged
@@ -1553,7 +1624,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ACHIEVEMENTS
+  m_text: achievements
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -1666,3 +1737,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2123319049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123319045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8be28f7e8d074b42b15a6734e5c299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
