@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -9,6 +10,7 @@ public class TextLocalizer : MonoBehaviour
     TextMeshPro textField;
 
     public string key;
+    private bool localizationMissing = false;
 
     void Start()
     {
@@ -22,12 +24,18 @@ public class TextLocalizer : MonoBehaviour
 
         textField.text = value;
 
-        // Notify if key == value (localization missing?)
-        if (value.Length == 0)
+        if (String.IsNullOrEmpty(value))
         {
-            textField.color = Color.red;
-            textField.text = "LOCALIZATION MISSING";
-        }
+            localizationMissing = true;
+        }  
     }
 
+    private void LateUpdate()
+    {
+        if (localizationMissing)
+        {
+            textField.color = Color.red;
+            textField.text = "*LOCALIZATION MISSING*";
+        }
+    }
 }

@@ -6,7 +6,6 @@ using System;
 
 public class MainMenu : MonoBehaviour
 {
-
     public enum Selection
     {
         New,

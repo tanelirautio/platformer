@@ -20,10 +20,10 @@ public class CharacterMenu : MonoBehaviour
     private string[] names = new string[4] { "Leo", "Viivi", "Venla", "Milja" };
     private string[] descriptions = new string[4]
     {
-        "Ninja frog extraordinaire",
-        "Pink & wild ",
-        "Michiefs in small package",
-        "Small and agile"
+        "leo_desc",
+        "viivi_desc",
+        "venla_desc",
+        "milja_desc"
     };
 
     private LevelLoader levelLoader;
@@ -102,7 +102,9 @@ public class CharacterMenu : MonoBehaviour
                     animator.SetBool("grounded", true);
                 }
                 nameText.text = names[i];
-                descriptionText.text = descriptions[i];
+
+                string localizedDesc = LocalizationManager.GetLocalizedValue(descriptions[i]);
+                descriptionText.text = localizedDesc;
 
                 PlayerStats.SelectedCharacter = selectedCharacter;
             }

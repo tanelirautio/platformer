@@ -61,6 +61,7 @@ public class LocalizationManager : MonoBehaviour
                 break;
         }
 
+        print("returning value: " + value);
         return value;
     }
     
