@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Localization
+public class LocalizationManager : MonoBehaviour
 {
     public enum Language
     {
@@ -18,17 +18,33 @@ public class Localization
 
     public static bool isInit = false;
 
+    static List<Dictionary<string, object>> data; 
+
     public static void Init()
     {
-        CSVLoader csvLoader = new CSVLoader();
-        bool ok = csvLoader.LoadCSV();
-
-        localizedEN = csvLoader.GetDictionaryValues("en");
-        localizedFI = csvLoader.GetDictionaryValues("fi");
+        data = CSVReader.Read("localization");
+        localizedEN = GetDictionaryValues("en");
+        localizedFI = GetDictionaryValues("fi");
 
         isInit = true;
     }
 
+    public static Dictionary<string, string> GetDictionaryValues(string attributeId)
+    {
+        Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+        for (int i = 0; i < data.Count; i++)
+        {
+            var dict = data[i];
+            string key = (string)dict["key"];
+            string value = (string)dict[attributeId];
+            dictionary.Add(key, value);
+        }
+
+        return dictionary;
+    }
+
+    
     public static string GetLocalizedValue(string key)
     {
         if(!isInit) { Init(); }
@@ -47,4 +63,5 @@ public class Localization
 
         return value;
     }
+    
 }

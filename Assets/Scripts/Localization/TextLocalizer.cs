@@ -18,8 +18,16 @@ public class TextLocalizer : MonoBehaviour
         {
             key = textField.text;
         } 
-        value = Localization.GetLocalizedValue(key);
+        value = LocalizationManager.GetLocalizedValue(key);
+
         textField.text = value;
+
+        // Notify if key == value (localization missing?)
+        if (value.Length == 0)
+        {
+            textField.color = Color.red;
+            textField.text = "LOCALIZATION MISSING";
+        }
     }
 
 }

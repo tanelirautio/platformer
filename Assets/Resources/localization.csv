@@ -1,7 +1,7 @@
-"key","en","fi" 
-"new_game","NEW GAME","UUSI PELI" 
-"load_game","LOAD GAME","LATAA PELI" 
-"options","OPTIONS","ASETUKSET" 
-"achievements","ACHIEVEMENTS","SAAVUTUKSET" 
-"statistics","STATISTICS","TILASTOT" 
-"quit_game","QUIT GAME","LOPETA PELI"
+key,en,fi, 
+new_game,NEW GAME,UUSI PELI,
+load_game,LOAD GAME,LATAA PELI,
+options,OPTIONS,ASETUKSET,
+achievements,ACHIEVEMENTS,SAAVUTUKSET,
+statistics,STATISTICS,TILASTOT,
+quit_game,QUIT GAME,LOPETA PELI,
