@@ -27,6 +27,18 @@ public class LevelLoader : MonoBehaviour
         StartCoroutine(MakeTransition(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
+    public void TriggerTransitionOnly(bool fadeToBlack = true)
+    {
+        if (fadeToBlack)
+        {
+            transition.SetTrigger("Start");
+        }
+        else
+        {
+            transition.SetTrigger("End");
+        }
+    }
+
     public int GetCurrentSceneIndex()
     {
         return SceneManager.GetActiveScene().buildIndex;

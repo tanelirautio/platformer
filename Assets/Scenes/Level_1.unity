@@ -202,6 +202,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6490169411737579502, guid: 232700efda14a584fae74319d8612dc7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 232700efda14a584fae74319d8612dc7, type: 3}
 --- !u!114 &172889004 stripped
@@ -468,7 +472,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -517,6 +521,7 @@ MonoBehaviour:
   lookSmoothTimeX: 0.2
   verticalSmoothTime: 0.2
   verticalOffset: 1
+  isFollowingPlayer: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -2690,7 +2695,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3739806760864196715, guid: df847744e4c8cbc4d8726e974f3ce0d5, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3739806760864196715, guid: df847744e4c8cbc4d8726e974f3ce0d5, type: 3}
       propertyPath: m_LocalPosition.x

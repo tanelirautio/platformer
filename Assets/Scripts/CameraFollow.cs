@@ -20,7 +20,7 @@ public class CameraFollow : MonoBehaviour
     float smoothVelocityY;
 
     bool lookAheadStopped;
-    bool isFollowingPlayer = true;
+    [SerializeField] private bool isFollowingPlayer = true;
 
     private void Start()
     {

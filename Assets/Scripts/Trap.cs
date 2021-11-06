@@ -8,7 +8,8 @@ public class Trap : MonoBehaviour
     public enum Type
     {
         Spike,
-        Saw
+        Saw,
+        KillZone
     }
 
     public Type type;

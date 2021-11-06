@@ -60,12 +60,11 @@ namespace pf
             {
                 if (selection == Selection.Yes)
                 {
-                    levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
+                    levelLoader.LoadScene(PlayerStats.CurrentSceneIndex);
                 }
                 else
                 {
-                    // TODO: load real Main Menu scene instead 
-                    levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
                 }
             }
         }

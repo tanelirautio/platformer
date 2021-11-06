@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     const int DAMAGE = 1;
     const int MAX_HEALTH = 5;
+    [SerializeField] private int startingHealth = 3;
 
     //animation states
     const string HEALTH_ADD = "health_add";
@@ -14,7 +15,6 @@ public class PlayerHealth : MonoBehaviour
     const string HEALTH_FULL = "health_full";
     const string HEALTH_ZERO = "health_zero";
 
-    [SerializeField] private int startingHealth;
     private int currentHealth;
 
     public GameObject[] uiHealth = new GameObject[MAX_HEALTH];

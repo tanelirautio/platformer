@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float accTimeGrounded = 0.1f;
     [SerializeField] private float moveSpeed = 6;
 
+    [SerializeField] private float killZoneY = -10f;
+
     private Controller2D controller;
     private Movement movement;
     private Vector2 input;
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
 
     const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
+    private bool killZoneDamageTaken = false;
 
     const float FADE_SPEED = 1.0f;
     private bool isDead = false;
@@ -53,6 +56,8 @@ public class Player : MonoBehaviour
 
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
         uiCanvas = GameObject.Find("UICanvas");
+
+        PlayerStats.CurrentSceneIndex = levelLoader.GetCurrentSceneIndex();
     }
 
     private void Start()
@@ -60,12 +65,17 @@ public class Player : MonoBehaviour
         Spawn();
     }
 
-    private void Spawn()
+    private void Spawn(bool resetHealth = true)
     {
+
         controllerDisabled = false;
         isDead = false;
+        cameraFollow.Reset();
         anim.Reset();
-        health.Reset();
+        if (resetHealth)
+        {
+            health.Reset();
+        }
         uiCanvas.SetActive(true);
         if (spawnPoint)
         {
@@ -110,9 +120,22 @@ public class Player : MonoBehaviour
         }
 
         anim.HandleAnimation(controller, movement.Velocity);
+
+        // TODO: kill player if falling away from platform
+        if(transform.position.y < 0f)
+        {
+            cameraFollow.StopFollowingPlayer();
+        }
+        if (transform.position.y < killZoneY)
+        {
+            if (!killZoneDamageTaken)
+            {
+                TakeKillZoneDamage();
+            }
+        }
     }
 
-    public void TakeDamage(Vector2 hitPosition)
+    public void DamageMove(Vector2 hitPosition)
     {
         Vector3 dir = transform.position - (Vector3)hitPosition;
         Vector3 movePos = transform.position + (dir * 1.1f);
@@ -120,6 +143,46 @@ public class Player : MonoBehaviour
 
         //TODO: disable controller when tween is playing(?)
         //Check if it is needed
+    }
+
+    public void DeathMove()
+    {
+        // TODO: tween movement should arc
+        transform.DOMove(transform.position + (-Vector3.up * 3), 1.0f);
+        //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
+        //myTransform.DOMoveY(3, 2).SetEase(Ease.InQuad);
+    }
+
+    public void TakeKillZoneDamage()
+    {
+        int currentHealth = health.TakeDamage(Trap.Type.KillZone);
+        if (currentHealth > 0)
+        {
+            FadeToBlack();
+            Invoke("SpawnAfterKillZoneDamage", 1.0f);
+            Invoke("FadeFromBlack", 1.0f);
+        }
+        else
+        {
+            HandleDamage(0);
+        }
+        killZoneDamageTaken = true;
+    }
+
+    private void SpawnAfterKillZoneDamage()
+    {
+        Spawn(false);
+        killZoneDamageTaken = false;
+    }
+
+    private void FadeToBlack()
+    {
+        levelLoader.TriggerTransitionOnly(true);
+    }
+
+    private void FadeFromBlack()
+    {
+        levelLoader.TriggerTransitionOnly(false);
     }
 
     public void setGracePeriod()
@@ -138,6 +201,26 @@ public class Player : MonoBehaviour
         gracePeriod = false;
     }
 
+    private void HandleDamage(int currentHealth)
+    {
+        if (currentHealth > 0)
+        {
+            anim.TakeDamage();
+            setGracePeriod();
+            print("player hurt!");
+        }
+        else
+        {
+            controllerDisabled = true;
+            cameraFollow.StopFollowingPlayer();
+            anim.Die();
+            print("player dead!");
+
+            isDead = true;
+            levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Trap")
@@ -147,28 +230,14 @@ public class Player : MonoBehaviour
             if (!isGracePeriod() && !isDead)
             {
                 int currentHealth = health.TakeDamage(type);
-
-                if (currentHealth > 0)
+                HandleDamage(currentHealth);
+                if(currentHealth > 0)
                 {
-                    anim.TakeDamage();
-                    TakeDamage(collision.transform.position);
-                    setGracePeriod();
-                    print("player hurt!");
+                    DamageMove(collision.transform.position);
                 }
                 else
                 {
-                    controllerDisabled = true;
-                    cameraFollow.StopFollowingPlayer();
-                    anim.Die();
-                    print("player dead!");
-
-                    // TODO: tween movement should arc
-                    transform.DOMove(transform.position + (-Vector3.up * 3), 1.0f);
-                    //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
-                    //myTransform.DOMoveY(3, 2).SetEase(Ease.InQuad);
-
-                    isDead = true;
-                    levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
+                    DeathMove();
                 }
             }
         }
