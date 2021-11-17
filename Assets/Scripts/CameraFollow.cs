@@ -34,6 +34,7 @@ public class CameraFollow : MonoBehaviour
 
     public void StopFollowingPlayer()
     {
+        print("stop following player!");
         isFollowingPlayer = false;
     }
 

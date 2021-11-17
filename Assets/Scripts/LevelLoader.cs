@@ -9,12 +9,19 @@ public class LevelLoader : MonoBehaviour
     public Animator transition;
     public float transitionTime = 1f;
 
+    private static int previousSceneIndex = -1;
+
     public enum Scenes
     {
         MainMenu = 0,
         CharacterSelect = 1,
         Continue = 2,
         StartLevel = 3
+    }
+
+    public static int GetPreviousSceneIndex()
+    {
+        return previousSceneIndex;
     }
 
     public void LoadScene(int levelIndex)
@@ -48,6 +55,7 @@ public class LevelLoader : MonoBehaviour
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
+        previousSceneIndex = GetCurrentSceneIndex();
         SceneManager.LoadScene(levelIndex);
     }
 }

@@ -15,18 +15,33 @@ public class PlayerHealth : MonoBehaviour
     const string HEALTH_FULL = "health_full";
     const string HEALTH_ZERO = "health_zero";
 
-    private int currentHealth;
+    private int currentHealth = 0;
 
     public GameObject[] uiHealth = new GameObject[MAX_HEALTH];
     private Animator[] uiHealthAnim = new Animator[MAX_HEALTH];
 
-    void Start()
+    private LevelLoader levelLoader;
+
+    void Awake()
     {
-        Reset();
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
     }
 
     public void Reset()
     {
+        print("Reset player health");
+
+        if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
+            LevelLoader.GetPreviousSceneIndex() != -1)
+        {
+            print("get value from PlayerStats.CurrentHealth");
+            startingHealth = PlayerStats.CurrentHealth;
+        }
+        else
+        {
+            PlayerStats.CurrentHealth = startingHealth;
+        }
+
         currentHealth = startingHealth;
 
         for (int i = 0; i < MAX_HEALTH; i++)
@@ -53,6 +68,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, startingHealth);
         Animator anim = uiHealthAnim[currentHealth];
         anim.Play(HEALTH_REMOVE);
+        PlayerStats.CurrentHealth = currentHealth;
         return currentHealth;
     }
 

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float accTimeGrounded = 0.1f;
     [SerializeField] private float moveSpeed = 6;
 
+    [SerializeField] private float stopFollowingPlayerY = -2f;
     [SerializeField] private float killZoneY = -10f;
 
     private Controller2D controller;
@@ -82,6 +83,10 @@ public class Player : MonoBehaviour
             transform.position = spawnPoint.transform.position;
             print("Spawning at: " + transform.position);
         }
+        else
+        {
+            print("Spawn point not found!");
+        }
     }
 
     private void Update()
@@ -122,7 +127,7 @@ public class Player : MonoBehaviour
         anim.HandleAnimation(controller, movement.Velocity);
 
         // TODO: kill player if falling away from platform
-        if(transform.position.y < 0f)
+        if(transform.position.y < stopFollowingPlayerY)
         {
             cameraFollow.StopFollowingPlayer();
         }

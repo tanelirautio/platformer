@@ -6,7 +6,6 @@ namespace pf
 {
     public class GameManager : MonoBehaviour
     {
-
         void Update()
         {
             // TODO: this is for debugging
