@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class PlayerHealth : MonoBehaviour
 
     private int currentHealth = 0;
 
-    public GameObject[] uiHealth = new GameObject[MAX_HEALTH];
+    private GameObject[] uiHealth = new GameObject[MAX_HEALTH];
     private Animator[] uiHealthAnim = new Animator[MAX_HEALTH];
 
     private LevelLoader levelLoader;
@@ -25,6 +23,14 @@ public class PlayerHealth : MonoBehaviour
     void Awake()
     {
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+
+        GameObject health = GameObject.Find("UICanvas/Health");
+        int children = health.transform.childCount;
+        Assert.AreEqual(children, MAX_HEALTH);
+        for (int i = 0; i < children; ++i)
+        {
+            uiHealth[i] = health.transform.GetChild(i).gameObject;
+        }
     }
 
     public void Reset()

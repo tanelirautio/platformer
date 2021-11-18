@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using TMPro;
 
 public class PlayerScore : MonoBehaviour
@@ -9,8 +9,15 @@ public class PlayerScore : MonoBehaviour
     const float UI_UPDATE_WAIT_TIME = 0.0001f;
 
     private int currentScore;
-    public TextMeshProUGUI scoreText;
+    private TextMeshProUGUI scoreText;
     private bool coroutineRunning = false;
+
+    private void Awake()
+    {
+        GameObject scoreTextObj = GameObject.Find("UICanvas/Score/ScoreText");
+        Assert.IsNotNull(scoreTextObj);
+        scoreText = scoreTextObj.GetComponent<TextMeshProUGUI>();
+    }
 
     public void AddScore(int score)
     {

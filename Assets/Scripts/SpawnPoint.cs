@@ -36,7 +36,6 @@ public class SpawnPoint : MonoBehaviour
         {
             if (!isPlaying)
             {
-                //TODO: play only once(?)
                 animator.Play("start");
                 isPlaying = true;
             }
