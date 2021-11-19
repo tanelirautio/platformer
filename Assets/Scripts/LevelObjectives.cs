@@ -5,24 +5,20 @@ using UnityEngine;
 
 public class LevelObjectives : MonoBehaviour
 {
-    public enum ObjectiveType
+    private int level;
+    private int points;
+    private float time;
+
+    public LevelObjectives(int level, int points, float time)
     {
-        Points,
-        Time,
-        Kills,
-        Died,
-        CollectItem
+        this.level = level;
+        this.points = points;
+        this.time = time;
     }
 
-    private ObjectiveType type;
-    private int amount;
 
-    public LevelObjectives(ObjectiveType type, int amount)
-    {
-        this.type = type;
-        this.amount = amount;
-    }
 
+    /*
     public Dictionary<int, List<LevelObjectives>> objectives = new Dictionary<int, List<LevelObjectives>>()
     {
         { 0, new List<LevelObjectives> { new LevelObjectives(ObjectiveType.Points, 300),
@@ -34,7 +30,7 @@ public class LevelObjectives : MonoBehaviour
                                          new LevelObjectives(ObjectiveType.CollectItem, 0) }
         }
     }
-
+    */
 
     // TODO: create 3 objectives for each level
     // At level end, check if objectives met (or if objectives have been met before)
