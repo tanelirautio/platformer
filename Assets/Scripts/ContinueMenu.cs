@@ -60,7 +60,7 @@ namespace pf
             {
                 if (selection == Selection.Yes)
                 {
-                    levelLoader.LoadScene(PlayerStats.CurrentSceneIndex);
+                    levelLoader.LoadScene(PlayerStats.SceneIndex);
                 }
                 else
                 {

@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelObjectives : MonoBehaviour
+public class LevelObjectives
 {
     private int level;
     private int points;
     private float time;
+
+    public bool CompletedPoints { get; set; }
+    public bool CompletedTime { get; set; }
+    public bool CompletedNoDeaths { get; set; }
+    public float BestTime { get; set; }
 
     public LevelObjectives(int level, int points, float time)
     {
@@ -15,24 +20,4 @@ public class LevelObjectives : MonoBehaviour
         this.points = points;
         this.time = time;
     }
-
-
-
-    /*
-    public Dictionary<int, List<LevelObjectives>> objectives = new Dictionary<int, List<LevelObjectives>>()
-    {
-        { 0, new List<LevelObjectives> { new LevelObjectives(ObjectiveType.Points, 300),
-                                         new LevelObjectives(ObjectiveType.Died, 1),
-                                         new LevelObjectives(ObjectiveType.CollectItem, 0) }
-        },
-        { 1, new List<LevelObjectives> { new LevelObjectives(ObjectiveType.Points, 300),
-                                         new LevelObjectives(ObjectiveType.Died, 1),
-                                         new LevelObjectives(ObjectiveType.CollectItem, 0) }
-        }
-    }
-    */
-
-    // TODO: create 3 objectives for each level
-    // At level end, check if objectives met (or if objectives have been met before)
-
 }

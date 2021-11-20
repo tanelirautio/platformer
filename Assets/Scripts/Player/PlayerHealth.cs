@@ -41,11 +41,11 @@ public class PlayerHealth : MonoBehaviour
             LevelLoader.GetPreviousSceneIndex() != -1)
         {
             print("get value from PlayerStats.CurrentHealth");
-            startingHealth = PlayerStats.CurrentHealth;
+            startingHealth = PlayerStats.Health;
         }
         else
         {
-            PlayerStats.CurrentHealth = startingHealth;
+            PlayerStats.Health = startingHealth;
         }
 
         currentHealth = startingHealth;
@@ -74,7 +74,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, startingHealth);
         Animator anim = uiHealthAnim[currentHealth];
         anim.Play(HEALTH_REMOVE);
-        PlayerStats.CurrentHealth = currentHealth;
+        PlayerStats.Health = currentHealth;
         return currentHealth;
     }
 

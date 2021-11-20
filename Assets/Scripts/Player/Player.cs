@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
         uiCanvas = GameObject.Find("UICanvas");
 
-        PlayerStats.CurrentSceneIndex = levelLoader.GetCurrentSceneIndex();
+        PlayerStats.SceneIndex = levelLoader.GetCurrentSceneIndex();
     }
 
     private void Start()
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         Spawn();
     }
 
-    private void Spawn(bool resetHealth = true)
+    private void Spawn(bool resetHealth = true, bool resetScore = true)
     {
 
         controllerDisabled = false;
@@ -77,6 +77,7 @@ public class Player : MonoBehaviour
         {
             health.Reset();
         }
+        score.Reset();
         uiCanvas.SetActive(true);
         if (spawnPoint)
         {
@@ -264,6 +265,9 @@ public class Player : MonoBehaviour
             }
             else
             {
+                // update player score only when transitioning to next level
+                PlayerStats.Score = score.GetScore();
+
                 levelLoader.LoadNextScene();
             }
         }

@@ -6,36 +6,6 @@ namespace pf
 {
     public class GameManager : MonoBehaviour
     {
-        static bool levelObjectivesLoaded = false;
-        
-        public List<LevelObjectives> objectives = new List<LevelObjectives>();
-
-        public void Awake()
-        {
-            LoadLevelObjectives();
-        }
-
-        public void LoadLevelObjectives()
-        {
-            // Do this only once but keep all the scenes playable
-            if(levelObjectivesLoaded)
-            {
-                return;
-            }
-
-
-            LevelObjectives test = new LevelObjectives(0, 300, 30000);
-            LevelObjectives test2 = new LevelObjectives(1, 200, 20000);
-
-            objectives.Add(test);
-            objectives.Add(test2);
-
-            levelObjectivesLoaded = true;
-
-
-
-        }
-
         void Update()
         {
             // TODO: this is for debugging
@@ -46,6 +16,21 @@ namespace pf
 #else
                 Application.Quit();
 #endif
+            }
+
+            if(Input.GetKeyDown(KeyCode.S))
+            {
+                SaveSystem.Save();
+                print("Saved!");
+            }
+
+            if(Input.GetKeyDown(KeyCode.L))
+            {
+                SaveData s = SaveSystem.Load();
+                print("saved character is: " + s.selectedCharacter);
+                print("saved level is: " + s.currentLevel);
+                print("saved score is: " + s.score);
+                print("saved health is: " + s.health);
             }
         }
 
