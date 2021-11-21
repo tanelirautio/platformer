@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
     private bool gracePeriod = false;
     private bool killZoneDamageTaken = false;
 
-    const float FADE_SPEED = 1.0f;
     private bool isDead = false;
 
     private bool controllerDisabled = false;
@@ -259,14 +258,16 @@ public class Player : MonoBehaviour
             uiCanvas.SetActive(false);
 
             // TODO: debug, if we reach the last scene, just go to main menu...
+            // In the real game show end screen
             if (levelLoader.GetCurrentSceneIndex() == 4)
             {
                 levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
             }
             else
             {
-                // update player score only when transitioning to next level
+                // save player score only when transitioning to next level
                 PlayerStats.Score = score.GetScore();
+                SaveSystem.Save();
 
                 levelLoader.LoadNextScene();
             }
