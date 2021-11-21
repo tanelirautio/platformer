@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System;
 
 public static class SaveSystem
 {
@@ -13,10 +14,19 @@ public static class SaveSystem
 
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        SaveData data = new SaveData();
-
-        formatter.Serialize(stream, data);
-        stream.Close();
+        try
+        {
+            SaveData data = new SaveData();
+            formatter.Serialize(stream, data);
+        }
+        catch(Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        finally
+        {
+            stream.Close();
+        }
     }
 
     public static SaveData Load()
@@ -27,8 +37,20 @@ public static class SaveSystem
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
 
-            SaveData data = formatter.Deserialize(stream) as SaveData;
-            stream.Close();
+            SaveData data = null;
+
+            try
+            {
+                data = formatter.Deserialize(stream) as SaveData;    
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
+            finally
+            {
+                stream.Close();
+            }
 
             return data;
         }
@@ -36,6 +58,19 @@ public static class SaveSystem
         {
             Debug.LogError("Save file not found in " + path);
             return null;
+        }
+    }
+
+    public static void Reset()
+    {
+        string path = Application.persistentDataPath + "/" + SAVEFILE;
+        try
+        {
+            File.Delete(path);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
         }
     }
 }
