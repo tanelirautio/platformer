@@ -25,27 +25,16 @@ public class MainMenu : MonoBehaviour
     private bool selectionChanged = false;
     private Selection selection = 0;
 
-    private bool showLoadOption = false;
-    private SaveData saveData = null;
+    private DataLoader dataLoader;
 
     private void Awake()
     {
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        dataLoader = GetComponent<DataLoader>();
     }
 
     void Start()
     {
-        saveData = SaveSystem.Load();
-        if (saveData != null)
-        {
-            showLoadOption = true;
-        }
-        else
-        {
-            print("No save file!");
-            showLoadOption = false;
-        }
-
         titleText.outlineColor = Color.black;
         titleText.outlineWidth = 0.2f;
         CheckSelection();
@@ -58,7 +47,7 @@ public class MainMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             selection++;
-            if(!showLoadOption && selection == Selection.Load)
+            if(!dataLoader.ShowLoadOption && selection == Selection.Load)
             {
                 selection++;
             }
@@ -67,7 +56,7 @@ public class MainMenu : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             selection--;
-            if (!showLoadOption && selection == Selection.Load)
+            if (!dataLoader.ShowLoadOption && selection == Selection.Load)
             {
                 selection--;
             }
@@ -102,11 +91,14 @@ public class MainMenu : MonoBehaviour
                 case Selection.Load:
                 {
                     print("Load game!");
-                    PlayerStats.SelectedCharacter = saveData.selectedCharacter;
-                    PlayerStats.SceneIndex = saveData.currentLevel;
-                    PlayerStats.Score = saveData.score;
-                    PlayerStats.Health = saveData.health;
-                    levelLoader.LoadScene(PlayerStats.SceneIndex);
+                    if (dataLoader.GetSaveData() != null)
+                    {
+                        PlayerStats.SelectedCharacter = dataLoader.GetSaveData().selectedCharacter;
+                        PlayerStats.SceneIndex = dataLoader.GetSaveData().currentLevel;
+                        PlayerStats.Score = dataLoader.GetSaveData().score;
+                        PlayerStats.Health = dataLoader.GetSaveData().health;
+                        levelLoader.LoadScene(PlayerStats.SceneIndex);
+                    }
                     break;
                 }
                 case Selection.Options:
@@ -153,7 +145,7 @@ public class MainMenu : MonoBehaviour
                 menu[i].color = Color.gray;
             }
 
-            if(!showLoadOption)
+            if(!dataLoader.ShowLoadOption)
             {
                 menu[(int)Selection.Load].color = new Color(0.2f,0.2f,0.2f, 1);
             }

@@ -543,7 +543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &965614223
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -619,6 +619,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1215694891}
   - component: {fileID: 1215694892}
+  - component: {fileID: 1215694893}
   m_Layer: 0
   m_Name: TitleLogic
   m_TagString: Untagged
@@ -660,6 +661,18 @@ MonoBehaviour:
   - {fileID: 2123319047}
   - {fileID: 2050800783}
   - {fileID: 1384419693}
+--- !u!114 &1215694893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215694890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48d2e04f1d70e44780fe47a0d19e43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1251508138
 GameObject:
   m_ObjectHideFlags: 0

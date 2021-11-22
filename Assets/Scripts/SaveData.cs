@@ -26,9 +26,9 @@ public class SaveData
         levelObjectivesCompleted = new bool[LEVEL_AMOUNT, OBJECTIVES_PER_LEVEL];
         bestTimes = new float[LEVEL_AMOUNT];
 
-        for(int i=0; i < PlayerStats.completedObjectives.Count; i++)
+        for(int i=0; i < PlayerStats.CompletedObjectives.Count; i++)
         {
-            LevelObjectives l = PlayerStats.completedObjectives[i];
+            LevelObjectives l = PlayerStats.CompletedObjectives[i];
 
             levelObjectivesCompleted[i, 0] = l.CompletedPoints;
             levelObjectivesCompleted[i, 1] = l.CompletedTime;
