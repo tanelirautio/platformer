@@ -10,7 +10,7 @@ public class LevelObjectives
     public int points;
     public float time;
 
-    public bool CompletedNoDeaths { get; set; } // 1st
+    public bool CompletedNoHits { get; set; } // 1st
     public bool CompletedPoints { get; set; } //2nd
     public bool CompletedTime { get; set; } //3rd
     public float BestTime { get; set; }

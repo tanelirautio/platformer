@@ -14,6 +14,11 @@ public class TextLocalizerUI : MonoBehaviour
 
     void Start()
     {
+        Localize();
+    }
+
+    public void Localize()
+    {
         textField = GetComponent<TextMeshProUGUI>();
         string value;
         if (string.IsNullOrEmpty(key))
@@ -24,7 +29,7 @@ public class TextLocalizerUI : MonoBehaviour
 
         textField.text = value;
 
-        if (String.IsNullOrEmpty(value))
+        if (String.IsNullOrEmpty(value) && key != "empty")
         {
             localizationMissing = true;
         }

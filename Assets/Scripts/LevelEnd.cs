@@ -12,17 +12,19 @@ public class LevelEnd : MonoBehaviour
     private GameObject trophyBase;
     private Image[] trophies = new Image[3];
     private TextMeshProUGUI levelCompleteText;
+    private TextLocalizerUI descriptionLocalizer;
 
     private PlayerScore score;
 
     private void Awake()
     {
         fadeImage = transform.Find("Fade").GetComponentInChildren<Image>();
+        levelCompleteText = transform.Find("LevelCompleteText").GetComponent<TextMeshProUGUI>();
         trophyBase = transform.Find("TrophyBase").gameObject;
         trophies[0] = transform.Find("TrophyBase/Trophy0").GetComponent<Image>();
         trophies[1] = transform.Find("TrophyBase/Trophy1").GetComponent<Image>();
         trophies[2] = transform.Find("TrophyBase/Trophy2").GetComponent<Image>();
-        levelCompleteText = transform.Find("LevelCompleteText").GetComponent<TextMeshProUGUI>();
+        descriptionLocalizer = transform.Find("TrophyBase/Description").GetComponent<TextLocalizerUI>();
 
         score = GameObject.Find("Player").GetComponent<PlayerScore>();
     }
@@ -40,6 +42,9 @@ public class LevelEnd : MonoBehaviour
 
         levelCompleteText.transform.localScale = Vector3.zero;
         levelCompleteText.DOFade(0, 0);
+
+        descriptionLocalizer.key = "empty";
+        descriptionLocalizer.Localize();
     }
 
     // Update is called once per frame
@@ -50,6 +55,7 @@ public class LevelEnd : MonoBehaviour
             FadeBackground();
             ShowTrophyBase();
             ShowLevelCompleteText();
+            CheckTrophies();
         }
         if(Input.GetKeyDown(KeyCode.G))
         {
@@ -73,8 +79,11 @@ public class LevelEnd : MonoBehaviour
         trophyBase.transform.DOScale(Vector3.one, 1.0f);
     }
 
-    public void ShowTrophies()
+    public void CheckTrophies()
     {
+        // If scene is played directly in the editor, data might not have been parsed
+        DataLoader.ParseData();
+
         // TODO: check from save/playerdata if player has accomplished any trophies
         // these will be shown always
         bool showFirst = false;
@@ -86,14 +95,15 @@ public class LevelEnd : MonoBehaviour
 
         // Check from the saved data if trophies have been given in previous plays
         int level = PlayerStats.Level;
+        print("level is: " + level);
         if (level >= 0) {
             LevelObjectives o = PlayerStats.CompletedObjectives[level];
-            if(o.CompletedNoDeaths) // TODO: track player deaths in level
+            if(o.CompletedNoHits) // TODO: track player deaths in level
             {
                 showFirst = true;
-                if(!o.CompletedNoDeaths)
+                if(!o.CompletedNoHits)
                 {
-                    o.CompletedNoDeaths = true;
+                    o.CompletedNoHits = true;
                 }
             }
             if(o.CompletedPoints || score.GetScore() >= o.GetRequiredScore())
@@ -114,5 +124,54 @@ public class LevelEnd : MonoBehaviour
             }
         }
 
+        showFirst = true;
+        showSecond = true;
+        showThird = true;
+        StartCoroutine(ShowTrophies(showFirst, showSecond, showThird));
+
+    }
+
+    IEnumerator ShowTrophies(bool first, bool second, bool third)
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        if(first)
+        {
+            trophies[0].DOColor(Color.white, 1.0f);
+            descriptionLocalizer.key = "no_hits";
+            descriptionLocalizer.Localize();
+            yield return new WaitForSeconds(1.0f);
+        }
+        else
+        {
+            yield return null;
+        }
+
+        if(second)
+        {
+            trophies[1].DOColor(Color.white, 1.0f);
+            descriptionLocalizer.key = "got_required_score";
+            descriptionLocalizer.Localize();
+            yield return new WaitForSeconds(1.0f);
+        }
+        else
+        {
+            yield return null;
+        }
+
+        if (third)
+        {
+            trophies[2].DOColor(Color.white, 1.0f);
+            descriptionLocalizer.key = "time_under_par";
+            descriptionLocalizer.Localize();
+            yield return new WaitForSeconds(1.0f);
+        }
+        else
+        {
+            yield return null;
+        }
+
+        //TODO: show par time and player time
+        yield return null;
     }
 }

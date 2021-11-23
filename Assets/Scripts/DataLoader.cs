@@ -13,11 +13,7 @@ public class DataLoader : MonoBehaviour
 
     void Start()
     {
-        if (!initialized)
-        {
-            ParseData();
-            initialized = true;
-        }
+        ParseData();
 
         saveData = SaveSystem.Load();
         if (saveData != null)
@@ -31,7 +27,7 @@ public class DataLoader : MonoBehaviour
             {
                 if (i < PlayerStats.CompletedObjectives.Count)
                 {
-                    PlayerStats.CompletedObjectives[i].CompletedNoDeaths = saveData.levelObjectivesCompleted[i, 0];
+                    PlayerStats.CompletedObjectives[i].CompletedNoHits = saveData.levelObjectivesCompleted[i, 0];
                     PlayerStats.CompletedObjectives[i].CompletedPoints = saveData.levelObjectivesCompleted[i, 1];
                     PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];
                 }
@@ -48,25 +44,24 @@ public class DataLoader : MonoBehaviour
         return saveData;
     }
 
-    private void ParseData()
+    public static void ParseData()
     {
-        TextAsset levelObjectivesText = Resources.Load<TextAsset>("levelObjectives");
-        if(levelObjectivesText != null)
+        if (!initialized)
         {
-            LevelObjectives[] obj = JsonHelper.FromJson<LevelObjectives>(levelObjectivesText.text);
-            if (obj != null)
+            TextAsset levelObjectivesText = Resources.Load<TextAsset>("levelObjectives");
+            if (levelObjectivesText != null)
             {
-                for (int i = 0; i < obj.Length; i++)
+                LevelObjectives[] obj = JsonHelper.FromJson<LevelObjectives>(levelObjectivesText.text);
+                if (obj != null)
                 {
-                    PlayerStats.CompletedObjectives.Add(obj[i]);
+                    for (int i = 0; i < obj.Length; i++)
+                    {
+                        PlayerStats.CompletedObjectives.Add(obj[i]);
+                    }
                 }
             }
-        }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            initialized = true;
+        }
     }
 }

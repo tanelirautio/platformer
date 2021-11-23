@@ -24,7 +24,7 @@ public class TextLocalizer : MonoBehaviour
 
         textField.text = value;
 
-        if (String.IsNullOrEmpty(value))
+        if (String.IsNullOrEmpty(value) && key != "empty")
         {
             localizationMissing = true;
         }  

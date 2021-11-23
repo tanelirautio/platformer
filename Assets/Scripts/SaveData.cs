@@ -32,7 +32,7 @@ public class SaveData
 
             levelObjectivesCompleted[i, 0] = l.CompletedPoints;
             levelObjectivesCompleted[i, 1] = l.CompletedTime;
-            levelObjectivesCompleted[i, 2] = l.CompletedNoDeaths;
+            levelObjectivesCompleted[i, 2] = l.CompletedNoHits;
 
             bestTimes[i] = l.BestTime;
         }
