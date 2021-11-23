@@ -12,9 +12,6 @@ public class SpawnPoint : MonoBehaviour
         Gizmos.color = Color.green;
         float radius = 0.5f;
         Gizmos.DrawWireSphere(transform.position, radius);
-        //Gizmos.color = Color.yellow;
-        //radius = 0.25f;
-        //Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     private void Awake()
@@ -30,8 +27,6 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        print("collision.tag: " + collision.tag);
-
         if(collision.tag == "Player")
         {
             if (!isPlaying)

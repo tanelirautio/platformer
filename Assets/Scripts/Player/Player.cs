@@ -28,12 +28,16 @@ public class Player : MonoBehaviour
     private CameraFollow cameraFollow;
     private LevelLoader levelLoader;
     private GameObject uiCanvas;
+    private LevelEnd levelEnd;
 
     const float GRACE_PERIOD_LENGTH = 2.0f;
     private bool gracePeriod = false;
     private bool killZoneDamageTaken = false;
 
     private bool isDead = false;
+
+    private bool timerStarted = false;
+    private float timer = 0;
 
     private bool controllerDisabled = false;
 
@@ -56,6 +60,7 @@ public class Player : MonoBehaviour
 
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
         uiCanvas = GameObject.Find("UICanvas");
+        levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
 
         PlayerStats.SceneIndex = levelLoader.GetCurrentSceneIndex();
     }
@@ -77,7 +82,9 @@ public class Player : MonoBehaviour
             health.Reset();
         }
         score.Reset();
-        uiCanvas.SetActive(true);
+        //uiCanvas.SetActive(true);
+        timer = 0;
+        timerStarted = false;
         if (spawnPoint)
         {
             transform.position = spawnPoint.transform.position;
@@ -91,6 +98,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if(timerStarted)
+        {
+            timer += Time.deltaTime;
+        }
+
         if (!controllerDisabled)
         {
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -99,6 +111,11 @@ public class Player : MonoBehaviour
         {
             input.x = 0;
             input.y = 0;
+
+            if (Input.GetKeyDown(KeyCode.Space) && levelEnd.LevelEndReady())
+            {
+                LoadNextScene();
+            }
         }
 
         movement.CalculateVelocityX(input.x, (controller.collisions.below) ? accTimeGrounded : accTimeAirborne);
@@ -154,6 +171,8 @@ public class Player : MonoBehaviour
     {
         // TODO: tween movement should arc
         transform.DOMove(transform.position + (-Vector3.up * 3), 1.0f);
+        
+        
         //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
         //myTransform.DOMoveY(3, 2).SetEase(Ease.InQuad);
     }
@@ -226,6 +245,27 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void LoadNextScene()
+    {
+        // TODO: debug, if we reach the last scene, just go to main menu...
+        // In the real game show end screen
+        if (levelLoader.GetCurrentSceneIndex() == 4)
+        {
+            levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+        }
+        else
+        {
+            // save player score only when transitioning to next level
+            PlayerStats.Score = score.GetScore();
+
+            // TODO: save only relevant data, do not overwrite higher values(?)
+            // TODO: save scores per level(?)
+            SaveSystem.Save();
+
+            levelLoader.LoadNextScene();
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Trap")
@@ -252,25 +292,25 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.tag == "Finish")
         {
+            timerStarted = false;
+
             // TODO: level finish - fade to black, load next level (or level menu)
             print("finish level");
             controllerDisabled = true;
-            uiCanvas.SetActive(false);
 
-            // TODO: debug, if we reach the last scene, just go to main menu...
-            // In the real game show end screen
-            if (levelLoader.GetCurrentSceneIndex() == 4)
-            {
-                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
-            }
-            else
-            {
-                // save player score only when transitioning to next level
-                PlayerStats.Score = score.GetScore();
-                SaveSystem.Save();
+            bool hit = false;
+            float timerMs = timer * 1000;
+            levelEnd.ShowLevelEnd(hit, score.GetScore(), timerMs);
 
-                levelLoader.LoadNextScene();
-            }
+            //uiCanvas.SetActive(false);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "SpawnPoint")
+        {
+            timerStarted = true;
         }
     }
 }

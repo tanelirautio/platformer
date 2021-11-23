@@ -35,6 +35,16 @@ public class TextLocalizerUI : MonoBehaviour
         }
     }
 
+    public string GetText()
+    {
+        return textField.text;
+    }
+
+    public void SetText(string text)
+    {
+        textField.text = text;
+    }
+
     private void LateUpdate()
     {
         if (localizationMissing)

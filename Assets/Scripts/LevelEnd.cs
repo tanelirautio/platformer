@@ -13,8 +13,12 @@ public class LevelEnd : MonoBehaviour
     private Image[] trophies = new Image[3];
     private TextMeshProUGUI levelCompleteText;
     private TextLocalizerUI descriptionLocalizer;
+    private TextLocalizerUI parTimeLocalizer;
+    private TextLocalizerUI ownTimeLocalizer;
 
     private PlayerScore score;
+
+    private bool levelEndReady = false;
 
     private void Awake()
     {
@@ -24,13 +28,19 @@ public class LevelEnd : MonoBehaviour
         trophies[0] = transform.Find("TrophyBase/Trophy0").GetComponent<Image>();
         trophies[1] = transform.Find("TrophyBase/Trophy1").GetComponent<Image>();
         trophies[2] = transform.Find("TrophyBase/Trophy2").GetComponent<Image>();
-        descriptionLocalizer = transform.Find("TrophyBase/Description").GetComponent<TextLocalizerUI>();
-
-        score = GameObject.Find("Player").GetComponent<PlayerScore>();
+        descriptionLocalizer = transform.Find("TrophyBase/DescriptionText").GetComponent<TextLocalizerUI>();
+        parTimeLocalizer = transform.Find("TrophyBase/ParTimeText").GetComponent<TextLocalizerUI>();
+        ownTimeLocalizer = transform.Find("TrophyBase/OwnTimeText").GetComponent<TextLocalizerUI>();
     }
 
-    public void Start()
+    void Start()
     {
+        Reset();
+    }
+
+    public void Reset()
+    {
+        print("reset fadeImage");
         fadeImage.DOFade(0, 0);
 
         trophyBase.transform.localScale = Vector3.zero;
@@ -40,11 +50,22 @@ public class LevelEnd : MonoBehaviour
             trophies[i].color = new Color(0.2f,0.2f,0.2f,1.0f);
         }
 
+        print("reset levelcompletetext");
         levelCompleteText.transform.localScale = Vector3.zero;
         levelCompleteText.DOFade(0, 0);
+        levelCompleteText.GetComponent<TextLocalizerUI>().key = "level_complete";
+        levelCompleteText.GetComponent<TextLocalizerUI>().Localize();
 
         descriptionLocalizer.key = "empty";
         descriptionLocalizer.Localize();
+
+        parTimeLocalizer.key = "empty";
+        parTimeLocalizer.Localize();
+
+        ownTimeLocalizer.key = "empty";
+        ownTimeLocalizer.Localize();
+
+        levelEndReady = false;
     }
 
     // Update is called once per frame
@@ -55,31 +76,56 @@ public class LevelEnd : MonoBehaviour
             FadeBackground();
             ShowTrophyBase();
             ShowLevelCompleteText();
-            CheckTrophies();
+            CheckTrophies(false, 0, 0);
         }
         if(Input.GetKeyDown(KeyCode.G))
         {
-            Start();
+            Reset();
         } 
+
+        if(levelEndReady)
+        {
+            levelCompleteText.SetText("FOOBAR!");
+        }
+    }
+
+    public void ShowLevelEnd(bool hit, int score, float timer)
+    {
+        FadeBackground();
+        ShowTrophyBase();
+        ShowLevelCompleteText();
+        CheckTrophies(hit, score, timer);
+    }
+
+    public bool LevelEndReady()
+    {
+        return levelEndReady;
+    }
+
+    private void FadeBackground()
+    {
+        fadeImage.DOFade(1.0f, 1.0f);
+    }
+    private void ShowTrophyBase()
+    {
+        //TODO: causes DOTween error when loading next scene, investigate
+        if (trophyBase != null)
+        {
+            trophyBase.transform.DOScale(Vector3.one, 1.0f);
+        }
     }
 
     private void ShowLevelCompleteText()
     {
-        levelCompleteText.transform.DOScale(Vector3.one, 1.0f);
-        levelCompleteText.DOFade(1, 1.0f);
+        //TODO: causes DOTween error when loading next scene, investigate
+        if (levelCompleteText != null)
+        {
+            levelCompleteText.transform.DOScale(Vector3.one, 1.0f);
+            levelCompleteText.DOFade(1, 1.0f);
+        }
     }
 
-    public void FadeBackground()
-    {
-        fadeImage.DOFade(1.0f, 1.0f);
-    }
-
-    public void ShowTrophyBase()
-    {
-        trophyBase.transform.DOScale(Vector3.one, 1.0f);
-    }
-
-    public void CheckTrophies()
+    private void CheckTrophies(bool hit, int score, float time)
     {
         // If scene is played directly in the editor, data might not have been parsed
         DataLoader.ParseData();
@@ -96,9 +142,12 @@ public class LevelEnd : MonoBehaviour
         // Check from the saved data if trophies have been given in previous plays
         int level = PlayerStats.Level;
         print("level is: " + level);
+        float parTime = 0;
+        float playerTime = time;
         if (level >= 0) {
             LevelObjectives o = PlayerStats.CompletedObjectives[level];
-            if(o.CompletedNoHits) // TODO: track player deaths in level
+            parTime = o.GetRequiredTime();
+            if(o.CompletedNoHits || !hit)
             {
                 showFirst = true;
                 if(!o.CompletedNoHits)
@@ -106,7 +155,7 @@ public class LevelEnd : MonoBehaviour
                     o.CompletedNoHits = true;
                 }
             }
-            if(o.CompletedPoints || score.GetScore() >= o.GetRequiredScore())
+            if(o.CompletedPoints || score >= o.GetRequiredScore())
             {
                 showSecond = true;
                 if (!o.CompletedPoints)
@@ -114,7 +163,7 @@ public class LevelEnd : MonoBehaviour
                     o.CompletedPoints = true;
                 }
             }
-            if(o.CompletedTime) //TODO: implement timer
+            if(o.CompletedTime || time <= parTime)
             {
                 showThird = true;
                 if(!o.CompletedTime)
@@ -124,14 +173,10 @@ public class LevelEnd : MonoBehaviour
             }
         }
 
-        showFirst = true;
-        showSecond = true;
-        showThird = true;
-        StartCoroutine(ShowTrophies(showFirst, showSecond, showThird));
-
+        StartCoroutine(ShowTrophies(showFirst, showSecond, showThird, parTime, playerTime));
     }
 
-    IEnumerator ShowTrophies(bool first, bool second, bool third)
+    private IEnumerator ShowTrophies(bool first, bool second, bool third, float parTime, float playerTime)
     {
         yield return new WaitForSeconds(1.0f);
 
@@ -171,7 +216,20 @@ public class LevelEnd : MonoBehaviour
             yield return null;
         }
 
-        //TODO: show par time and player time
+        // TODO: some nice animation for timer(?)
+        TimeSpan ts = TimeSpan.FromMilliseconds(parTime);
+        parTimeLocalizer.key = "par_time";
+        parTimeLocalizer.Localize();
+        string parTimeStr = parTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
+        parTimeLocalizer.SetText(parTimeStr);
+
+        ts = TimeSpan.FromMilliseconds(playerTime);
+        ownTimeLocalizer.key = "your_time";
+        ownTimeLocalizer.Localize();
+        string ownTimeStr = ownTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
+        ownTimeLocalizer.SetText(ownTimeStr);
+
+        levelEndReady = true;
         yield return null;
     }
 }

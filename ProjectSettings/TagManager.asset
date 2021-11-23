@@ -8,6 +8,7 @@ TagManager:
   - Through
   - Trap
   - Collectable
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
