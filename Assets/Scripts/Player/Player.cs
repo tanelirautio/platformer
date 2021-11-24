@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private bool killZoneDamageTaken = false;
 
     private bool isDead = false;
+    private bool hasBeenHit = false;
 
     private bool timerStarted = false;
     private float timer = 0;
@@ -43,6 +44,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        DOTween.Init();
+
         spawnPoint = GameObject.Find("SpawnPoint");
         controller = GetComponent<Controller2D>();
 
@@ -85,6 +88,7 @@ public class Player : MonoBehaviour
         //uiCanvas.SetActive(true);
         timer = 0;
         timerStarted = false;
+        hasBeenHit = false;
         if (spawnPoint)
         {
             transform.position = spawnPoint.transform.position;
@@ -232,6 +236,7 @@ public class Player : MonoBehaviour
             anim.TakeDamage();
             setGracePeriod();
             print("player hurt!");
+            hasBeenHit = true;
         }
         else
         {
@@ -298,9 +303,8 @@ public class Player : MonoBehaviour
             print("finish level");
             controllerDisabled = true;
 
-            bool hit = false;
             float timerMs = timer * 1000;
-            levelEnd.ShowLevelEnd(hit, score.GetScore(), timerMs);
+            levelEnd.ShowLevelEnd(hasBeenHit, score.GetScore(), timerMs);
 
             //uiCanvas.SetActive(false);
         }

@@ -23,7 +23,6 @@ public class LevelEnd : MonoBehaviour
     private void Awake()
     {
         fadeImage = transform.Find("Fade").GetComponentInChildren<Image>();
-        levelCompleteText = transform.Find("LevelCompleteText").GetComponent<TextMeshProUGUI>();
         trophyBase = transform.Find("TrophyBase").gameObject;
         trophies[0] = transform.Find("TrophyBase/Trophy0").GetComponent<Image>();
         trophies[1] = transform.Find("TrophyBase/Trophy1").GetComponent<Image>();
@@ -38,23 +37,26 @@ public class LevelEnd : MonoBehaviour
         Reset();
     }
 
+    private void OnDestroy()
+    {
+        print("Destroy all");
+        DOTween.KillAll();
+    }
+
     public void Reset()
     {
         print("reset fadeImage");
+        /*Color c1 = fadeImage.color;
+        c1.a = 0;
+        fadeImage.color = c1;*/
         fadeImage.DOFade(0, 0);
 
         trophyBase.transform.localScale = Vector3.zero;
-
+        trophyBase.SetActive(false);
         for(int i=0; i<trophies.Length; i++)
         {
             trophies[i].color = new Color(0.2f,0.2f,0.2f,1.0f);
         }
-
-        print("reset levelcompletetext");
-        levelCompleteText.transform.localScale = Vector3.zero;
-        levelCompleteText.DOFade(0, 0);
-        levelCompleteText.GetComponent<TextLocalizerUI>().key = "level_complete";
-        levelCompleteText.GetComponent<TextLocalizerUI>().Localize();
 
         descriptionLocalizer.key = "empty";
         descriptionLocalizer.Localize();
@@ -71,6 +73,7 @@ public class LevelEnd : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.F))
         {
             FadeBackground();
@@ -82,18 +85,13 @@ public class LevelEnd : MonoBehaviour
         {
             Reset();
         } 
-
-        if(levelEndReady)
-        {
-            levelCompleteText.SetText("FOOBAR!");
-        }
+        */
     }
 
     public void ShowLevelEnd(bool hit, int score, float timer)
     {
         FadeBackground();
         ShowTrophyBase();
-        ShowLevelCompleteText();
         CheckTrophies(hit, score, timer);
     }
 
@@ -104,25 +102,12 @@ public class LevelEnd : MonoBehaviour
 
     private void FadeBackground()
     {
-        fadeImage.DOFade(1.0f, 1.0f);
+        fadeImage.DOFade(1.0f, 1.0f); //.OnComplete(ShowTrophyBase);     
     }
     private void ShowTrophyBase()
     {
-        //TODO: causes DOTween error when loading next scene, investigate
-        if (trophyBase != null)
-        {
-            trophyBase.transform.DOScale(Vector3.one, 1.0f);
-        }
-    }
-
-    private void ShowLevelCompleteText()
-    {
-        //TODO: causes DOTween error when loading next scene, investigate
-        if (levelCompleteText != null)
-        {
-            levelCompleteText.transform.DOScale(Vector3.one, 1.0f);
-            levelCompleteText.DOFade(1, 1.0f);
-        }
+        trophyBase.SetActive(true);
+        trophyBase.transform.DOScale(1.0f, 1.0f);
     }
 
     private void CheckTrophies(bool hit, int score, float time)

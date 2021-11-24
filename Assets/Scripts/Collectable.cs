@@ -25,8 +25,6 @@ public class Collectable : MonoBehaviour
 
     private void Awake()
     {
-        DOTween.Init();
-
         score = GameObject.Find("Player").GetComponent<PlayerScore>();
 
         obj = transform.Find("Object");
