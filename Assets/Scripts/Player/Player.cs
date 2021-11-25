@@ -261,7 +261,7 @@ public class Player : MonoBehaviour
         else
         {
             // save player score only when transitioning to next level
-            PlayerStats.Score = score.GetScore();
+            PlayerStats.Scores[PlayerStats.Level] = score.GetLevelScore();
 
             // TODO: save only relevant data, do not overwrite higher values(?)
             // TODO: save scores per level(?)
@@ -304,7 +304,7 @@ public class Player : MonoBehaviour
             controllerDisabled = true;
 
             float timerMs = timer * 1000;
-            levelEnd.ShowLevelEnd(hasBeenHit, score.GetScore(), timerMs);
+            levelEnd.ShowLevelEnd(hasBeenHit, score.GetLevelScore(), timerMs);
 
             //uiCanvas.SetActive(false);
         }

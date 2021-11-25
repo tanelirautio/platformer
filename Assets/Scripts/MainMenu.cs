@@ -95,7 +95,7 @@ public class MainMenu : MonoBehaviour
                     {
                         PlayerStats.SelectedCharacter = dataLoader.GetSaveData().selectedCharacter;
                         PlayerStats.SceneIndex = dataLoader.GetSaveData().currentLevel;
-                        PlayerStats.Score = dataLoader.GetSaveData().score;
+                        PlayerStats.Scores.AddRange(dataLoader.GetSaveData().scores);
                         PlayerStats.Health = dataLoader.GetSaveData().health;
                         levelLoader.LoadScene(PlayerStats.SceneIndex);
                     }

@@ -29,7 +29,6 @@ namespace pf
                 SaveData s = SaveSystem.Load();
                 print("saved character is: " + s.selectedCharacter);
                 print("saved level is: " + s.currentLevel);
-                print("saved score is: " + s.score);
                 print("saved health is: " + s.health);
             }
         }

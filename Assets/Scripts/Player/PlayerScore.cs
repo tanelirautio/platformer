@@ -7,8 +7,9 @@ public class PlayerScore : MonoBehaviour
 {
     const int MAX_SCORE_CHARACTER_COUNT = 8;
     const float UI_UPDATE_WAIT_TIME = 0.0001f;
-
-    private int currentScore = 0;
+ 
+    private int totalScore = 0;
+    private int levelScore = 0;
     private TextMeshProUGUI scoreText;
     private bool coroutineRunning = false;
 
@@ -26,30 +27,42 @@ public class PlayerScore : MonoBehaviour
     public void Reset()
     {
         print("Reset player score");
+        levelScore = 0;
 
         if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
             LevelLoader.GetPreviousSceneIndex() != -1)
         {
-            print("get value from PlayerStats.Score");
-            currentScore = PlayerStats.Score;
+            print("get values from PlayerStats.Scores");
 
-            string str = currentScore.ToString();
+            for(int i=0; i < PlayerStats.Level; i++)
+            {
+                totalScore += PlayerStats.Scores[i];
+            }
+
+            string str = totalScore.ToString();
             scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
         }
     }
 
     public void AddScore(int score)
     {
-        currentScore += score;
+        levelScore += score;
+        totalScore += score;
         
         //debug
-        print("Current score: " + currentScore);
+        print("Current total score: " + totalScore);
+        print("Current level score: " + levelScore);
         UpdateUiScore();
     }
 
-    public int GetScore()
+    public int GetLevelScore()
     {
-        return currentScore;
+        return levelScore;
+    }    
+    
+    public int GetTotalScore()
+    {
+        return totalScore;
     }
 
     private void UpdateUiScore()
@@ -65,22 +78,22 @@ public class PlayerScore : MonoBehaviour
         coroutineRunning = true;
         int currentUiScore = int.Parse(scoreText.text);
 
-        while (currentUiScore != currentScore)
+        while (currentUiScore != totalScore)
         {
-            if(currentUiScore < currentScore)
+            if(currentUiScore < totalScore)
             {
                 currentUiScore = currentUiScore + 5;
-                if (currentUiScore > currentScore)
+                if (currentUiScore > totalScore)
                 {
-                    currentUiScore = currentScore;
+                    currentUiScore = totalScore;
                 }
             }
             else
             {
                 currentUiScore = currentUiScore - 5;
-                if (currentUiScore < currentScore)
+                if (currentUiScore < totalScore)
                 {
-                    currentUiScore = currentScore;
+                    currentUiScore = totalScore;
                 }
             }
             
