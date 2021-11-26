@@ -2,67 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LocalizationManager : MonoBehaviour
+namespace pf
 {
-    public enum Language
+    public class LocalizationManager : MonoBehaviour
     {
-        English,
-        Finnish
-    }
-
-    //public static Language language = Language.English;
-    public static Language language = Language.Finnish;
-
-    private static Dictionary<string, string> localizedEN;
-    private static Dictionary<string, string> localizedFI;
-
-    public static bool isInit = false;
-
-    static List<Dictionary<string, object>> data; 
-
-    public static void Init()
-    {
-        data = CSVReader.Read("localization");
-        localizedEN = GetDictionaryValues("en");
-        localizedFI = GetDictionaryValues("fi");
-
-        isInit = true;
-    }
-
-    public static Dictionary<string, string> GetDictionaryValues(string attributeId)
-    {
-        Dictionary<string, string> dictionary = new Dictionary<string, string>();
-
-        for (int i = 0; i < data.Count; i++)
+        public enum Language
         {
-            var dict = data[i];
-            string key = (string)dict["key"];
-            string value = (string)dict[attributeId];
-            dictionary.Add(key, value);
+            English,
+            Finnish
         }
 
-        return dictionary;
-    }
+        //public static Language language = Language.English;
+        public static Language language = Language.Finnish;
 
-    
-    public static string GetLocalizedValue(string key)
-    {
-        if(!isInit) { Init(); }
+        private static Dictionary<string, string> localizedEN;
+        private static Dictionary<string, string> localizedFI;
 
-        string value = key;
+        public static bool isInit = false;
 
-        switch(language)
+        static List<Dictionary<string, object>> data;
+
+        public static void Init()
         {
-            case Language.English:
-                localizedEN.TryGetValue(key, out value);
-                break;
-            case Language.Finnish:
-                localizedFI.TryGetValue(key, out value);
-                break;
+            data = CSVReader.Read("localization");
+            localizedEN = GetDictionaryValues("en");
+            localizedFI = GetDictionaryValues("fi");
+
+            isInit = true;
         }
 
-        //print("returning value: " + value);
-        return value;
+        public static Dictionary<string, string> GetDictionaryValues(string attributeId)
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                var dict = data[i];
+                string key = (string)dict["key"];
+                string value = (string)dict[attributeId];
+                dictionary.Add(key, value);
+            }
+
+            return dictionary;
+        }
+
+
+        public static string GetLocalizedValue(string key)
+        {
+            if (!isInit) { Init(); }
+
+            string value = key;
+
+            switch (language)
+            {
+                case Language.English:
+                    localizedEN.TryGetValue(key, out value);
+                    break;
+                case Language.Finnish:
+                    localizedFI.TryGetValue(key, out value);
+                    break;
+            }
+
+            //print("returning value: " + value);
+            return value;
+        }
     }
-    
 }

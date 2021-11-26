@@ -3,100 +3,103 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+namespace pf
 {
-
-    public GameObject blackOutSquare;
-
-    private Image img;
-
-    const float TIME_STEP = 0.0f;
-
-    private void Awake()
+    public class UIController : MonoBehaviour
     {
-        blackOutSquare.SetActive(true);
 
-        img = blackOutSquare.GetComponent<Image>();
-        Color c = img.color;
-        c = new Color(c.r, c.g, c.b, 0);
-        blackOutSquare.GetComponent<Image>().color = c;
-    }
+        public GameObject blackOutSquare;
 
-    void Update()
-    {
-        // TODO Just for testing, remove eventually
-        if(Input.GetKeyDown(KeyCode.O))
+        private Image img;
+
+        const float TIME_STEP = 0.0f;
+
+        private void Awake()
         {
-            StartCoroutine(FadeBlackOutSquare());
+            blackOutSquare.SetActive(true);
+
+            img = blackOutSquare.GetComponent<Image>();
+            Color c = img.color;
+            c = new Color(c.r, c.g, c.b, 0);
+            blackOutSquare.GetComponent<Image>().color = c;
         }
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(FadeBlackOutSquare(false));
-        }
-    }
 
-    public void Fade(bool fadeToBlack = true, float fadeSpeed = 1.0f)
-    {
-        StartCoroutine(FadeBlackOutSquare(fadeToBlack, fadeSpeed));
-    }
-
-    public void FadeImmediately(bool fadeToBlack = true)
-    {
-        Color objectColor = img.color;
-        if (fadeToBlack)
+        void Update()
         {
-            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 1);
-        }
-        else
-        {
-            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
-        }
-        blackOutSquare.GetComponent<Image>().color = objectColor;
-    }
-
-    private IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadeSpeed = 1.0f)
-    {
-        Color objectColor = img.color;
-        float fadeAmount;
-        int step = 0;
-
-        if (fadeToBlack)
-        {
-            while (img.color.a < 1)
+            // TODO Just for testing, remove eventually
+            if (Input.GetKeyDown(KeyCode.O))
             {
-                fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
-                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                
-                if(step >= TIME_STEP)
-                {
-                    step = 0;
-                }
-                if (step == 0)
-                {
-                    blackOutSquare.GetComponent<Image>().color = objectColor;
-                }
-                step++;
-
-                yield return null;
+                StartCoroutine(FadeBlackOutSquare());
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                StartCoroutine(FadeBlackOutSquare(false));
             }
         }
-        else
-        {
-            while (img.color.a > 0)
-            {
-                fadeAmount = objectColor.a - (fadeSpeed * Time.deltaTime);
-                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
 
-                if (step >= TIME_STEP)
+        public void Fade(bool fadeToBlack = true, float fadeSpeed = 1.0f)
+        {
+            StartCoroutine(FadeBlackOutSquare(fadeToBlack, fadeSpeed));
+        }
+
+        public void FadeImmediately(bool fadeToBlack = true)
+        {
+            Color objectColor = img.color;
+            if (fadeToBlack)
+            {
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 1);
+            }
+            else
+            {
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
+            }
+            blackOutSquare.GetComponent<Image>().color = objectColor;
+        }
+
+        private IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadeSpeed = 1.0f)
+        {
+            Color objectColor = img.color;
+            float fadeAmount;
+            int step = 0;
+
+            if (fadeToBlack)
+            {
+                while (img.color.a < 1)
                 {
-                    step = 0;
+                    fadeAmount = objectColor.a + (fadeSpeed * Time.deltaTime);
+                    objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+
+                    if (step >= TIME_STEP)
+                    {
+                        step = 0;
+                    }
+                    if (step == 0)
+                    {
+                        blackOutSquare.GetComponent<Image>().color = objectColor;
+                    }
+                    step++;
+
+                    yield return null;
                 }
-                if (step == 0)
+            }
+            else
+            {
+                while (img.color.a > 0)
                 {
-                    blackOutSquare.GetComponent<Image>().color = objectColor;
+                    fadeAmount = objectColor.a - (fadeSpeed * Time.deltaTime);
+                    objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+
+                    if (step >= TIME_STEP)
+                    {
+                        step = 0;
+                    }
+                    if (step == 0)
+                    {
+                        blackOutSquare.GetComponent<Image>().color = objectColor;
+                    }
+                    step++;
+                    yield return null;
                 }
-                step++;
-                yield return null;
             }
         }
     }

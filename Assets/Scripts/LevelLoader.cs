@@ -51,6 +51,11 @@ public class LevelLoader : MonoBehaviour
         return SceneManager.GetActiveScene().buildIndex;
     }
 
+    public int GetTotalSceneCount()
+    {
+        return SceneManager.sceneCountInBuildSettings;
+    }
+
     private IEnumerator MakeTransition(int levelIndex)
     {
         transition.SetTrigger("Start");

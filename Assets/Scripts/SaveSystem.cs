@@ -3,45 +3,23 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 
-public static class SaveSystem
+namespace pf
 {
-    const string SAVEFILE = "save.bin";
-
-    public static void Save()
+    public static class SaveSystem
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/" + SAVEFILE;
+        const string SAVEFILE = "save.bin";
 
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        try
-        {
-            SaveData data = new SaveData();
-            formatter.Serialize(stream, data);
-        }
-        catch(Exception ex)
-        {
-            Debug.LogException(ex);
-        }
-        finally
-        {
-            stream.Close();
-        }
-    }
-
-    public static SaveData Load()
-    {
-        string path = Application.persistentDataPath + "/" + SAVEFILE;
-        if(File.Exists(path))
+        public static void Save()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            string path = Application.persistentDataPath + "/" + SAVEFILE;
 
-            SaveData data = null;
+            FileStream stream = new FileStream(path, FileMode.Create);
 
             try
             {
-                data = formatter.Deserialize(stream) as SaveData;    
+                SaveData data = new SaveData();
+                formatter.Serialize(stream, data);
             }
             catch (Exception ex)
             {
@@ -51,26 +29,51 @@ public static class SaveSystem
             {
                 stream.Close();
             }
+        }
 
-            return data;
-        }
-        else
+        public static SaveData Load()
         {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
-    }
+            string path = Application.persistentDataPath + "/" + SAVEFILE;
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
 
-    public static void Reset()
-    {
-        string path = Application.persistentDataPath + "/" + SAVEFILE;
-        try
-        {
-            File.Delete(path);
+                SaveData data = null;
+
+                try
+                {
+                    data = formatter.Deserialize(stream) as SaveData;
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                }
+                finally
+                {
+                    stream.Close();
+                }
+
+                return data;
+            }
+            else
+            {
+                Debug.LogError("Save file not found in " + path);
+                return null;
+            }
         }
-        catch (Exception ex)
+
+        public static void Reset()
         {
-            Debug.LogException(ex);
+            string path = Application.persistentDataPath + "/" + SAVEFILE;
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
         }
     }
 }

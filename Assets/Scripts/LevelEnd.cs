@@ -6,215 +6,219 @@ using DG.Tweening;
 using TMPro;
 using System;
 
-public class LevelEnd : MonoBehaviour
+namespace pf
 {
-    private Image fadeImage;
-    private GameObject trophyBase;
-    private Image[] trophies = new Image[3];
-    private TextMeshProUGUI levelCompleteText;
-    private TextLocalizerUI descriptionLocalizer;
-    private TextLocalizerUI parTimeLocalizer;
-    private TextLocalizerUI ownTimeLocalizer;
-
-    private PlayerScore score;
-
-    private bool levelEndReady = false;
-
-    private void Awake()
+    public class LevelEnd : MonoBehaviour
     {
-        fadeImage = transform.Find("Fade").GetComponentInChildren<Image>();
-        trophyBase = transform.Find("TrophyBase").gameObject;
-        trophies[0] = transform.Find("TrophyBase/Trophy0").GetComponent<Image>();
-        trophies[1] = transform.Find("TrophyBase/Trophy1").GetComponent<Image>();
-        trophies[2] = transform.Find("TrophyBase/Trophy2").GetComponent<Image>();
-        descriptionLocalizer = transform.Find("TrophyBase/DescriptionText").GetComponent<TextLocalizerUI>();
-        parTimeLocalizer = transform.Find("TrophyBase/ParTimeText").GetComponent<TextLocalizerUI>();
-        ownTimeLocalizer = transform.Find("TrophyBase/OwnTimeText").GetComponent<TextLocalizerUI>();
-    }
+        private Image fadeImage;
+        private GameObject trophyBase;
+        private Image[] trophies = new Image[3];
+        private TextMeshProUGUI levelCompleteText;
+        private TextLocalizerUI descriptionLocalizer;
+        private TextLocalizerUI parTimeLocalizer;
+        private TextLocalizerUI ownTimeLocalizer;
 
-    void Start()
-    {
-        Reset();
-    }
+        private PlayerScore score;
 
-    private void OnDestroy()
-    {
-        print("Destroy all");
-        DOTween.KillAll();
-    }
+        private bool levelEndReady = false;
 
-    public void Reset()
-    {
-        print("reset fadeImage");
-        /*Color c1 = fadeImage.color;
-        c1.a = 0;
-        fadeImage.color = c1;*/
-        fadeImage.DOFade(0, 0);
-
-        trophyBase.transform.localScale = Vector3.zero;
-        trophyBase.SetActive(false);
-        for(int i=0; i<trophies.Length; i++)
+        private void Awake()
         {
-            trophies[i].color = new Color(0.2f,0.2f,0.2f,1.0f);
+            fadeImage = transform.Find("Fade").GetComponentInChildren<Image>();
+            trophyBase = transform.Find("TrophyBase").gameObject;
+            trophies[0] = transform.Find("TrophyBase/Trophy0").GetComponent<Image>();
+            trophies[1] = transform.Find("TrophyBase/Trophy1").GetComponent<Image>();
+            trophies[2] = transform.Find("TrophyBase/Trophy2").GetComponent<Image>();
+            descriptionLocalizer = transform.Find("TrophyBase/DescriptionText").GetComponent<TextLocalizerUI>();
+            parTimeLocalizer = transform.Find("TrophyBase/ParTimeText").GetComponent<TextLocalizerUI>();
+            ownTimeLocalizer = transform.Find("TrophyBase/OwnTimeText").GetComponent<TextLocalizerUI>();
         }
 
-        descriptionLocalizer.key = "empty";
-        descriptionLocalizer.Localize();
+        void Start()
+        {
+            Reset();
+        }
 
-        parTimeLocalizer.key = "empty";
-        parTimeLocalizer.Localize();
+        private void OnDestroy()
+        {
+            print("Destroy all");
+            DOTween.KillAll();
+        }
 
-        ownTimeLocalizer.key = "empty";
-        ownTimeLocalizer.Localize();
+        public void Reset()
+        {
+            print("reset fadeImage");
+            /*Color c1 = fadeImage.color;
+            c1.a = 0;
+            fadeImage.color = c1;*/
+            fadeImage.DOFade(0, 0);
 
-        levelEndReady = false;
-    }
+            trophyBase.transform.localScale = Vector3.zero;
+            trophyBase.SetActive(false);
+            for (int i = 0; i < trophies.Length; i++)
+            {
+                trophies[i].color = new Color(0.2f, 0.2f, 0.2f, 1.0f);
+            }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*
-        if (Input.GetKeyDown(KeyCode.F))
+            descriptionLocalizer.key = "empty";
+            descriptionLocalizer.Localize();
+
+            parTimeLocalizer.key = "empty";
+            parTimeLocalizer.Localize();
+
+            ownTimeLocalizer.key = "empty";
+            ownTimeLocalizer.Localize();
+
+            levelEndReady = false;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            /*
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                FadeBackground();
+                ShowTrophyBase();
+                ShowLevelCompleteText();
+                CheckTrophies(false, 0, 0);
+            }
+            if(Input.GetKeyDown(KeyCode.G))
+            {
+                Reset();
+            } 
+            */
+        }
+
+        public void ShowLevelEnd(bool hit, int score, float timer)
         {
             FadeBackground();
             ShowTrophyBase();
-            ShowLevelCompleteText();
-            CheckTrophies(false, 0, 0);
+            CheckTrophies(hit, score, timer);
         }
-        if(Input.GetKeyDown(KeyCode.G))
+
+        public bool LevelEndReady()
         {
-            Reset();
-        } 
-        */
-    }
+            return levelEndReady;
+        }
 
-    public void ShowLevelEnd(bool hit, int score, float timer)
-    {
-        FadeBackground();
-        ShowTrophyBase();
-        CheckTrophies(hit, score, timer);
-    }
+        private void FadeBackground()
+        {
+            fadeImage.DOFade(1.0f, 1.0f); //.OnComplete(ShowTrophyBase);     
+        }
+        private void ShowTrophyBase()
+        {
+            trophyBase.SetActive(true);
+            trophyBase.transform.DOScale(1.0f, 1.0f);
+        }
 
-    public bool LevelEndReady()
-    {
-        return levelEndReady;
-    }
+        private void CheckTrophies(bool hit, int score, float time)
+        {
+            // If scene is played directly in the editor, data might not have been parsed
+            DataLoader.ParseData();
 
-    private void FadeBackground()
-    {
-        fadeImage.DOFade(1.0f, 1.0f); //.OnComplete(ShowTrophyBase);     
-    }
-    private void ShowTrophyBase()
-    {
-        trophyBase.SetActive(true);
-        trophyBase.transform.DOScale(1.0f, 1.0f);
-    }
+            // TODO: check from save/playerdata if player has accomplished any trophies
+            // these will be shown always
+            bool showFirst = false;
+            bool showSecond = false;
+            bool showThird = false;
 
-    private void CheckTrophies(bool hit, int score, float time)
-    {
-        // If scene is played directly in the editor, data might not have been parsed
-        DataLoader.ParseData();
+            // Then check if player has accomplished level objectives and
+            // show the trophies that are granted to player 
 
-        // TODO: check from save/playerdata if player has accomplished any trophies
-        // these will be shown always
-        bool showFirst = false;
-        bool showSecond = false;
-        bool showThird = false;
-
-        // Then check if player has accomplished level objectives and
-        // show the trophies that are granted to player 
-
-        // Check from the saved data if trophies have been given in previous plays
-        int level = PlayerStats.Level;
-        print("level is: " + level);
-        float parTime = 0;
-        float playerTime = time;
-        if (level >= 0) {
-            LevelObjectives o = PlayerStats.CompletedObjectives[level];
-            parTime = o.GetRequiredTime();
-            if(o.CompletedNoHits || !hit)
+            // Check from the saved data if trophies have been given in previous plays
+            int level = PlayerStats.Level;
+            print("level is: " + level);
+            float parTime = 0;
+            float playerTime = time;
+            if (level >= 0 && level < PlayerStats.CompletedObjectives.Count)
             {
-                showFirst = true;
-                if(!o.CompletedNoHits)
+                LevelObjectives o = PlayerStats.CompletedObjectives[level];
+                parTime = o.GetRequiredTime();
+                if (o.CompletedNoHits || !hit)
                 {
-                    o.CompletedNoHits = true;
+                    showFirst = true;
+                    if (!o.CompletedNoHits)
+                    {
+                        o.CompletedNoHits = true;
+                    }
+                }
+                if (o.CompletedPoints || score >= o.GetRequiredScore())
+                {
+                    showSecond = true;
+                    if (!o.CompletedPoints)
+                    {
+                        o.CompletedPoints = true;
+                    }
+                }
+                if (o.CompletedTime || time <= parTime)
+                {
+                    showThird = true;
+                    if (!o.CompletedTime)
+                    {
+                        o.CompletedTime = true;
+                    }
                 }
             }
-            if(o.CompletedPoints || score >= o.GetRequiredScore())
+
+            StartCoroutine(ShowTrophies(showFirst, showSecond, showThird, parTime, playerTime));
+        }
+
+        private IEnumerator ShowTrophies(bool first, bool second, bool third, float parTime, float playerTime)
+        {
+            yield return new WaitForSeconds(1.0f);
+
+            if (first)
             {
-                showSecond = true;
-                if (!o.CompletedPoints)
-                {
-                    o.CompletedPoints = true;
-                }
+                trophies[0].DOColor(Color.white, 1.0f);
+                descriptionLocalizer.key = "no_hits";
+                descriptionLocalizer.Localize();
+                yield return new WaitForSeconds(1.0f);
             }
-            if(o.CompletedTime || time <= parTime)
+            else
             {
-                showThird = true;
-                if(!o.CompletedTime)
-                {
-                    o.CompletedTime = true;
-                }
+                yield return null;
             }
-        }
 
-        StartCoroutine(ShowTrophies(showFirst, showSecond, showThird, parTime, playerTime));
-    }
+            if (second)
+            {
+                trophies[1].DOColor(Color.white, 1.0f);
+                descriptionLocalizer.key = "got_required_score";
+                descriptionLocalizer.Localize();
+                yield return new WaitForSeconds(1.0f);
+            }
+            else
+            {
+                yield return null;
+            }
 
-    private IEnumerator ShowTrophies(bool first, bool second, bool third, float parTime, float playerTime)
-    {
-        yield return new WaitForSeconds(1.0f);
+            if (third)
+            {
+                trophies[2].DOColor(Color.white, 1.0f);
+                descriptionLocalizer.key = "time_under_par";
+                descriptionLocalizer.Localize();
+                yield return new WaitForSeconds(1.0f);
+            }
+            else
+            {
+                yield return null;
+            }
 
-        if(first)
-        {
-            trophies[0].DOColor(Color.white, 1.0f);
-            descriptionLocalizer.key = "no_hits";
-            descriptionLocalizer.Localize();
-            yield return new WaitForSeconds(1.0f);
-        }
-        else
-        {
+            // TODO: some nice animation for timer(?)
+            TimeSpan ts = TimeSpan.FromMilliseconds(parTime);
+            parTimeLocalizer.key = "par_time";
+            parTimeLocalizer.Localize();
+            string parTimeStr = parTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
+            parTimeLocalizer.SetText(parTimeStr);
+
+            ts = TimeSpan.FromMilliseconds(playerTime);
+            ownTimeLocalizer.key = "your_time";
+            ownTimeLocalizer.Localize();
+            string ownTimeStr = ownTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
+            ownTimeLocalizer.SetText(ownTimeStr);
+
+            levelEndReady = true;
             yield return null;
         }
-
-        if(second)
-        {
-            trophies[1].DOColor(Color.white, 1.0f);
-            descriptionLocalizer.key = "got_required_score";
-            descriptionLocalizer.Localize();
-            yield return new WaitForSeconds(1.0f);
-        }
-        else
-        {
-            yield return null;
-        }
-
-        if (third)
-        {
-            trophies[2].DOColor(Color.white, 1.0f);
-            descriptionLocalizer.key = "time_under_par";
-            descriptionLocalizer.Localize();
-            yield return new WaitForSeconds(1.0f);
-        }
-        else
-        {
-            yield return null;
-        }
-
-        // TODO: some nice animation for timer(?)
-        TimeSpan ts = TimeSpan.FromMilliseconds(parTime);
-        parTimeLocalizer.key = "par_time";
-        parTimeLocalizer.Localize();
-        string parTimeStr = parTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
-        parTimeLocalizer.SetText(parTimeStr);
-
-        ts = TimeSpan.FromMilliseconds(playerTime);
-        ownTimeLocalizer.key = "your_time";
-        ownTimeLocalizer.Localize();
-        string ownTimeStr = ownTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
-        ownTimeLocalizer.SetText(ownTimeStr);
-
-        levelEndReady = true;
-        yield return null;
     }
 }

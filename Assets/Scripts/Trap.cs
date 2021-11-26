@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trap : MonoBehaviour
+namespace pf
 {
-
-    public enum Type
+    public class Trap : MonoBehaviour
     {
-        Spike,
-        Saw,
-        KillZone
-    }
 
-    public Type type;
+        public enum Type
+        {
+            Spike,
+            Saw,
+            KillZone
+        }
+
+        public Type type;
+    }
 }

@@ -3,104 +3,107 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using TMPro;
 
-public class PlayerScore : MonoBehaviour
+namespace pf
 {
-    const int MAX_SCORE_CHARACTER_COUNT = 8;
-    const float UI_UPDATE_WAIT_TIME = 0.0001f;
- 
-    private int totalScore = 0;
-    private int levelScore = 0;
-    private TextMeshProUGUI scoreText;
-    private bool coroutineRunning = false;
-
-    private LevelLoader levelLoader;
-
-    private void Awake()
+    public class PlayerScore : MonoBehaviour
     {
-        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        const int MAX_SCORE_CHARACTER_COUNT = 8;
+        const float UI_UPDATE_WAIT_TIME = 0.0001f;
 
-        GameObject scoreTextObj = GameObject.Find("UICanvas/Score/ScoreText");
-        Assert.IsNotNull(scoreTextObj);
-        scoreText = scoreTextObj.GetComponent<TextMeshProUGUI>();
-    }
+        private int totalScore = 0;
+        private int levelScore = 0;
+        private TextMeshProUGUI scoreText;
+        private bool coroutineRunning = false;
 
-    public void Reset()
-    {
-        print("Reset player score");
-        levelScore = 0;
+        private LevelLoader levelLoader;
 
-        if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
-            LevelLoader.GetPreviousSceneIndex() != -1)
+        private void Awake()
         {
-            print("get values from PlayerStats.Scores");
+            levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
 
-            for(int i=0; i < PlayerStats.Level; i++)
-            {
-                totalScore += PlayerStats.Scores[i];
-            }
-
-            string str = totalScore.ToString();
-            scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
+            GameObject scoreTextObj = GameObject.Find("UICanvas/Score/ScoreText");
+            Assert.IsNotNull(scoreTextObj);
+            scoreText = scoreTextObj.GetComponent<TextMeshProUGUI>();
         }
-    }
 
-    public void AddScore(int score)
-    {
-        levelScore += score;
-        totalScore += score;
-        
-        //debug
-        print("Current total score: " + totalScore);
-        print("Current level score: " + levelScore);
-        UpdateUiScore();
-    }
-
-    public int GetLevelScore()
-    {
-        return levelScore;
-    }    
-    
-    public int GetTotalScore()
-    {
-        return totalScore;
-    }
-
-    private void UpdateUiScore()
-    {
-        if (!coroutineRunning)
+        public void Reset()
         {
-            StartCoroutine(UpdateAndWaitUiScore());
-        }
-    }
+            print("Reset player score");
+            levelScore = 0;
 
-    private IEnumerator UpdateAndWaitUiScore()
-    {
-        coroutineRunning = true;
-        int currentUiScore = int.Parse(scoreText.text);
-
-        while (currentUiScore != totalScore)
-        {
-            if(currentUiScore < totalScore)
+            if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
+                LevelLoader.GetPreviousSceneIndex() != -1)
             {
-                currentUiScore = currentUiScore + 5;
-                if (currentUiScore > totalScore)
+                print("get values from PlayerStats.Scores");
+
+                for (int i = 0; i < PlayerStats.Level; i++)
                 {
-                    currentUiScore = totalScore;
+                    totalScore += PlayerStats.Scores[i];
                 }
+
+                string str = totalScore.ToString();
+                scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
             }
-            else
+        }
+
+        public void AddScore(int score)
+        {
+            levelScore += score;
+            totalScore += score;
+
+            //debug
+            print("Current total score: " + totalScore);
+            print("Current level score: " + levelScore);
+            UpdateUiScore();
+        }
+
+        public int GetLevelScore()
+        {
+            return levelScore;
+        }
+
+        public int GetTotalScore()
+        {
+            return totalScore;
+        }
+
+        private void UpdateUiScore()
+        {
+            if (!coroutineRunning)
             {
-                currentUiScore = currentUiScore - 5;
+                StartCoroutine(UpdateAndWaitUiScore());
+            }
+        }
+
+        private IEnumerator UpdateAndWaitUiScore()
+        {
+            coroutineRunning = true;
+            int currentUiScore = int.Parse(scoreText.text);
+
+            while (currentUiScore != totalScore)
+            {
                 if (currentUiScore < totalScore)
                 {
-                    currentUiScore = totalScore;
+                    currentUiScore = currentUiScore + 5;
+                    if (currentUiScore > totalScore)
+                    {
+                        currentUiScore = totalScore;
+                    }
                 }
+                else
+                {
+                    currentUiScore = currentUiScore - 5;
+                    if (currentUiScore < totalScore)
+                    {
+                        currentUiScore = totalScore;
+                    }
+                }
+
+                string str = currentUiScore.ToString();
+                scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
+                yield return new WaitForSeconds(0.01f);
             }
-            
-            string str = currentUiScore.ToString();
-            scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
-            yield return new WaitForSeconds(0.01f);
+            coroutineRunning = false;
         }
-        coroutineRunning = false;
     }
 }

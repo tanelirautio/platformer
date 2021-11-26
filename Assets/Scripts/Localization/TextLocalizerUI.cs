@@ -4,53 +4,56 @@ using System;
 using UnityEngine;
 using TMPro;
 
-[RequireComponent(typeof(TextMeshProUGUI))]
-public class TextLocalizerUI : MonoBehaviour
+namespace pf
 {
-    TextMeshProUGUI textField;
-
-    public string key;
-    private bool localizationMissing = false;
-
-    void Start()
+    [RequireComponent(typeof(TextMeshProUGUI))]
+    public class TextLocalizerUI : MonoBehaviour
     {
-        Localize();
-    }
+        TextMeshProUGUI textField;
 
-    public void Localize()
-    {
-        textField = GetComponent<TextMeshProUGUI>();
-        string value;
-        if (string.IsNullOrEmpty(key))
+        public string key;
+        private bool localizationMissing = false;
+
+        void Start()
         {
-            key = textField.text;
+            Localize();
         }
-        value = LocalizationManager.GetLocalizedValue(key);
 
-        textField.text = value;
-
-        if (String.IsNullOrEmpty(value) && key != "empty")
+        public void Localize()
         {
-            localizationMissing = true;
+            textField = GetComponent<TextMeshProUGUI>();
+            string value;
+            if (string.IsNullOrEmpty(key))
+            {
+                key = textField.text;
+            }
+            value = LocalizationManager.GetLocalizedValue(key);
+
+            textField.text = value;
+
+            if (String.IsNullOrEmpty(value) && key != "empty")
+            {
+                localizationMissing = true;
+            }
         }
-    }
 
-    public string GetText()
-    {
-        return textField.text;
-    }
-
-    public void SetText(string text)
-    {
-        textField.text = text;
-    }
-
-    private void LateUpdate()
-    {
-        if (localizationMissing)
+        public string GetText()
         {
-            textField.color = Color.red;
-            textField.text = "*LOCALIZATION MISSING*";
+            return textField.text;
+        }
+
+        public void SetText(string text)
+        {
+            textField.text = text;
+        }
+
+        private void LateUpdate()
+        {
+            if (localizationMissing)
+            {
+                textField.color = Color.red;
+                textField.text = "*LOCALIZATION MISSING*";
+            }
         }
     }
 }

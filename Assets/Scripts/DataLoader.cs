@@ -3,65 +3,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataLoader : MonoBehaviour
+namespace pf
 {
-
-    private SaveData saveData = null;
-    private static bool initialized = false;
-
-    public bool ShowLoadOption { get; set; }
-
-    void Start()
+    public class DataLoader : MonoBehaviour
     {
-        ParseData();
 
-        saveData = SaveSystem.Load();
-        if (saveData != null)
+        private SaveData saveData = null;
+        private static bool initialized = false;
+
+        public bool ShowLoadOption { get; set; }
+
+        void Start()
         {
-            ShowLoadOption = true;
+            ParseData();
 
-            // Level objectives
-            Debug.Log("levelObjectives.Length: " + saveData.levelObjectivesCompleted.Length);
-
-            for (int i = 0; i < saveData.levelObjectivesCompleted.GetLength(0); i++)
+            saveData = SaveSystem.Load();
+            if (saveData != null)
             {
-                if (i < PlayerStats.CompletedObjectives.Count)
-                {
-                    PlayerStats.CompletedObjectives[i].CompletedNoHits = saveData.levelObjectivesCompleted[i, 0];
-                    PlayerStats.CompletedObjectives[i].CompletedPoints = saveData.levelObjectivesCompleted[i, 1];
-                    PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];
-                }
-            }
-        }
-        else
-        {
-            ShowLoadOption = false;
-        }
-    }
+                ShowLoadOption = true;
 
-    public SaveData GetSaveData()
-    {
-        return saveData;
-    }
+                // Level objectives
+                Debug.Log("levelObjectives.Length: " + saveData.levelObjectivesCompleted.Length);
 
-    public static void ParseData()
-    {
-        if (!initialized)
-        {
-            TextAsset levelObjectivesText = Resources.Load<TextAsset>("levelObjectives");
-            if (levelObjectivesText != null)
-            {
-                LevelObjectives[] obj = JsonHelper.FromJson<LevelObjectives>(levelObjectivesText.text);
-                if (obj != null)
+                for (int i = 0; i < saveData.levelObjectivesCompleted.GetLength(0); i++)
                 {
-                    for (int i = 0; i < obj.Length; i++)
+                    if (i < PlayerStats.CompletedObjectives.Count)
                     {
-                        PlayerStats.CompletedObjectives.Add(obj[i]);
+                        PlayerStats.CompletedObjectives[i].CompletedNoHits = saveData.levelObjectivesCompleted[i, 0];
+                        PlayerStats.CompletedObjectives[i].CompletedPoints = saveData.levelObjectivesCompleted[i, 1];
+                        PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];
                     }
                 }
             }
+            else
+            {
+                ShowLoadOption = false;
+            }
+        }
 
-            initialized = true;
+        public SaveData GetSaveData()
+        {
+            return saveData;
+        }
+
+        public static void ParseData()
+        {
+            if (!initialized)
+            {
+                TextAsset levelObjectivesText = Resources.Load<TextAsset>("levelObjectives");
+                if (levelObjectivesText != null)
+                {
+                    LevelObjectives[] obj = JsonHelper.FromJson<LevelObjectives>(levelObjectivesText.text);
+                    if (obj != null)
+                    {
+                        for (int i = 0; i < obj.Length; i++)
+                        {
+                            PlayerStats.CompletedObjectives.Add(obj[i]);
+                        }
+                    }
+                }
+
+                initialized = true;
+            }
         }
     }
 }

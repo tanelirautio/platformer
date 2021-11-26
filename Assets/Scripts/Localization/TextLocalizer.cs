@@ -4,48 +4,51 @@ using System;
 using UnityEngine;
 using TMPro;
 
-[RequireComponent(typeof(TextMeshPro))]
-public class TextLocalizer : MonoBehaviour
+namespace pf
 {
-    TextMeshPro textField;
-
-    public string key;
-    private bool localizationMissing = false;
-
-    void Start()
+    [RequireComponent(typeof(TextMeshPro))]
+    public class TextLocalizer : MonoBehaviour
     {
-        textField = GetComponent<TextMeshPro>();
-        string value;
-        if (string.IsNullOrEmpty(key))
+        TextMeshPro textField;
+
+        public string key;
+        private bool localizationMissing = false;
+
+        void Start()
         {
-            key = textField.text;
-        } 
-        value = LocalizationManager.GetLocalizedValue(key);
+            textField = GetComponent<TextMeshPro>();
+            string value;
+            if (string.IsNullOrEmpty(key))
+            {
+                key = textField.text;
+            }
+            value = LocalizationManager.GetLocalizedValue(key);
 
-        textField.text = value;
+            textField.text = value;
 
-        if (String.IsNullOrEmpty(value) && key != "empty")
+            if (String.IsNullOrEmpty(value) && key != "empty")
+            {
+                localizationMissing = true;
+            }
+        }
+
+        public string GetText()
         {
-            localizationMissing = true;
-        }  
-    }
+            return textField.text;
+        }
 
-    public string GetText()
-    {
-        return textField.text;
-    }
-
-    public void SetText(string text)
-    {
-        textField.text = text;
-    }
-
-    private void LateUpdate()
-    {
-        if (localizationMissing)
+        public void SetText(string text)
         {
-            textField.color = Color.red;
-            textField.text = "*LOCALIZATION MISSING*";
+            textField.text = text;
+        }
+
+        private void LateUpdate()
+        {
+            if (localizationMissing)
+            {
+                textField.color = Color.red;
+                textField.text = "*LOCALIZATION MISSING*";
+            }
         }
     }
 }

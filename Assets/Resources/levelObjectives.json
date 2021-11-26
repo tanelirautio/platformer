@@ -2,13 +2,18 @@
 	"Items": [
 		{
 			"level": "0",
-			"points": "300",
-			"time": "30000"
+			"points": "100",
+			"time": "3000"
 		},
 		{
 			"level": "1",
-			"points": "200",
-			"time": "20000"
+			"points": "100",
+			"time": "5000"
+		},
+		{
+			"level": "2",
+			"points": "300",
+			"time": "6000"
 		}
 	]
 }
