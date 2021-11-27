@@ -64,16 +64,39 @@ namespace pf
                 }
                 else
                 {
-                    uiHealth[i].SetActive(false);
+                    //uiHealth[i].SetActive(false);
+                    uiHealth[i].SetActive(true);
+                    Animator anim = uiHealthAnim[i];
+                    anim.Play(HEALTH_ZERO);
                 }
             }
+        }
+
+        public bool AddHealth()
+        {
+            print("Adding health to player");
+            if(currentHealth + 1 > MAX_HEALTH)
+            {
+                //give score instead of health
+                print("Should give extra score");
+                return false;
+            }
+            else
+            {
+                print("add 1 health");
+                Animator anim = uiHealthAnim[currentHealth];
+                anim.Play(HEALTH_ADD);
+                currentHealth = currentHealth + 1;
+                PlayerStats.Health = currentHealth;
+            }
+            return true;
         }
 
         public int TakeDamage(Trap.Type trapType)
         {
             print("Trap type: " + trapType.ToString());
 
-            currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, startingHealth);
+            currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, MAX_HEALTH);
             Animator anim = uiHealthAnim[currentHealth];
             anim.Play(HEALTH_REMOVE);
             PlayerStats.Health = currentHealth;

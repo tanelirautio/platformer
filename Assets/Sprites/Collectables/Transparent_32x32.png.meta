@@ -1,22 +1,7 @@
 fileFormatVersion: 2
-guid: b2d2bc561fac7054fbb7ab6875c479e5
+guid: 233acd296a1d3924aa0fe256f88e597f
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -367015839217504639
-    second: heart_animated_2_0
-  - first:
-      213: -5025174812137501099
-    second: heart_animated_2_1
-  - first:
-      213: 3227778937469392490
-    second: heart_animated_2_2
-  - first:
-      213: -994267376658378851
-    second: heart_animated_2_3
-  - first:
-      213: -4578087693726602459
-    second: heart_animated_2_4
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -56,7 +41,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -128,112 +113,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: heart_animated_2_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18eaf7ce90918eaf0800000000000000
-      internalID: -367015839217504639
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: heart_animated_2_1
-      rect:
-        serializedVersion: 2
-        x: 17
-        y: 0
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 55ecd44022ef24ab0800000000000000
-      internalID: -5025174812137501099
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: heart_animated_2_2
-      rect:
-        serializedVersion: 2
-        x: 34
-        y: 0
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a66d95597df5bcc20800000000000000
-      internalID: 3227778937469392490
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: heart_animated_2_3
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 0
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d9f848ab617a332f0800000000000000
-      internalID: -994267376658378851
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: heart_animated_2_4
-      rect:
-        serializedVersion: 2
-        x: 68
-        y: 0
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 52ba6d09f7d5770c0800000000000000
-      internalID: -4578087693726602459
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []

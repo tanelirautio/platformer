@@ -13,7 +13,8 @@ namespace pf
         {
             Apple,
             Strawberry,
-            Carrot
+            Carrot,
+            Heart
         }
 
         public Type type;
@@ -22,29 +23,45 @@ namespace pf
         private Transform points;
         private TextMeshPro text;
 
-        private PlayerScore score;
+        private Transform collected;
 
-        private Dictionary<Type, int> collectables;
+        private PlayerScore score;
+        private PlayerHealth health;
+
+        private static Dictionary<Type, int> collectables;
+        private bool initDone = false;
 
         private void Awake()
         {
             score = GameObject.Find("Player").GetComponent<PlayerScore>();
+            health = GameObject.Find("Player").GetComponent<PlayerHealth>();
 
             obj = transform.Find("Object");
             points = transform.Find("Points");
             text = points.GetComponent<TextMeshPro>();
+            collected = transform.Find("Collected");
 
             points.gameObject.SetActive(false);
+            if(collected != null)
+            {
+                collected.gameObject.SetActive(false);
+            }
         }
 
         void Start()
         {
-            collectables = new Dictionary<Type, int>()
+            if (!initDone)
             {
-                { Type.Apple, 100 },
-                { Type.Carrot, 50 },
-                { Type.Strawberry, 10000 }
-            };
+                //TODO: read from json at startup(?)
+                collectables = new Dictionary<Type, int>()
+                {
+                    { Type.Apple, 100 },
+                    { Type.Carrot, 1000 },
+                    { Type.Strawberry, 50 },
+                    { Type.Heart, 1000 }
+                };
+                initDone = true;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -58,19 +75,37 @@ namespace pf
 
                 if (!points.gameObject.activeSelf)
                 {
-                    points.gameObject.SetActive(true);
+                    if (type != Type.Heart)
+                    {
 
-                    score.AddScore(collectables[type]);
+                        ShowFadingScore();
 
-                    //TODO: create DOTween sequence which contains all tweens
-                    points.transform.DOMoveY(transform.position.y + 2, 1);
-
-                    float alpha = text.color.a;
-                    float fadeTime = 2.0f;
-                    DOTween.To(() => alpha, x => alpha = x, 0.0f, fadeTime).OnUpdate(() => UpdateText(alpha)).OnComplete(Destroy);
+                    }
+                    else
+                    {
+                        //TODO: nice disappear animation(?)
+                        if (!health.AddHealth())
+                        {
+                            ShowFadingScore();
+                        }
+                        else
+                        {
+                            Destroy();
+                        }
+                    }
                 }
             }
             print("Collision between " + this.name + " and " + collision.gameObject.name);
+        }
+
+        private void ShowFadingScore()
+        {
+            points.gameObject.SetActive(true);
+            score.AddScore(collectables[type]);
+            points.transform.DOMoveY(transform.position.y + 2, 1);
+            float alpha = text.color.a;
+            float fadeTime = 2.0f;
+            DOTween.To(() => alpha, x => alpha = x, 0.0f, fadeTime).OnUpdate(() => UpdateText(alpha)).OnComplete(Destroy);
         }
 
         private void Destroy()
