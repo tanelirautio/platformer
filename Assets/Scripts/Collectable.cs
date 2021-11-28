@@ -24,12 +24,16 @@ namespace pf
         private TextMeshPro text;
 
         private Transform collected;
+        private Animator collectedAnim = null;
 
         private PlayerScore score;
         private PlayerHealth health;
 
         private static Dictionary<Type, int> collectables;
         private bool initDone = false;
+
+        const float fadeTime = 2.0f;
+        private bool playerHit = false;
 
         private void Awake()
         {
@@ -39,13 +43,12 @@ namespace pf
             obj = transform.Find("Object");
             points = transform.Find("Points");
             text = points.GetComponent<TextMeshPro>();
-            collected = transform.Find("Collected");
-
+            
             points.gameObject.SetActive(false);
-            if(collected != null)
-            {
-                collected.gameObject.SetActive(false);
-            }
+
+            collected = transform.Find("Collected");
+            collectedAnim = collected.gameObject.GetComponent<Animator>();
+            collected.gameObject.SetActive(false);
         }
 
         void Start()
@@ -68,34 +71,45 @@ namespace pf
         {
             if (collision.gameObject.tag == "Player")
             {
-                if (obj.gameObject.activeSelf)
+                if(playerHit)
                 {
-                    obj.gameObject.SetActive(false);
+                    return;
+                }
+                playerHit = true;
+
+                obj.gameObject.SetActive(false);
+                
+                if(collected != null)
+                {
+                    collected.gameObject.SetActive(true);
+                    collectedAnim.Play("collected");
                 }
 
-                if (!points.gameObject.activeSelf)
+                if (type != Type.Heart)
                 {
-                    if (type != Type.Heart)
+                    ShowFadingScore();
+                }
+                else
+                {
+                    if (!health.AddHealth())
                     {
-
                         ShowFadingScore();
 
                     }
                     else
                     {
-                        //TODO: nice disappear animation(?)
-                        if (!health.AddHealth())
-                        {
-                            ShowFadingScore();
-                        }
-                        else
-                        {
-                            Destroy();
-                        }
+                        StartCoroutine(WaitForDestroy(fadeTime));
                     }
                 }
+                
             }
             print("Collision between " + this.name + " and " + collision.gameObject.name);
+        }
+
+        private IEnumerator WaitForDestroy(float length)
+        {
+            yield return new WaitForSeconds(length);
+            Destroy();
         }
 
         private void ShowFadingScore()
@@ -104,7 +118,6 @@ namespace pf
             score.AddScore(collectables[type]);
             points.transform.DOMoveY(transform.position.y + 2, 1);
             float alpha = text.color.a;
-            float fadeTime = 2.0f;
             DOTween.To(() => alpha, x => alpha = x, 0.0f, fadeTime).OnUpdate(() => UpdateText(alpha)).OnComplete(Destroy);
         }
 
