@@ -11,9 +11,21 @@ namespace pf
         {
             Spike,
             Saw,
+            Fire,
             KillZone
         }
 
         public Type type;
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if(type == Type.Fire)
+            {
+                print("****************");
+                print("trigger fire pit");
+                print("****************");
+            }
+        }
+
     }
 }

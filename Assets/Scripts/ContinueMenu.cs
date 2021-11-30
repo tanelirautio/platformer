@@ -35,7 +35,7 @@ namespace pf
 
         void Update()
         {
-            //quick hack to get something working, replace with real input manager
+            //quick hack to get something working, replace with real input manager(?)
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 if (selection == Selection.Yes)

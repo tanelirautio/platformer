@@ -9,6 +9,7 @@ namespace pf
     {
         public int selectedCharacter;
         public int currentLevel;
+        public int[] bestScores;
         public int[] scores;
         public int health;
         public bool[,] levelObjectivesCompleted;
@@ -24,6 +25,11 @@ namespace pf
             for (int i = 0; i < PlayerStats.Scores.Count; i++)
             {
                 scores[i] = PlayerStats.Scores[i];
+            }
+            bestScores = new int[Defs.LEVEL_AMOUNT];
+            for (int i = 0; i < PlayerStats.BestScores.Count; i++)
+            {
+                bestScores[i] = PlayerStats.BestScores[i];
             }
 
             levelObjectivesCompleted = new bool[Defs.LEVEL_AMOUNT, Defs.OBJECTIVES_PER_LEVEL];

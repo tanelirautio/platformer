@@ -34,6 +34,8 @@ namespace pf
                         PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];
                     }
                 }
+                // Best scores
+                PlayerStats.Scores.AddRange(saveData.bestScores);
             }
             else
             {

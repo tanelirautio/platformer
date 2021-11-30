@@ -263,10 +263,14 @@ namespace pf
             else
             {
                 // save player score only when transitioning to next level
-                PlayerStats.Scores[PlayerStats.Level] = score.GetLevelScore();
+                int levelScore = score.GetLevelScore();
+                PlayerStats.Scores[PlayerStats.Level] = levelScore;
+                if(PlayerStats.BestScores[PlayerStats.Level] < levelScore)
+                {
+                    PlayerStats.BestScores[PlayerStats.Level] = levelScore;
+                }
 
                 // TODO: save only relevant data, do not overwrite higher values(?)
-                // TODO: save scores per level(?)
                 SaveSystem.Save();
 
                 levelLoader.LoadNextScene();

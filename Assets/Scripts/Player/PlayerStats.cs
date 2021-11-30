@@ -15,6 +15,7 @@ namespace pf
             }
         }
         public static int Health { get; set; }
+        public static List<int> BestScores = new List<int>(new int[Defs.LEVEL_AMOUNT]);
         public static List<int> Scores = new List<int>(new int[Defs.LEVEL_AMOUNT]);
         public static List<LevelObjectives> CompletedObjectives = new List<LevelObjectives>();
     }
