@@ -6,9 +6,11 @@ namespace pf
 {
     public class Trap : MonoBehaviour
     {
+        private FirePit firePit = null;
 
         public enum Type
         {
+            Unknown,
             Spike,
             Saw,
             Fire,
@@ -17,15 +19,17 @@ namespace pf
 
         public Type type;
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void Awake()
         {
-            if(type == Type.Fire)
-            {
-                print("****************");
-                print("trigger fire pit");
-                print("****************");
-            }
+            firePit = GetComponent<FirePit>();
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if(type == Type.Fire && firePit != null)
+            {
+                firePit.Trigger();
+            }
+        }
     }
 }

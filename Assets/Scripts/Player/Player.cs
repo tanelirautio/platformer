@@ -281,7 +281,17 @@ namespace pf
         {
             if (collision.gameObject.tag == "Trap")
             {
-                Trap.Type type = collision.gameObject.GetComponent<Trap>().type;
+                Trap trap = collision.gameObject.GetComponent<Trap>();
+                Trap.Type type = Trap.Type.Unknown;
+                if(trap != null)
+                {
+                    type = trap.type;
+                }
+                else
+                {
+                    trap = collision.gameObject.GetComponentInParent<Trap>();
+                    type = trap.type;     
+                }
 
                 if (!isGracePeriod() && !isDead)
                 {
