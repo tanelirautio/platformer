@@ -31,7 +31,14 @@ namespace pf
             print("Reset player score");
             levelScore = 0;
 
-            if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
+            if(LevelLoader.GetPreviousSceneIndex() == (int)LevelLoader.Scenes.Continue)
+            {
+                PlayerStats.Scores.Clear();
+                totalScore = 0;
+                string str = totalScore.ToString();
+                scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
+            }
+            else if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
                 LevelLoader.GetPreviousSceneIndex() != -1)
             {
                 print("get values from PlayerStats.Scores");
