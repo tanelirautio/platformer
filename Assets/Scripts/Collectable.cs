@@ -8,7 +8,6 @@ namespace pf
 {
     public class Collectable : MonoBehaviour
     {
-
         public enum Type
         {
             Apple,
@@ -32,7 +31,6 @@ namespace pf
         private static Dictionary<Type, int> collectables;
         private bool initDone = false;
 
-        const float fadeTime = 2.0f;
         private bool playerHit = false;
 
         private void Awake()
@@ -77,14 +75,10 @@ namespace pf
                 }
                 playerHit = true;
 
-                obj.gameObject.SetActive(false);
+                obj.gameObject.SetActive(false);           
+                collected.gameObject.SetActive(true);
+                collectedAnim.Play("collected");
                 
-                if(collected != null)
-                {
-                    collected.gameObject.SetActive(true);
-                    collectedAnim.Play("collected");
-                }
-
                 if (type != Type.Heart)
                 {
                     ShowFadingScore();
@@ -98,7 +92,7 @@ namespace pf
                     }
                     else
                     {
-                        StartCoroutine(WaitForDestroy(fadeTime));
+                        StartCoroutine(WaitForDestroy(Defs.COLLECTABLE_FADE_TIME));
                     }
                 }
                 
@@ -118,7 +112,7 @@ namespace pf
             score.AddScore(collectables[type]);
             points.transform.DOMoveY(transform.position.y + 2, 1);
             float alpha = text.color.a;
-            DOTween.To(() => alpha, x => alpha = x, 0.0f, fadeTime).OnUpdate(() => UpdateText(alpha)).OnComplete(Destroy);
+            DOTween.To(() => alpha, x => alpha = x, 0.0f, Defs.COLLECTABLE_FADE_TIME).OnUpdate(() => UpdateText(alpha)).OnComplete(Destroy);
         }
 
         private void Destroy()
