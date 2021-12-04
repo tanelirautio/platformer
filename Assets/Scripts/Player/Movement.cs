@@ -10,8 +10,6 @@ namespace pf
         private Vector3 prevVelocity;
         private Vector3 velocity;
         public Vector3 Velocity { get { return velocity; } set { velocity = value; } }
-        //public void setVelocityY(float velocityY) { velocity.y = velocityY; }
-        //public void setVelocityX(float velocityX) { velocity.x = velocityX; }
 
         private float maxJumpHeight;
 
@@ -76,7 +74,6 @@ namespace pf
                 float error = maxJumpHeight - delta;
                 // There is no error calculation when jump is not full. Aka, space bar is lifted up before reaching apex
                 Debug.Log("Jump Result: startHeight:" + Math.Round(startHeight, 4) + ", maxHeightReached:" + Math.Round(maxHeightReached, 4) + ", delta:" + Math.Round(delta, 4) + ", error:" + Math.Round(error, 4) + ", jumpTimer:" + deltaTime + ", gravity:" + gravity + ", jumpForce:" + jumpForce + "\n\n");
-
 
                 reachedApex = true;
                 gravity = gravityDown;

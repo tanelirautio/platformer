@@ -32,7 +32,7 @@ namespace pf
         private GameObject uiCanvas;
         private LevelEnd levelEnd;
 
-        const float GRACE_PERIOD_LENGTH = 2.0f;
+        //const float GRACE_PERIOD_LENGTH = 2.0f;
         private bool gracePeriod = false;
         private bool killZoneDamageTaken = false;
 
@@ -44,6 +44,12 @@ namespace pf
 
         private bool controllerDisabled = false;
 
+        struct Powerups
+        {
+            public bool jumpPowerEnabled;
+        }
+        private Powerups powerups;
+
         private void Awake()
         {
             DOTween.Init();
@@ -51,11 +57,7 @@ namespace pf
             spawnPoint = GameObject.Find("SpawnPoint");
             controller = GetComponent<Controller2D>();
 
-            movement = new Movement(
-                moveSpeed,
-                maxJumpHeight,
-                timeToJumpApex
-            );
+            //ResetMovement();
 
             score = GetComponent<PlayerScore>();
             health = GetComponent<PlayerHealth>();
@@ -75,6 +77,16 @@ namespace pf
             Spawn();
         }
 
+        private void ResetMovement()
+        {
+            powerups.jumpPowerEnabled = false;
+            movement = new Movement(
+                moveSpeed,
+                maxJumpHeight,
+                timeToJumpApex
+            );
+        }
+
         private void Spawn(bool resetHealth = true, bool resetScore = true)
         {
 
@@ -87,7 +99,7 @@ namespace pf
                 health.Reset();
             }
             score.Reset();
-            //uiCanvas.SetActive(true);
+            ResetMovement();
             timer = 0;
             timerStarted = false;
             hasBeenHit = false;
@@ -218,7 +230,7 @@ namespace pf
         public void setGracePeriod()
         {
             gracePeriod = true;
-            Invoke("EndGracePeriod", GRACE_PERIOD_LENGTH);
+            Invoke("EndGracePeriod", Defs.GRACE_PERIOD_LENGTH);
         }
 
         public bool isGracePeriod()
@@ -249,6 +261,26 @@ namespace pf
 
                 isDead = true;
                 levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
+            }
+        }
+
+        public void CollectedPoweup(Powerup.Type type)
+        {
+            switch(type)
+            {
+                case Powerup.Type.JumpPower:
+                {
+                    if (!powerups.jumpPowerEnabled)
+                    {
+                        movement = new Movement(
+                            moveSpeed,
+                            maxJumpHeight + Defs.POWERUP_EXTRA_JUMP_POWER,
+                            timeToJumpApex
+                        );
+                        powerups.jumpPowerEnabled = true;
+                    }
+                    break;
+                }
             }
         }
 

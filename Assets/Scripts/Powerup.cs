@@ -47,6 +47,8 @@ namespace pf
                 obj.gameObject.SetActive(false);
                 collected.gameObject.SetActive(true);
                 collectedAnim.Play("collected");
+
+                player.CollectedPoweup(type);
             }
         }
     }
