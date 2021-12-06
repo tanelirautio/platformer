@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Experimental.Rendering.Universal;
 
 namespace pf
 {
@@ -31,6 +32,7 @@ namespace pf
         private LevelLoader levelLoader;
         private GameObject uiCanvas;
         private LevelEnd levelEnd;
+        private Light2D light2D;
 
         //const float GRACE_PERIOD_LENGTH = 2.0f;
         private bool gracePeriod = false;
@@ -63,6 +65,7 @@ namespace pf
             health = GetComponent<PlayerHealth>();
             anim = GetComponent<PlayerAnimation>();
             wallSliding = GetComponent<PlayerWallSliding>();
+            light2D = GetComponent<Light2D>();
             cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
 
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
@@ -103,6 +106,7 @@ namespace pf
             timer = 0;
             timerStarted = false;
             hasBeenHit = false;
+            light2D.enabled = false;
             if (spawnPoint)
             {
                 transform.position = spawnPoint.transform.position;
@@ -264,7 +268,7 @@ namespace pf
             }
         }
 
-        public void CollectedPoweup(Powerup.Type type)
+        public void CollectedPowerup(Powerup.Type type)
         {
             switch(type)
             {
@@ -277,6 +281,9 @@ namespace pf
                             maxJumpHeight + Defs.POWERUP_EXTRA_JUMP_POWER,
                             timeToJumpApex
                         );
+                        anim.CollectPowerup(type);
+                        light2D.enabled = true;
+                        light2D.color = Color.blue;                      
                         powerups.jumpPowerEnabled = true;
                     }
                     break;

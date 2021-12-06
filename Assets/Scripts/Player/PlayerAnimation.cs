@@ -10,6 +10,8 @@ namespace pf
         const float PLAYER_GRACE_PERIOD_FLASH_TIME = 0.25f;
 
         public Material baseMaterial;
+        private Shader baseShader;
+
         public Material hitMaterial;
         private Material currentMaterial;
 
@@ -40,6 +42,8 @@ namespace pf
             player = GetComponent<Player>();
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+
+            baseShader = baseMaterial.shader;
         }
 
         void Start()
@@ -47,10 +51,13 @@ namespace pf
             print("Selected character: " + PlayerStats.SelectedCharacter);
             animator.runtimeAnimatorController = animators[PlayerStats.SelectedCharacter];
             spriteRenderer.sprite = characters[PlayerStats.SelectedCharacter];
+
+            Reset();
         }
 
         public void Reset()
         {
+            baseMaterial.color = Color.black;
             isTakingDamage = false;
             isDead = false;
         }
@@ -109,6 +116,22 @@ namespace pf
         {
             isTakingDamage = false;
         }
+
+        public void CollectPowerup(Powerup.Type type)
+        {
+            switch(type)
+            {
+                case Powerup.Type.JumpPower:
+                {
+                    //baseMaterial.color = Color.magenta;
+                    float intensity = 10f;
+                    float factor = Mathf.Pow(2, intensity);
+                    Color color = new Color(1.0f * factor, 0 * factor, 0.5f * factor);
+                    baseMaterial.color = color;
+                    break;
+                }
+            }
+        } 
 
         public void HandleAnimation(Controller2D controller, Vector2 velocity)
         {

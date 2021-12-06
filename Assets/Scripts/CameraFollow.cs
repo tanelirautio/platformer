@@ -6,7 +6,7 @@ namespace pf
 {
     public class CameraFollow : MonoBehaviour
     {
-        public Controller2D target;
+        private Controller2D target;
         public Vector2 focusAreaSize;
         public float lookAheadDstX;
         public float lookSmoothTimeX;
@@ -23,6 +23,11 @@ namespace pf
 
         bool lookAheadStopped;
         [SerializeField] private bool isFollowingPlayer = true;
+
+        public void Awake()
+        {
+            target = GameObject.Find("Player").GetComponent<Controller2D>();
+        }
 
         private void Start()
         {
