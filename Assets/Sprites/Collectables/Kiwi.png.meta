@@ -1,60 +1,60 @@
 fileFormatVersion: 2
-guid: ffc9f271fad56c243a45f100b9dc6778
+guid: 5100b75572e484e458e4340e2afe9454
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4121880872312635667
-    second: Orange_0
+      213: 4138223980208024357
+    second: Kiwi_0
   - first:
-      213: 2344270669467322306
-    second: Orange_1
+      213: 4027297436301884547
+    second: Kiwi_1
   - first:
-      213: 4308106298786891140
-    second: Orange_2
+      213: 7839148961451991454
+    second: Kiwi_2
   - first:
-      213: 7874291611447793305
-    second: Orange_3
+      213: -730248880921602624
+    second: Kiwi_3
   - first:
-      213: 3285381865569172166
-    second: Orange_4
+      213: -2773199153295840776
+    second: Kiwi_4
   - first:
-      213: 7043855894265817204
-    second: Orange_5
+      213: 433390274577684119
+    second: Kiwi_5
   - first:
-      213: 3988426822137034836
-    second: Orange_6
+      213: -4823085682731260845
+    second: Kiwi_6
   - first:
-      213: -2229105888306426895
-    second: Orange_7
+      213: 3686063136471726221
+    second: Kiwi_7
   - first:
-      213: 6008893271325792001
-    second: Orange_8
+      213: 7554967952476731917
+    second: Kiwi_8
   - first:
-      213: -7876212812653781381
-    second: Orange_9
+      213: -2447911064218208986
+    second: Kiwi_9
   - first:
-      213: 3515071814446350068
-    second: Orange_10
+      213: 1065612581672122212
+    second: Kiwi_10
   - first:
-      213: -7989559414504384385
-    second: Orange_11
+      213: -3489895863418248697
+    second: Kiwi_11
   - first:
-      213: -5807639670500276790
-    second: Orange_12
+      213: 1055780198316226049
+    second: Kiwi_12
   - first:
-      213: 6847284126642719973
-    second: Orange_13
+      213: 6147472920748202901
+    second: Kiwi_13
   - first:
-      213: -7248848098583867319
-    second: Orange_14
+      213: 4395527864148419765
+    second: Kiwi_14
   - first:
-      213: 4913402539735777752
-    second: Orange_15
+      213: -3046725879948077466
+    second: Kiwi_15
   - first:
-      213: -3526668604636205124
-    second: Orange_16
+      213: -6983844126893656030
+    second: Kiwi_16
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -74,6 +74,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -83,8 +84,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -96,7 +97,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,9 +106,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -133,11 +138,35 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Orange_0
+      name: Kiwi_0
       rect:
         serializedVersion: 2
         x: 0
@@ -151,14 +180,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55143e6280f536849b6658c969386ccc
-      internalID: 4121880872312635667
+      spriteID: 1b71817b1f78b8b428ea9187a4a49f06
+      internalID: 4138223980208024357
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_1
+      name: Kiwi_1
       rect:
         serializedVersion: 2
         x: 32
@@ -172,14 +201,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab25a43d098bdae499a36607f6c7c685
-      internalID: 2344270669467322306
+      spriteID: ea603bd7cbffe454988be6be04803905
+      internalID: 4027297436301884547
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_2
+      name: Kiwi_2
       rect:
         serializedVersion: 2
         x: 64
@@ -193,14 +222,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a00eb127219f7d14fb4482572c1616d7
-      internalID: 4308106298786891140
+      spriteID: 040f35029ac419c4eb654b60408395fc
+      internalID: 7839148961451991454
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_3
+      name: Kiwi_3
       rect:
         serializedVersion: 2
         x: 96
@@ -214,14 +243,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e5a1d552929d5443b825137029a7b35
-      internalID: 7874291611447793305
+      spriteID: be8df7570c86ba54baa9c5e9afc38946
+      internalID: -730248880921602624
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_4
+      name: Kiwi_4
       rect:
         serializedVersion: 2
         x: 128
@@ -235,14 +264,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 123bf90c47274714e91f003fff738ad1
-      internalID: 3285381865569172166
+      spriteID: 7b121ccaa328d124f90c6d6e84e18958
+      internalID: -2773199153295840776
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_5
+      name: Kiwi_5
       rect:
         serializedVersion: 2
         x: 160
@@ -256,14 +285,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65955cada2a93b946a7a909c6d2d0e09
-      internalID: 7043855894265817204
+      spriteID: 27b4655cc29a57346bb7e0efedf5ece7
+      internalID: 433390274577684119
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_6
+      name: Kiwi_6
       rect:
         serializedVersion: 2
         x: 192
@@ -277,14 +306,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 899c68a99c5566442bf5d749647e2749
-      internalID: 3988426822137034836
+      spriteID: 0299ef9e1d4c7bd4982f2cf7721ece14
+      internalID: -4823085682731260845
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_7
+      name: Kiwi_7
       rect:
         serializedVersion: 2
         x: 224
@@ -298,14 +327,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75d65e7d97efc2c4da13fbe2e84163e0
-      internalID: -2229105888306426895
+      spriteID: 8288086eae7ebae43aafa9e4041fe615
+      internalID: 3686063136471726221
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_8
+      name: Kiwi_8
       rect:
         serializedVersion: 2
         x: 256
@@ -319,14 +348,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db799e54d75cb74479c7843de3a9ed77
-      internalID: 6008893271325792001
+      spriteID: 795d83e8a6d8ad6438b67af420de2f55
+      internalID: 7554967952476731917
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_9
+      name: Kiwi_9
       rect:
         serializedVersion: 2
         x: 288
@@ -340,14 +369,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70df20ac49f141341b8cc02b9d6161db
-      internalID: -7876212812653781381
+      spriteID: d6bb1ad4b2c01a547b2beca34ce93358
+      internalID: -2447911064218208986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_10
+      name: Kiwi_10
       rect:
         serializedVersion: 2
         x: 320
@@ -361,14 +390,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 782faec4bc7078a4d968eea55b5251d5
-      internalID: 3515071814446350068
+      spriteID: 0515b703b5aa5b64c9d576811738af50
+      internalID: 1065612581672122212
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_11
+      name: Kiwi_11
       rect:
         serializedVersion: 2
         x: 352
@@ -382,14 +411,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fe5d58cb5a47254b89bc3cf75c404ce
-      internalID: -7989559414504384385
+      spriteID: d7d6213cb8535b34ca815fe893b08dd6
+      internalID: -3489895863418248697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_12
+      name: Kiwi_12
       rect:
         serializedVersion: 2
         x: 384
@@ -403,14 +432,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43c5b826505ec084899c0e80b3ad2ae8
-      internalID: -5807639670500276790
+      spriteID: cf58d0bf1d714d54880ed496947a97e2
+      internalID: 1055780198316226049
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_13
+      name: Kiwi_13
       rect:
         serializedVersion: 2
         x: 416
@@ -424,14 +453,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 95ea884470ab0b046ac1f4b2c8dbe037
-      internalID: 6847284126642719973
+      spriteID: adf669cad86a9624b86777a25054df67
+      internalID: 6147472920748202901
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_14
+      name: Kiwi_14
       rect:
         serializedVersion: 2
         x: 448
@@ -445,14 +474,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0cd04943bc22e484f96a38e3dfb6a8b1
-      internalID: -7248848098583867319
+      spriteID: 42b370def06565f4493a538d83ddb0d0
+      internalID: 4395527864148419765
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_15
+      name: Kiwi_15
       rect:
         serializedVersion: 2
         x: 480
@@ -466,14 +495,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8f75c9623b3fb14bad5d36124aba4c8
-      internalID: 4913402539735777752
+      spriteID: 5a25ef46a6eebfe428bbc0f03db1ee1f
+      internalID: -3046725879948077466
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Orange_16
+      name: Kiwi_16
       rect:
         serializedVersion: 2
         x: 512
@@ -487,8 +516,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7c445767bc6e854692fa2bbc0f17c92
-      internalID: -3526668604636205124
+      spriteID: 21bda4800db846b4aba4643ead3e3657
+      internalID: -6983844126893656030
       vertices: []
       indices: 
       edges: []

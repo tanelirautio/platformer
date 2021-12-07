@@ -1,60 +1,60 @@
 fileFormatVersion: 2
-guid: 5100b75572e484e458e4340e2afe9454
+guid: 3d6be91968cb95546ac95aeff5e52f84
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4138223980208024357
-    second: Kiwi_0
+      213: -4570538037665054336
+    second: Cherries_0
   - first:
-      213: 4027297436301884547
-    second: Kiwi_1
+      213: 1192583394799640888
+    second: Cherries_1
   - first:
-      213: 7839148961451991454
-    second: Kiwi_2
+      213: -711454075617216784
+    second: Cherries_2
   - first:
-      213: -730248880921602624
-    second: Kiwi_3
+      213: 5421872390997284277
+    second: Cherries_3
   - first:
-      213: -2773199153295840776
-    second: Kiwi_4
+      213: 5363950216444597340
+    second: Cherries_4
   - first:
-      213: 433390274577684119
-    second: Kiwi_5
+      213: -8821299780031482609
+    second: Cherries_5
   - first:
-      213: -4823085682731260845
-    second: Kiwi_6
+      213: 1075779407821988168
+    second: Cherries_6
   - first:
-      213: 3686063136471726221
-    second: Kiwi_7
+      213: 8792570861257488375
+    second: Cherries_7
   - first:
-      213: 7554967952476731917
-    second: Kiwi_8
+      213: 3052119051097735194
+    second: Cherries_8
   - first:
-      213: -2447911064218208986
-    second: Kiwi_9
+      213: 7538113517902980163
+    second: Cherries_9
   - first:
-      213: 1065612581672122212
-    second: Kiwi_10
+      213: 3848886781296226410
+    second: Cherries_10
   - first:
-      213: -3489895863418248697
-    second: Kiwi_11
+      213: 7849828697117728527
+    second: Cherries_11
   - first:
-      213: 1055780198316226049
-    second: Kiwi_12
+      213: -9198102554489520265
+    second: Cherries_12
   - first:
-      213: 6147472920748202901
-    second: Kiwi_13
+      213: 3941576138836150160
+    second: Cherries_13
   - first:
-      213: 4395527864148419765
-    second: Kiwi_14
+      213: 5159470138463433966
+    second: Cherries_14
   - first:
-      213: -3046725879948077466
-    second: Kiwi_15
+      213: -447626866981707952
+    second: Cherries_15
   - first:
-      213: -6983844126893656030
-    second: Kiwi_16
+      213: -7347827468922994342
+    second: Cherries_16
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -74,6 +74,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -83,8 +84,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -96,7 +97,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,9 +106,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -133,11 +138,35 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Kiwi_0
+      name: Cherries_0
       rect:
         serializedVersion: 2
         x: 0
@@ -151,14 +180,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b71817b1f78b8b428ea9187a4a49f06
-      internalID: 4138223980208024357
+      spriteID: f4fe1e6333f132a4c8fe6cfceab02597
+      internalID: -4570538037665054336
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_1
+      name: Cherries_1
       rect:
         serializedVersion: 2
         x: 32
@@ -172,14 +201,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea603bd7cbffe454988be6be04803905
-      internalID: 4027297436301884547
+      spriteID: 8b88e096151df024b885fbaa533f6419
+      internalID: 1192583394799640888
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_2
+      name: Cherries_2
       rect:
         serializedVersion: 2
         x: 64
@@ -193,14 +222,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 040f35029ac419c4eb654b60408395fc
-      internalID: 7839148961451991454
+      spriteID: 906f14158141da745a61b3fbac907963
+      internalID: -711454075617216784
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_3
+      name: Cherries_3
       rect:
         serializedVersion: 2
         x: 96
@@ -214,14 +243,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be8df7570c86ba54baa9c5e9afc38946
-      internalID: -730248880921602624
+      spriteID: 1f5201d23c9e32b4d8984b952b63712d
+      internalID: 5421872390997284277
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_4
+      name: Cherries_4
       rect:
         serializedVersion: 2
         x: 128
@@ -235,14 +264,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b121ccaa328d124f90c6d6e84e18958
-      internalID: -2773199153295840776
+      spriteID: fdf5081d34ab54d429af517153a2d5ca
+      internalID: 5363950216444597340
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_5
+      name: Cherries_5
       rect:
         serializedVersion: 2
         x: 160
@@ -256,14 +285,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27b4655cc29a57346bb7e0efedf5ece7
-      internalID: 433390274577684119
+      spriteID: 30b5f7e88093b564fbab32024ff6c538
+      internalID: -8821299780031482609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_6
+      name: Cherries_6
       rect:
         serializedVersion: 2
         x: 192
@@ -277,14 +306,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0299ef9e1d4c7bd4982f2cf7721ece14
-      internalID: -4823085682731260845
+      spriteID: 080b23256625a2443a0a6d57ed4e9e9a
+      internalID: 1075779407821988168
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_7
+      name: Cherries_7
       rect:
         serializedVersion: 2
         x: 224
@@ -298,14 +327,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8288086eae7ebae43aafa9e4041fe615
-      internalID: 3686063136471726221
+      spriteID: edc235a8610ade94b91df9f90ea4f846
+      internalID: 8792570861257488375
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_8
+      name: Cherries_8
       rect:
         serializedVersion: 2
         x: 256
@@ -319,14 +348,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 795d83e8a6d8ad6438b67af420de2f55
-      internalID: 7554967952476731917
+      spriteID: 91709365c818266408d23b27fee839fd
+      internalID: 3052119051097735194
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_9
+      name: Cherries_9
       rect:
         serializedVersion: 2
         x: 288
@@ -340,14 +369,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6bb1ad4b2c01a547b2beca34ce93358
-      internalID: -2447911064218208986
+      spriteID: 6d06141bdfa91f04795dfae6e59263c0
+      internalID: 7538113517902980163
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_10
+      name: Cherries_10
       rect:
         serializedVersion: 2
         x: 320
@@ -361,14 +390,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0515b703b5aa5b64c9d576811738af50
-      internalID: 1065612581672122212
+      spriteID: 8a4889852de374c40a2c352441079c9e
+      internalID: 3848886781296226410
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_11
+      name: Cherries_11
       rect:
         serializedVersion: 2
         x: 352
@@ -382,14 +411,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7d6213cb8535b34ca815fe893b08dd6
-      internalID: -3489895863418248697
+      spriteID: f051544de22026347939e51a56050c03
+      internalID: 7849828697117728527
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_12
+      name: Cherries_12
       rect:
         serializedVersion: 2
         x: 384
@@ -403,14 +432,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf58d0bf1d714d54880ed496947a97e2
-      internalID: 1055780198316226049
+      spriteID: 8d91d55392beba0439a6f68c225f73e9
+      internalID: -9198102554489520265
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_13
+      name: Cherries_13
       rect:
         serializedVersion: 2
         x: 416
@@ -424,14 +453,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: adf669cad86a9624b86777a25054df67
-      internalID: 6147472920748202901
+      spriteID: 422b04abe515f16498ea6ff82e072eab
+      internalID: 3941576138836150160
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_14
+      name: Cherries_14
       rect:
         serializedVersion: 2
         x: 448
@@ -445,14 +474,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 42b370def06565f4493a538d83ddb0d0
-      internalID: 4395527864148419765
+      spriteID: 197202fe0e245f74e96f1f13d47b6e63
+      internalID: 5159470138463433966
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_15
+      name: Cherries_15
       rect:
         serializedVersion: 2
         x: 480
@@ -466,14 +495,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a25ef46a6eebfe428bbc0f03db1ee1f
-      internalID: -3046725879948077466
+      spriteID: 43c1cd70622bae945ad3ea2f936d4e99
+      internalID: -447626866981707952
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kiwi_16
+      name: Cherries_16
       rect:
         serializedVersion: 2
         x: 512
@@ -487,8 +516,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21bda4800db846b4aba4643ead3e3657
-      internalID: -6983844126893656030
+      spriteID: 2e0507f737783a849bba74c4645466e6
+      internalID: -7347827468922994342
       vertices: []
       indices: 
       edges: []

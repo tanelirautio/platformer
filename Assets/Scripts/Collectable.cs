@@ -10,10 +10,16 @@ namespace pf
     {
         public enum Type
         {
+            Heart,
             Apple,
             Strawberry,
             Carrot,
-            Heart
+            Bananas,
+            Cherries,
+            Kiwi,
+            Melon,
+            Orange,
+            Pineapple
         }
 
         public Type type;
@@ -56,10 +62,16 @@ namespace pf
                 //TODO: read from json at startup(?)
                 collectables = new Dictionary<Type, int>()
                 {
+                    { Type.Heart, 1000 },
                     { Type.Apple, 100 },
                     { Type.Carrot, 1000 },
                     { Type.Strawberry, 50 },
-                    { Type.Heart, 1000 }
+                    { Type.Bananas, 200 },
+                    { Type.Cherries, 300 },
+                    { Type.Kiwi, 400 },
+                    { Type.Melon, 500 },
+                    { Type.Orange, 600 },
+                    { Type.Pineapple, 700 }
                 };
                 initDone = true;
             }
@@ -111,6 +123,13 @@ namespace pf
             points.gameObject.SetActive(true);
             score.AddScore(collectables[type]);
             points.transform.DOMoveY(transform.position.y + 2, 1);
+            Invoke("TweenFadingScore", Defs.COLLECTABLE_FADE_INVOKE_TIME);
+            //float alpha = text.color.a;
+            //DOTween.To(() => alpha, x => alpha = x, 0.0f, Defs.COLLECTABLE_FADE_TIME).OnUpdate(() => UpdateText(alpha)).OnComplete(Destroy);
+        }
+
+        private void TweenFadingScore()
+        {
             float alpha = text.color.a;
             DOTween.To(() => alpha, x => alpha = x, 0.0f, Defs.COLLECTABLE_FADE_TIME).OnUpdate(() => UpdateText(alpha)).OnComplete(Destroy);
         }
