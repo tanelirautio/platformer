@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  activeTimeSeconds: 0
+  expire: 0
 --- !u!61 &7469800365505592193
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -37073,6 +37073,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7469800365505592194, guid: 4a930b41d896496458601d6368507d89, type: 3}
+      propertyPath: respawn
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7469800365505592195, guid: 4a930b41d896496458601d6368507d89, type: 3}
       propertyPath: m_Name
       value: Jump Power
@@ -37087,7 +37091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7469800365505592207, guid: 4a930b41d896496458601d6368507d89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.9569807
+      value: 4.823
       objectReference: {fileID: 0}
     - target: {fileID: 7469800365505592207, guid: 4a930b41d896496458601d6368507d89, type: 3}
       propertyPath: m_LocalPosition.z

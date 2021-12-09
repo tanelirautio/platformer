@@ -10,8 +10,6 @@ namespace pf
         const float PLAYER_GRACE_PERIOD_FLASH_TIME = 0.25f;
 
         public Material baseMaterial;
-        private Shader baseShader;
-
         public Material hitMaterial;
         private Material currentMaterial;
 
@@ -37,13 +35,17 @@ namespace pf
         private float time = 0;
         private bool changeMaterial = false;
 
+        private Color powerupColor;
+
         private void Awake()
         {
             player = GetComponent<Player>();
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-            baseShader = baseMaterial.shader;
+            float intensity = 10f;
+            float factor = Mathf.Pow(2, intensity);
+            powerupColor = new Color(1.0f * factor, 0 * factor, 0.5f * factor);
         }
 
         void Start()
@@ -57,9 +59,14 @@ namespace pf
 
         public void Reset()
         {
-            baseMaterial.color = Color.black;
+            ResetBaseMaterial();
             isTakingDamage = false;
             isDead = false;
+        }
+
+        private void ResetBaseMaterial()
+        {
+            baseMaterial.color = Color.black;
         }
 
         void Update()
@@ -123,15 +130,16 @@ namespace pf
             {
                 case Powerup.Type.JumpPower:
                 {
-                    //baseMaterial.color = Color.magenta;
-                    float intensity = 10f;
-                    float factor = Mathf.Pow(2, intensity);
-                    Color color = new Color(1.0f * factor, 0 * factor, 0.5f * factor);
-                    baseMaterial.color = color;
+                    baseMaterial.color = powerupColor;
                     break;
                 }
             }
         } 
+
+        public void PowerupExpired(Powerup.Type type)
+        {
+            ResetBaseMaterial();
+        }
 
         public void HandleAnimation(Controller2D controller, Vector2 velocity)
         {

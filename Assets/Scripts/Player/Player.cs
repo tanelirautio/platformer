@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Experimental.Rendering.Universal;
+using System;
 
 namespace pf
 {
@@ -218,6 +219,7 @@ namespace pf
         private void SpawnAfterKillZoneDamage()
         {
             Spawn(false);
+            Powerup.Respawn();
             killZoneDamageTaken = false;
         }
 
@@ -291,6 +293,24 @@ namespace pf
             }
         }
 
+        public void PowerupExpired(Powerup.Type type)
+        {
+            switch(type)
+            {
+                case Powerup.Type.JumpPower:
+                {
+                    if (powerups.jumpPowerEnabled)
+                    {
+                        ResetMovement();
+                        light2D.enabled = false;
+                        powerups.jumpPowerEnabled = false;
+                        anim.PowerupExpired(type);
+                    }
+                    break;
+                }
+            }
+        }
+
         private void LoadNextScene()
         {
             // TODO: debug, if we reach the last scene, just go to main menu...
@@ -302,6 +322,10 @@ namespace pf
             else
             {
                 // save player score only when transitioning to next level
+                print("***** Transition to next level *****");
+                print("level score: " + score.GetLevelScore());
+                print("current level: " + PlayerStats.Level);
+
                 int levelScore = score.GetLevelScore();
                 PlayerStats.Scores[PlayerStats.Level] = levelScore;
                 if(PlayerStats.BestScores[PlayerStats.Level] < levelScore)

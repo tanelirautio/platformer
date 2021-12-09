@@ -12,6 +12,10 @@ namespace pf
         }
 
         public Type type;
+        public float activeTimeSeconds;
+        public bool expire;
+        public bool respawn;
+
         private Transform obj;
 
         private Transform collected;
@@ -19,7 +23,23 @@ namespace pf
 
         private Player player;
 
-        private bool playerHit = false;
+        private bool powerupCollected = false;
+
+        private class ActivePowerup
+        {
+            public ActivePowerup(Type type, float time, bool willExpire)
+            {
+                Type = type;
+                Time = time;
+                WillExpire = willExpire;
+            }
+
+            public Type Type { get; set; }
+            public float Time { get; set; }
+            public bool WillExpire { get; set; }
+        };
+        private static List<ActivePowerup> activePowerups = new List<ActivePowerup>();
+        private static List<GameObject> respawnablePowerupsInScene = new List<GameObject>();
 
         // Start is called before the first frame update
         void Awake()
@@ -31,6 +51,32 @@ namespace pf
             collected = transform.Find("Collected");
             collectedAnim = collected.gameObject.GetComponent<Animator>();
             collected.gameObject.SetActive(false);
+
+            if (respawn)
+            {
+                respawnablePowerupsInScene.Add(this.gameObject);
+            }
+        }
+
+        private void Update()
+        {
+            if(activePowerups.Count > 0)
+            {
+                for(int i = activePowerups.Count -1; i >= 0; i--) 
+                {
+                    if(activePowerups[i].WillExpire && activePowerups[i].Time > 0)
+                    {
+                        activePowerups[i].Time -= Time.deltaTime;
+                        print(activePowerups[i].Time);
+                        if(activePowerups[i].Time <= 0)
+                        {
+                            print("Powerup: " + type.ToString() + " expired!");
+                            player.PowerupExpired(type);
+                            activePowerups.RemoveAt(i);
+                        }
+                    }
+                }
+            }
         }
 
         // Update is called once per frame
@@ -38,17 +84,36 @@ namespace pf
         {
             if (collision.gameObject.tag == "Player")
             {
-                if (playerHit)
+                if (powerupCollected)
                 {
                     return;
                 }
-                playerHit = true;
+                powerupCollected = true;
 
                 obj.gameObject.SetActive(false);
                 collected.gameObject.SetActive(true);
                 collectedAnim.Play("collected");
 
                 player.CollectedPowerup(type);
+
+                activePowerups.Add(new ActivePowerup(type, activeTimeSeconds, expire));
+            }
+        }
+
+        public static void Respawn()
+        {
+            foreach(GameObject obj in respawnablePowerupsInScene)
+            {
+                if(obj.GetComponent<Powerup>().respawn == true)
+                {
+                    GameObject powerup = obj.transform.Find("Object").gameObject;
+                    if (!powerup.activeSelf)
+                    {
+                        obj.transform.Find("Object").gameObject.SetActive(true);
+                        obj.transform.Find("Collected").gameObject.SetActive(false);
+                        obj.GetComponent<Powerup>().powerupCollected = false;
+                    }
+                }
             }
         }
     }
