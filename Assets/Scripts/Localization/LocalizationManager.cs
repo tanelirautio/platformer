@@ -12,8 +12,8 @@ namespace pf
             Finnish
         }
 
-        //public static Language language = Language.English;
-        public static Language language = Language.Finnish;
+        public static Language language = Language.English;
+        //public static Language language = Language.Finnish;
 
         private static Dictionary<string, string> localizedEN;
         private static Dictionary<string, string> localizedFI;
