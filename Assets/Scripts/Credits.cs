@@ -12,12 +12,16 @@ namespace pf
         public float yOffsetStart = -13.0f;
         public float yOffsetEnd = 13.0f;
 
-
-
         public TextMeshPro creditsText;
 
         private Bounds bounds;
         private TextAsset credits;
+        private LevelLoader levelLoader;
+
+        private void Awake()
+        {
+            levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        }
 
         void Start()
         {
@@ -50,13 +54,21 @@ namespace pf
 
             creditsText.transform.position = new Vector3(0, yOffsetStart - bounds.size.y/2, 0);
 
-            creditsText.transform.DOMoveY(yOffsetEnd + bounds.size.y / 2, Defs.CREDITS_TIME).SetEase(Ease.Linear);
+            creditsText.transform.DOMoveY(yOffsetEnd + bounds.size.y / 2, Defs.CREDITS_TIME).SetEase(Ease.Linear).OnComplete(CreditsDone);
 
+        }
+
+        void CreditsDone()
+        {
+            levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
         }
 
         void Update()
         {
-
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            {
+                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+            }
         }
     }
 }
