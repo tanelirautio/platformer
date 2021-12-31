@@ -16,7 +16,6 @@ public class GlobalAchievements : MonoBehaviour
 
     // Achievent 01 Specific
     public GameObject ach01Image;
-
     public static int ach01Count;
     public int ach01Trigger = 5;
     public int ach01Code;
