@@ -8,13 +8,14 @@ namespace pf
     public class DataLoader : MonoBehaviour
     {
 
-        private SaveData saveData = null;
+        private SaveData saveData = null; 
         private static bool initialized = false;
 
         public bool ShowLoadOption { get; set; }
 
         void Start()
         {
+            Debug.Log("DataLoader start!");
             ParseData();
 
             saveData = SaveSystem.Load();
@@ -50,6 +51,7 @@ namespace pf
 
         public static void ParseData()
         {
+            Debug.Log("ParseData() 1");
             if (!initialized)
             {
                 TextAsset levelObjectivesText = Resources.Load<TextAsset>("levelObjectives");
@@ -61,6 +63,19 @@ namespace pf
                         for (int i = 0; i < obj.Length; i++)
                         {
                             PlayerStats.CompletedObjectives.Add(obj[i]);
+                        }
+                    }
+                }
+
+                TextAsset achievementText = Resources.Load<TextAsset>("achievements");
+                if(achievementText != null)
+                {
+                    Achievements[] ach = JsonHelper.FromJson<Achievements>(achievementText.text);
+                    if(ach != null)
+                    {
+                        for(int i=0; i<ach.Length; i++)
+                        {
+                            PlayerStats.Achievements.Add(ach[i]);
                         }
                     }
                 }

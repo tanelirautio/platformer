@@ -18,5 +18,6 @@ namespace pf
         public static List<int> BestScores = new List<int>(new int[Defs.LEVEL_AMOUNT]);
         public static List<int> Scores = new List<int>(new int[Defs.LEVEL_AMOUNT]);
         public static List<LevelObjectives> CompletedObjectives = new List<LevelObjectives>();
+        public static List<Achievements> Achievements = new List<Achievements>();
     }
 }

@@ -41,7 +41,6 @@ namespace pf
         private static List<ActivePowerup> activePowerups = new List<ActivePowerup>();
         private static List<GameObject> respawnablePowerupsInScene = new List<GameObject>();
 
-        // Start is called before the first frame update
         void Awake()
         {
             player = GameObject.Find("Player").GetComponent<Player>();
@@ -67,7 +66,7 @@ namespace pf
                     if(activePowerups[i].WillExpire && activePowerups[i].Time > 0)
                     {
                         activePowerups[i].Time -= Time.deltaTime;
-                        print(activePowerups[i].Time);
+                        //print(activePowerups[i].Time);
                         if(activePowerups[i].Time <= 0)
                         {
                             print("Powerup: " + type.ToString() + " expired!");
@@ -79,7 +78,6 @@ namespace pf
             }
         }
 
-        // Update is called once per frame
         void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.tag == "Player")
