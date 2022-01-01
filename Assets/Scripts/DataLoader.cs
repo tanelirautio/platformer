@@ -13,11 +13,9 @@ namespace pf
 
         public bool ShowLoadOption { get; set; }
 
-        void Start()
+        void Awake()
         {
-            Debug.Log("DataLoader start!");
             ParseData();
-
             saveData = SaveSystem.Load();
             if (saveData != null)
             {
@@ -37,6 +35,8 @@ namespace pf
                 }
                 // Best scores
                 PlayerStats.Scores.AddRange(saveData.bestScores);
+
+                //TODO: set loaded statistics to PlayerStats
             }
             else
             {
@@ -51,7 +51,6 @@ namespace pf
 
         public static void ParseData()
         {
-            Debug.Log("ParseData() 1");
             if (!initialized)
             {
                 TextAsset levelObjectivesText = Resources.Load<TextAsset>("levelObjectives");

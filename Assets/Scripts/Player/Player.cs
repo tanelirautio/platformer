@@ -35,7 +35,6 @@ namespace pf
         private LevelEnd levelEnd;
         private Light2D light2D;
 
-        //const float GRACE_PERIOD_LENGTH = 2.0f;
         private bool gracePeriod = false;
         private bool killZoneDamageTaken = false;
 
@@ -74,6 +73,12 @@ namespace pf
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
 
             PlayerStats.SceneIndex = levelLoader.GetCurrentSceneIndex();
+
+#if UNITY_EDITOR
+            // Try to load level objectives and achievements when played in Unity editor
+            // This way independently played levels can still show them
+            DataLoader.ParseData();
+#endif
         }
 
         private void Start()

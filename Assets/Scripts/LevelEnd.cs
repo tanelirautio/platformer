@@ -72,7 +72,6 @@ namespace pf
             levelEndReady = false;
         }
 
-        // Update is called once per frame
         void Update()
         {
             /*
@@ -114,8 +113,11 @@ namespace pf
 
         private void CheckTrophies(bool hit, int score, float time)
         {
+
+#if UNITY_EDITOR
             // If scene is played directly in the editor, data might not have been parsed
             DataLoader.ParseData();
+#endif
 
             // TODO: check from save/playerdata if player has accomplished any trophies
             // these will be shown always

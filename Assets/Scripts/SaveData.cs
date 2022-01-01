@@ -15,6 +15,18 @@ namespace pf
         public bool[,] levelObjectivesCompleted;
         public float[] bestTimes;
 
+        // Statistics
+        public bool[] levelsCompleted;
+        public bool[] levelsCompletedWithoutHits;
+        public int collectedApples;
+        public int collectedBananas;
+        public int collectedStrawberries;
+        public int collectedCherries;
+        public int collectedKiwis;
+        public int collectedMelons;
+        public int collectedOranges;
+        public int collectedPineapples;
+
         public SaveData()
         {
             selectedCharacter = PlayerStats.SelectedCharacter;
@@ -45,8 +57,8 @@ namespace pf
 
                 bestTimes[i] = l.BestTime;
             }
+
+            //TODO: save statistics
         }
-
-
     }
 }

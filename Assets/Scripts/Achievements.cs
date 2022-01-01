@@ -16,6 +16,8 @@ namespace pf
         public string title;
         public string desc;
 
+        public bool Completed { get; set; } = false;
+
         public Achievements(int type, int code, string item, int count, string title, string desc)
         {
             this.type = type;
@@ -25,16 +27,5 @@ namespace pf
             this.title = title;
             this.desc = desc;
         }
-
-        public void Print()
-        {
-            Debug.Log("Type: " + type);
-            Debug.Log("Code: " + code);
-            Debug.Log("Item: " + item);
-            Debug.Log("Count: " + count);
-            Debug.Log("Title: " + title);
-            Debug.Log("Desc: " + desc);
-        }
-
     }
 }
