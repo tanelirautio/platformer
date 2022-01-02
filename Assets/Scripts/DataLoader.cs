@@ -13,8 +13,9 @@ namespace pf
 
         public bool ShowLoadOption { get; set; }
 
-        void Awake()
+        void Start()
         {
+            print("Mainmenu start");
             ParseData();
             saveData = SaveSystem.Load();
             if (saveData != null)
@@ -22,8 +23,7 @@ namespace pf
                 ShowLoadOption = true;
 
                 // Level objectives
-                Debug.Log("levelObjectives.Length: " + saveData.levelObjectivesCompleted.Length);
-
+                //Debug.Log("levelObjectives.Length: " + saveData.levelObjectivesCompleted.Length);
                 for (int i = 0; i < saveData.levelObjectivesCompleted.GetLength(0); i++)
                 {
                     if (i < PlayerStats.CompletedObjectives.Count)
@@ -36,7 +36,31 @@ namespace pf
                 // Best scores
                 PlayerStats.Scores.AddRange(saveData.bestScores);
 
-                //TODO: set loaded statistics to PlayerStats
+                // Statistics
+                PlayerStats.CollectedApples = saveData.collectedApples;
+                PlayerStats.CollectedBananas = saveData.collectedBananas;
+                PlayerStats.CollectedCherries = saveData.collectedCherries;
+                PlayerStats.CollectedKiwis = saveData.collectedKiwis;
+                PlayerStats.CollectedMelons = saveData.collectedMelons;
+                PlayerStats.CollectedOranges = saveData.collectedOranges;
+                PlayerStats.CollectedPineapples = saveData.collectedPineapples;
+                PlayerStats.CollectedStrawberries = saveData.collectedStrawberries;
+
+                for(int i=0; i<saveData.levelsCompleted.Length; i++)
+                {
+                    if(i < PlayerStats.LevelsCompleted.Count)
+                    {
+                        PlayerStats.LevelsCompleted[i] = saveData.levelsCompleted[i];
+                    }
+                }                
+                
+                for(int i=0; i<saveData.levelsCompletedWithoutHits.Length; i++)
+                {
+                    if(i < PlayerStats.LevelsCompletedWithoutHits.Count)
+                    {
+                        PlayerStats.LevelsCompletedWithoutHits[i] = saveData.levelsCompletedWithoutHits[i];
+                    }
+                }
             }
             else
             {

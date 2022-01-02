@@ -15,12 +15,13 @@ namespace pf
             Options,
             Achievements,
             Statistics,
+            Credits,
             Quit,
             Count
         };
 
         public TextMeshPro titleText;
-        public TextMeshPro[] menu = new TextMeshPro[6];
+        public TextMeshPro[] menu = new TextMeshPro[7];
 
         private LevelLoader levelLoader;
 
@@ -118,6 +119,11 @@ namespace pf
                             print("Statistics!");
                             break;
                         }
+                    case Selection.Credits:
+                        {
+                            levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
+                            break;
+                        }
                     case Selection.Quit:
                         {
 #if UNITY_EDITOR
@@ -144,6 +150,7 @@ namespace pf
                 }
                 else
                 {
+                    print("Setting index: " + i + " gray");
                     menu[i].color = Color.gray;
                 }
 

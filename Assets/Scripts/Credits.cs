@@ -58,6 +58,11 @@ namespace pf
 
         }
 
+        private void OnDestroy()
+        {
+            DOTween.KillAll();
+        }
+
         void CreditsDone()
         {
             levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);

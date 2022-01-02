@@ -58,7 +58,26 @@ namespace pf
                 bestTimes[i] = l.BestTime;
             }
 
-            //TODO: save statistics
+            collectedApples = PlayerStats.CollectedApples;
+            collectedBananas = PlayerStats.CollectedBananas;
+            collectedCherries = PlayerStats.CollectedCherries;
+            collectedKiwis = PlayerStats.CollectedKiwis;
+            collectedMelons = PlayerStats.CollectedMelons;
+            collectedOranges = PlayerStats.CollectedOranges;
+            collectedPineapples = PlayerStats.CollectedPineapples;
+            collectedStrawberries = PlayerStats.CollectedStrawberries;
+
+            for(int i=0; i <PlayerStats.LevelsCompleted.Count; i++)
+            {
+                levelsCompleted[i] = PlayerStats.LevelsCompleted[i];
+            }
+
+            for(int i=0; i <PlayerStats.LevelsCompletedWithoutHits.Count; i++)
+            {
+                levelsCompletedWithoutHits[i] = PlayerStats.LevelsCompletedWithoutHits[i];
+            }
+
+
         }
     }
 }

@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Continue.unity
     guid: 792f3a29da37e354482bb35d743408d9
   - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 5fa275c56311732428a6375cfd4e1f29
+  - enabled: 1
     path: Assets/Scenes/Level_0.unity
     guid: ee9b11a596e4d69499b357349f57cf7c
   - enabled: 1
