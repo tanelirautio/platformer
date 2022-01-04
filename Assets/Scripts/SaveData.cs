@@ -7,13 +7,14 @@ namespace pf
     [System.Serializable]
     public class SaveData
     {
+        public int version;
         public int selectedCharacter;
         public int currentLevel;
         public int[] bestScores;
         public int[] scores;
         public int health;
         public bool[,] levelObjectivesCompleted;
-        public float[] bestTimes;
+        public int[] bestTimes;
 
         // Statistics
         //public bool[] levelsCompleted;
@@ -31,6 +32,7 @@ namespace pf
 
         public SaveData()
         {
+            version = Defs.SAVEDATA_VERSION;
             selectedCharacter = PlayerStats.SelectedCharacter;
             currentLevel = PlayerStats.SceneIndex;
             health = PlayerStats.Health;
@@ -46,23 +48,20 @@ namespace pf
                 bestScores[i] = PlayerStats.BestScores[i];
             }
 
-            /*
+            
             levelObjectivesCompleted = new bool[Defs.LEVEL_AMOUNT, Defs.OBJECTIVES_PER_LEVEL];
-            bestTimes = new float[Defs.LEVEL_AMOUNT];
+            bestTimes = new int[Defs.LEVEL_AMOUNT];
 
             for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
             {
-                LevelObjectives l = PlayerStats.CompletedObjectives[i];
-
-                levelObjectivesCompleted[i, 0] = l.CompletedPoints;
-                levelObjectivesCompleted[i, 1] = l.CompletedTime;
-                levelObjectivesCompleted[i, 2] = l.CompletedNoHits;
-
-                bestTimes[i] = l.BestTime;
+                CompletedObjectives c = PlayerStats.CompletedObjectives[i];
+                // keep the same order that is declared in CompletedObjectives class
+                levelObjectivesCompleted[i, 0] = c.CompletedNoHits;
+                levelObjectivesCompleted[i, 1] = c.CompletedPoints;
+                levelObjectivesCompleted[i, 2] = c.CompletedTime;
+                bestTimes[i] = c.BestTime;
             }
-            */
 
-            
             collectedApples = PlayerStats.CollectedApples;
             collectedBananas = PlayerStats.CollectedBananas;
             collectedCherries = PlayerStats.CollectedCherries;

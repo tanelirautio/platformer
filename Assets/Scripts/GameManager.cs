@@ -53,12 +53,15 @@ namespace pf
                     print("best score " + i + ": " + s.bestScores[i]);
                 }
 
-                /*
                 for (int i = 0; i < s.bestTimes.Length; i++)
                 {
                     print("best time " + i + ": " + s.bestTimes[i]);
                 }
-                */
+
+                for(int i=0; i < Defs.LEVEL_AMOUNT; i++)
+                {
+                    print("objectives per level: " + s.levelObjectivesCompleted[i, 0] + ", " + s.levelObjectivesCompleted[i, 1] + ", " + s.levelObjectivesCompleted[i, 2]);
+                }
 
                 print("Apples: " + s.collectedApples);
                 print("Bananas: " + s.collectedBananas);

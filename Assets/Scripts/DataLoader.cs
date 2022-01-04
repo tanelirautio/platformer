@@ -23,6 +23,8 @@ namespace pf
             print("Savedata loaded!");
             if (saveData != null)
             {
+                print("Save version: " + saveData.version);
+
                 ShowLoadOption = true;
 
                 // Level objectives
@@ -39,7 +41,6 @@ namespace pf
                 }
 
                 // Statistics
-                /*
                 PlayerStats.CollectedApples = saveData.collectedApples;
                 PlayerStats.CollectedBananas = saveData.collectedBananas;
                 PlayerStats.CollectedCherries = saveData.collectedCherries;
@@ -48,7 +49,6 @@ namespace pf
                 PlayerStats.CollectedOranges = saveData.collectedOranges;
                 PlayerStats.CollectedPineapples = saveData.collectedPineapples;
                 PlayerStats.CollectedStrawberries = saveData.collectedStrawberries;
-                */
 
                 /*
                 for(int i=0; i<saveData.levelsCompleted.Length; i++)
