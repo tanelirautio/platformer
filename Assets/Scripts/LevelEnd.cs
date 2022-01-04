@@ -129,36 +129,37 @@ namespace pf
             // show the trophies that are granted to player 
 
             // Check from the saved data if trophies have been given in previous plays
-            int level = PlayerStats.Level;
-            print("level is: " + level);
+            int level = PlayerStats.GetCurrentLevel();
+            print("*** level is: " + level + " ***");
             float parTime = 0;
             float playerTime = time;
-            if (level >= 0 && level < PlayerStats.CompletedObjectives.Count)
+            if (level >= 0 && level < PlayerStats.CompletedObjectives.Length)
             {
-                LevelObjectives o = PlayerStats.CompletedObjectives[level];
+                LevelObjectives o = PlayerStats.LevelObjectives[level];
+                CompletedObjectives c = PlayerStats.CompletedObjectives[level];
                 parTime = o.GetRequiredTime();
-                if (o.CompletedNoHits || !hit)
+                if (c.CompletedNoHits || !hit)
                 {
                     showFirst = true;
-                    if (!o.CompletedNoHits)
+                    if (!c.CompletedNoHits)
                     {
-                        o.CompletedNoHits = true;
+                        c.CompletedNoHits = true;
                     }
                 }
-                if (o.CompletedPoints || score >= o.GetRequiredScore())
+                if (c.CompletedPoints || score >= o.GetRequiredScore())
                 {
                     showSecond = true;
-                    if (!o.CompletedPoints)
+                    if (!c.CompletedPoints)
                     {
-                        o.CompletedPoints = true;
+                        c.CompletedPoints = true;
                     }
                 }
-                if (o.CompletedTime || time <= parTime)
+                if (c.CompletedTime || time <= parTime)
                 {
                     showThird = true;
-                    if (!o.CompletedTime)
+                    if (!c.CompletedTime)
                     {
-                        o.CompletedTime = true;
+                        c.CompletedTime = true;
                     }
                 }
             }

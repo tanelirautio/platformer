@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 using TMPro;
+using System;
 
 namespace pf
 {
@@ -33,7 +34,7 @@ namespace pf
 
             if(LevelLoader.GetPreviousSceneIndex() == (int)LevelLoader.Scenes.Continue)
             {
-                PlayerStats.Scores.Clear();
+                Array.Clear(PlayerStats.Scores, 0, PlayerStats.Scores.Length);
                 totalScore = 0;
                 string str = totalScore.ToString();
                 scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
@@ -43,7 +44,7 @@ namespace pf
             {
                 print("get values from PlayerStats.Scores");
 
-                for (int i = 0; i < PlayerStats.Level; i++)
+                for (int i = 0; i < PlayerStats.GetCurrentLevel(); i++)
                 {
                     totalScore += PlayerStats.Scores[i];
                 }

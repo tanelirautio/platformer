@@ -98,7 +98,10 @@ namespace pf
                             {
                                 PlayerStats.SelectedCharacter = dataLoader.GetSaveData().selectedCharacter;
                                 PlayerStats.SceneIndex = dataLoader.GetSaveData().currentLevel;
-                                PlayerStats.Scores.AddRange(dataLoader.GetSaveData().scores);
+                                for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
+                                {
+                                    PlayerStats.Scores[i] = dataLoader.GetSaveData().scores[i];
+                                }
                                 PlayerStats.Health = dataLoader.GetSaveData().health;
                                 levelLoader.LoadScene(PlayerStats.SceneIndex);
                             }
@@ -150,7 +153,7 @@ namespace pf
                 }
                 else
                 {
-                    print("Setting index: " + i + " gray");
+                    //print("Setting index: " + i + " gray");
                     menu[i].color = Color.gray;
                 }
 

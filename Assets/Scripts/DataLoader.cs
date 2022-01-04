@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace pf
 {
@@ -17,26 +18,28 @@ namespace pf
         {
             print("Mainmenu start");
             ParseData();
+
             saveData = SaveSystem.Load();
+            print("Savedata loaded!");
             if (saveData != null)
             {
                 ShowLoadOption = true;
 
                 // Level objectives
-                //Debug.Log("levelObjectives.Length: " + saveData.levelObjectivesCompleted.Length);
-                for (int i = 0; i < saveData.levelObjectivesCompleted.GetLength(0); i++)
+                for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
                 {
-                    if (i < PlayerStats.CompletedObjectives.Count)
-                    {
-                        PlayerStats.CompletedObjectives[i].CompletedNoHits = saveData.levelObjectivesCompleted[i, 0];
-                        PlayerStats.CompletedObjectives[i].CompletedPoints = saveData.levelObjectivesCompleted[i, 1];
-                        PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];
-                    }
+                    PlayerStats.CompletedObjectives[i].CompletedNoHits = saveData.levelObjectivesCompleted[i, 0];
+                    PlayerStats.CompletedObjectives[i].CompletedPoints = saveData.levelObjectivesCompleted[i, 1];
+                    PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];      
                 }
                 // Best scores
-                PlayerStats.Scores.AddRange(saveData.bestScores);
+                for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
+                {
+                    PlayerStats.BestScores[i] = saveData.bestScores[i];
+                }
 
                 // Statistics
+                /*
                 PlayerStats.CollectedApples = saveData.collectedApples;
                 PlayerStats.CollectedBananas = saveData.collectedBananas;
                 PlayerStats.CollectedCherries = saveData.collectedCherries;
@@ -45,7 +48,9 @@ namespace pf
                 PlayerStats.CollectedOranges = saveData.collectedOranges;
                 PlayerStats.CollectedPineapples = saveData.collectedPineapples;
                 PlayerStats.CollectedStrawberries = saveData.collectedStrawberries;
+                */
 
+                /*
                 for(int i=0; i<saveData.levelsCompleted.Length; i++)
                 {
                     if(i < PlayerStats.LevelsCompleted.Count)
@@ -61,6 +66,7 @@ namespace pf
                         PlayerStats.LevelsCompletedWithoutHits[i] = saveData.levelsCompletedWithoutHits[i];
                     }
                 }
+                */
             }
             else
             {
@@ -83,9 +89,10 @@ namespace pf
                     LevelObjectives[] obj = JsonHelper.FromJson<LevelObjectives>(levelObjectivesText.text);
                     if (obj != null)
                     {
+                        Assert.AreEqual(obj.Length, Defs.LEVEL_AMOUNT);
                         for (int i = 0; i < obj.Length; i++)
                         {
-                            PlayerStats.CompletedObjectives.Add(obj[i]);
+                            PlayerStats.LevelObjectives.Add(obj[i]);
                         }
                     }
                 }

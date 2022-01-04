@@ -322,20 +322,20 @@ namespace pf
             // In the real game show end screen
             if (levelLoader.GetCurrentSceneIndex() == levelLoader.GetTotalSceneCount()-1)
             {
-                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+                levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
             }
             else
             {
                 // save player score only when transitioning to next level
                 print("***** Transition to next level *****");
                 print("level score: " + score.GetLevelScore());
-                print("current level: " + PlayerStats.Level);
+                print("current level: " + PlayerStats.GetCurrentLevel());
 
                 int levelScore = score.GetLevelScore();
-                PlayerStats.Scores[PlayerStats.Level] = levelScore;
-                if(PlayerStats.BestScores[PlayerStats.Level] < levelScore)
+                PlayerStats.Scores[PlayerStats.GetCurrentLevel()] = levelScore;
+                if(PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] < levelScore)
                 {
-                    PlayerStats.BestScores[PlayerStats.Level] = levelScore;
+                    PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] = levelScore;
                 }
 
                 // TODO: save only relevant data, do not overwrite higher values(?)

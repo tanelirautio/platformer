@@ -16,8 +16,9 @@ namespace pf
         public float[] bestTimes;
 
         // Statistics
-        public bool[] levelsCompleted;
-        public bool[] levelsCompletedWithoutHits;
+        //public bool[] levelsCompleted;
+        //public bool[] levelsCompletedWithoutHits;
+        
         public int collectedApples;
         public int collectedBananas;
         public int collectedStrawberries;
@@ -26,6 +27,7 @@ namespace pf
         public int collectedMelons;
         public int collectedOranges;
         public int collectedPineapples;
+        
 
         public SaveData()
         {
@@ -34,20 +36,21 @@ namespace pf
             health = PlayerStats.Health;
 
             scores = new int[Defs.LEVEL_AMOUNT];
-            for (int i = 0; i < PlayerStats.Scores.Count; i++)
+            for (int i = 0; i < PlayerStats.Scores.Length; i++)
             {
                 scores[i] = PlayerStats.Scores[i];
             }
             bestScores = new int[Defs.LEVEL_AMOUNT];
-            for (int i = 0; i < PlayerStats.BestScores.Count; i++)
+            for (int i = 0; i < PlayerStats.BestScores.Length; i++)
             {
                 bestScores[i] = PlayerStats.BestScores[i];
             }
 
+            /*
             levelObjectivesCompleted = new bool[Defs.LEVEL_AMOUNT, Defs.OBJECTIVES_PER_LEVEL];
             bestTimes = new float[Defs.LEVEL_AMOUNT];
 
-            for (int i = 0; i < PlayerStats.CompletedObjectives.Count; i++)
+            for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
             {
                 LevelObjectives l = PlayerStats.CompletedObjectives[i];
 
@@ -57,7 +60,9 @@ namespace pf
 
                 bestTimes[i] = l.BestTime;
             }
+            */
 
+            
             collectedApples = PlayerStats.CollectedApples;
             collectedBananas = PlayerStats.CollectedBananas;
             collectedCherries = PlayerStats.CollectedCherries;
@@ -67,6 +72,7 @@ namespace pf
             collectedPineapples = PlayerStats.CollectedPineapples;
             collectedStrawberries = PlayerStats.CollectedStrawberries;
 
+            /*
             for(int i=0; i <PlayerStats.LevelsCompleted.Count; i++)
             {
                 levelsCompleted[i] = PlayerStats.LevelsCompleted[i];
@@ -76,6 +82,7 @@ namespace pf
             {
                 levelsCompletedWithoutHits[i] = PlayerStats.LevelsCompletedWithoutHits[i];
             }
+            */
 
 
         }

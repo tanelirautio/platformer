@@ -8,14 +8,9 @@ namespace pf
     [Serializable]
     public class LevelObjectives
     {
-        public int level;
-        public int points;
-        public float time;
-
-        public bool CompletedNoHits { get; set; } // 1st
-        public bool CompletedPoints { get; set; } //2nd
-        public bool CompletedTime { get; set; } //3rd
-        public float BestTime { get; set; }
+        public int level = 0;
+        public int points = 0;
+        public float time = 0;
 
         public LevelObjectives(int level, int points, float time)
         {

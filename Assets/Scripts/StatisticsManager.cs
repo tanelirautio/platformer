@@ -6,7 +6,7 @@ namespace pf {
     public class StatisticsManager 
     {
 
-        static void AddCollectedFruit(Collectable.Type type)
+        public static void AddCollectedFruit(Collectable.Type type)
         {
             switch (type)
             {
@@ -37,7 +37,7 @@ namespace pf {
             }
         }
 
-        static int GetCollectedFruits(Collectable.Type type)
+        public static int GetCollectedFruits(Collectable.Type type)
         {
             switch(type)
             {
@@ -61,6 +61,7 @@ namespace pf {
             return 0;
         }
 
+        /*
         static void SetCompletedLevel(int level)
         {
             PlayerStats.LevelsCompleted[level] = true;
@@ -96,6 +97,7 @@ namespace pf {
             }
             return levels;
         }
+        */
     }
     
 }

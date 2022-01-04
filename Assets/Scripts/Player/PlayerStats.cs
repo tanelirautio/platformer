@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Collections;
+using System;
+using System.Diagnostics;
 
 namespace pf
 {
@@ -7,22 +10,19 @@ namespace pf
         public static int SelectedCharacter { get; set; }
         public static int SceneIndex { get; set; }
 
-        public static int Level
+        public static int GetCurrentLevel()
         {
-            get
-            {
-                return SceneIndex - (int)LevelLoader.Scenes.StartLevel;
-            }
+            return SceneIndex - (int)LevelLoader.Scenes.StartLevel;
         }
+
         public static int Health { get; set; }
-        public static List<int> BestScores = new List<int>(new int[Defs.LEVEL_AMOUNT]);
-        public static List<int> Scores = new List<int>(new int[Defs.LEVEL_AMOUNT]);
-        public static List<LevelObjectives> CompletedObjectives = new List<LevelObjectives>();
-        public static List<Achievements> Achievements = new List<Achievements>();
+        public static int[] BestScores = new int[Defs.LEVEL_AMOUNT];
+        public static int[] Scores = new int[Defs.LEVEL_AMOUNT];
+        public static CompletedObjectives[] CompletedObjectives = new CompletedObjectives[Defs.LEVEL_AMOUNT];
 
         // Statistics
-        public static List<bool> LevelsCompleted = new List<bool>(new bool[Defs.LEVEL_AMOUNT]);
-        public static List<bool> LevelsCompletedWithoutHits = new List<bool>(new bool[Defs.LEVEL_AMOUNT]);
+        //public static List<bool> LevelsCompleted = new List<bool>(new bool[Defs.LEVEL_AMOUNT]);
+        //public static List<bool> LevelsCompletedWithoutHits = new List<bool>(new bool[Defs.LEVEL_AMOUNT]);
         public static int CollectedApples { get; set; }
         public static int CollectedBananas { get; set; }
         public static int CollectedStrawberries { get; set; }
@@ -31,5 +31,17 @@ namespace pf
         public static int CollectedMelons { get; set; }
         public static int CollectedOranges { get; set; }
         public static int CollectedPineapples { get; set; }
+
+        // from JSON, read only
+        public static List<LevelObjectives> LevelObjectives = new List<LevelObjectives>();
+        public static List<Achievements> Achievements = new List<Achievements>();
+
+        static PlayerStats() 
+        {
+            for(int i=0; i<Defs.LEVEL_AMOUNT; i++)
+            {
+                CompletedObjectives[i] = new CompletedObjectives();
+            }
+        }
     }
 }

@@ -93,6 +93,7 @@ namespace pf
                 
                 if (type != Type.Heart)
                 {
+                    StatisticsManager.AddCollectedFruit(type);
                     ShowFadingScore();
                 }
                 else
@@ -100,7 +101,6 @@ namespace pf
                     if (!health.AddHealth())
                     {
                         ShowFadingScore();
-
                     }
                     else
                     {

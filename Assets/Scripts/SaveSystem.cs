@@ -58,7 +58,7 @@ namespace pf
             }
             else
             {
-                Debug.LogError("Save file not found in " + path);
+                Debug.LogWarning("Save file not found in " + path);
                 return null;
             }
         }
