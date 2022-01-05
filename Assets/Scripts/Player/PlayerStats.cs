@@ -17,12 +17,12 @@ namespace pf
 
         public static int Health { get; set; }
         public static int[] BestScores = new int[Defs.LEVEL_AMOUNT];
-        public static int[] Scores = new int[Defs.LEVEL_AMOUNT];
+        //public static int[] Scores = new int[Defs.LEVEL_AMOUNT];
         public static CompletedObjectives[] CompletedObjectives = new CompletedObjectives[Defs.LEVEL_AMOUNT];
 
         // Statistics
-        //public static List<bool> LevelsCompleted = new List<bool>(new bool[Defs.LEVEL_AMOUNT]);
-        //public static List<bool> LevelsCompletedWithoutHits = new List<bool>(new bool[Defs.LEVEL_AMOUNT]);
+        public static bool[] LevelsCompleted = new bool[Defs.LEVEL_AMOUNT];
+        public static bool[] LevelsCompletedWithoutHits = new bool[Defs.LEVEL_AMOUNT];
         public static int CollectedApples { get; set; }
         public static int CollectedBananas { get; set; }
         public static int CollectedStrawberries { get; set; }

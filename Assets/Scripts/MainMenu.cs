@@ -29,6 +29,7 @@ namespace pf
         private Selection selection = 0;
 
         private DataLoader dataLoader;
+        private bool firstRun = true;
 
         private void Awake()
         {
@@ -40,12 +41,17 @@ namespace pf
         {
             titleText.outlineColor = Color.black;
             titleText.outlineWidth = 0.2f;
-            CheckSelection();
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(firstRun)
+            {
+                CheckSelection();
+                firstRun = false;
+            }
+
             //quick hack to get something working, replace with real input manager
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -98,10 +104,6 @@ namespace pf
                             {
                                 PlayerStats.SelectedCharacter = dataLoader.GetSaveData().selectedCharacter;
                                 PlayerStats.SceneIndex = dataLoader.GetSaveData().currentLevel;
-                                for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
-                                {
-                                    PlayerStats.Scores[i] = dataLoader.GetSaveData().scores[i];
-                                }
                                 PlayerStats.Health = dataLoader.GetSaveData().health;
                                 levelLoader.LoadScene(PlayerStats.SceneIndex);
                             }

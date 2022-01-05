@@ -21,6 +21,7 @@ namespace pf
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+            AudioManager.Instance.PlayMusic("8bit Bossa", 0);
         }
 
         void Start()
@@ -61,19 +62,26 @@ namespace pf
         private void OnDestroy()
         {
             DOTween.KillAll();
+
         }
 
         void CreditsDone()
         {
-            levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+            LoadNextScene();
         }
 
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
-                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+                LoadNextScene();
             }
+        }
+
+        private void LoadNextScene()
+        {
+            AudioManager.Instance.StopMusicFade(1.0f);
+            levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
         }
     }
 }

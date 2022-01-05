@@ -328,21 +328,24 @@ namespace pf
             {
                 // save player score only when transitioning to next level
                 print("***** Transition to next level *****");
-                print("level score: " + score.GetLevelScore());
+                print("level score: " + score.GetScore());
                 print("current level: " + PlayerStats.GetCurrentLevel());
-
-                int levelScore = score.GetLevelScore();
-                PlayerStats.Scores[PlayerStats.GetCurrentLevel()] = levelScore;
-                if(PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] < levelScore)
+                if(PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] < score.GetScore())
                 {
-                    PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] = levelScore;
+                    PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] = score.GetScore();
                 }
 
-                // TODO: save only relevant data, do not overwrite higher values(?)
-                SaveSystem.Save();
+
+                CheckValuesAndSave();
 
                 levelLoader.LoadNextScene();
             }
+        }
+
+        private void CheckValuesAndSave()
+        {
+            // TODO: save only relevant data, do not overwrite higher values
+            SaveSystem.Save();
         }
 
         private void OnTriggerStay2D(Collider2D collision)
@@ -388,7 +391,7 @@ namespace pf
                 controllerDisabled = true;
 
                 float timerMs = timer * 1000;
-                levelEnd.ShowLevelEnd(hasBeenHit, score.GetLevelScore(), timerMs);
+                levelEnd.ShowLevelEnd(hasBeenHit, score.GetScore(), timerMs);
 
                 //uiCanvas.SetActive(false);
             }

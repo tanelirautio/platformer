@@ -32,7 +32,8 @@ namespace pf
                 {
                     PlayerStats.CompletedObjectives[i].CompletedNoHits = saveData.levelObjectivesCompleted[i, 0];
                     PlayerStats.CompletedObjectives[i].CompletedPoints = saveData.levelObjectivesCompleted[i, 1];
-                    PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];      
+                    PlayerStats.CompletedObjectives[i].CompletedTime = saveData.levelObjectivesCompleted[i, 2];
+                    PlayerStats.CompletedObjectives[i].BestTime = saveData.bestTimes[i];
                 }
                 // Best scores
                 for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
@@ -50,10 +51,10 @@ namespace pf
                 PlayerStats.CollectedPineapples = saveData.collectedPineapples;
                 PlayerStats.CollectedStrawberries = saveData.collectedStrawberries;
 
-                /*
+                
                 for(int i=0; i<saveData.levelsCompleted.Length; i++)
                 {
-                    if(i < PlayerStats.LevelsCompleted.Count)
+                    if(i < PlayerStats.LevelsCompleted.Length)
                     {
                         PlayerStats.LevelsCompleted[i] = saveData.levelsCompleted[i];
                     }
@@ -61,12 +62,12 @@ namespace pf
                 
                 for(int i=0; i<saveData.levelsCompletedWithoutHits.Length; i++)
                 {
-                    if(i < PlayerStats.LevelsCompletedWithoutHits.Count)
+                    if(i < PlayerStats.LevelsCompletedWithoutHits.Length)
                     {
                         PlayerStats.LevelsCompletedWithoutHits[i] = saveData.levelsCompletedWithoutHits[i];
                     }
                 }
-                */
+               
             }
             else
             {

@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: 1215694892}
   - component: {fileID: 1215694893}
   m_Layer: 0
-  m_Name: TitleLogic
+  m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

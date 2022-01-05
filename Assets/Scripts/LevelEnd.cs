@@ -138,12 +138,15 @@ namespace pf
                 LevelObjectives o = PlayerStats.LevelObjectives[level];
                 CompletedObjectives c = PlayerStats.CompletedObjectives[level];
                 parTime = o.GetRequiredTime();
+                PlayerStats.LevelsCompleted[level] = true;
+
                 if (c.CompletedNoHits || !hit)
                 {
                     showFirst = true;
                     if (!c.CompletedNoHits)
                     {
                         c.CompletedNoHits = true;
+                        PlayerStats.LevelsCompletedWithoutHits[level] = true;
                     }
                 }
                 if (c.CompletedPoints || score >= o.GetRequiredScore())
@@ -156,10 +159,18 @@ namespace pf
                 }
                 if (c.CompletedTime || time <= parTime)
                 {
+                    
                     showThird = true;
                     if (!c.CompletedTime)
                     {
                         c.CompletedTime = true;
+                    }
+                    if(time <= parTime)
+                    {
+                        if(c.BestTime == 0 || time < c.BestTime)
+                        {
+                            c.BestTime = time;
+                        }
                     }
                 }
             }

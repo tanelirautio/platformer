@@ -11,14 +11,14 @@ namespace pf
         public int selectedCharacter;
         public int currentLevel;
         public int[] bestScores;
-        public int[] scores;
+        //public int[] scores;
         public int health;
         public bool[,] levelObjectivesCompleted;
-        public int[] bestTimes;
+        public float[] bestTimes;
 
         // Statistics
-        //public bool[] levelsCompleted;
-        //public bool[] levelsCompletedWithoutHits;
+        public bool[] levelsCompleted;
+        public bool[] levelsCompletedWithoutHits;
         
         public int collectedApples;
         public int collectedBananas;
@@ -37,20 +37,14 @@ namespace pf
             currentLevel = PlayerStats.SceneIndex;
             health = PlayerStats.Health;
 
-            scores = new int[Defs.LEVEL_AMOUNT];
-            for (int i = 0; i < PlayerStats.Scores.Length; i++)
-            {
-                scores[i] = PlayerStats.Scores[i];
-            }
             bestScores = new int[Defs.LEVEL_AMOUNT];
             for (int i = 0; i < PlayerStats.BestScores.Length; i++)
             {
                 bestScores[i] = PlayerStats.BestScores[i];
             }
 
-            
             levelObjectivesCompleted = new bool[Defs.LEVEL_AMOUNT, Defs.OBJECTIVES_PER_LEVEL];
-            bestTimes = new int[Defs.LEVEL_AMOUNT];
+            bestTimes = new float[Defs.LEVEL_AMOUNT];
 
             for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
             {
@@ -71,17 +65,18 @@ namespace pf
             collectedPineapples = PlayerStats.CollectedPineapples;
             collectedStrawberries = PlayerStats.CollectedStrawberries;
 
-            /*
-            for(int i=0; i <PlayerStats.LevelsCompleted.Count; i++)
+            levelsCompleted = new bool[Defs.LEVEL_AMOUNT];
+            for (int i=0; i <PlayerStats.LevelsCompleted.Length; i++)
             {
                 levelsCompleted[i] = PlayerStats.LevelsCompleted[i];
             }
 
-            for(int i=0; i <PlayerStats.LevelsCompletedWithoutHits.Count; i++)
+            levelsCompletedWithoutHits = new bool[Defs.LEVEL_AMOUNT];
+            for(int i=0; i <PlayerStats.LevelsCompletedWithoutHits.Length; i++)
             {
                 levelsCompletedWithoutHits[i] = PlayerStats.LevelsCompletedWithoutHits[i];
             }
-            */
+            
 
 
         }

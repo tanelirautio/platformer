@@ -11,6 +11,6 @@ namespace pf
         public bool CompletedNoHits { get; set; } // 1st
         public bool CompletedPoints { get; set; } //2nd
         public bool CompletedTime { get; set; } //3rd
-        public int BestTime { get; set; }
+        public float BestTime { get; set; }
     }
 }

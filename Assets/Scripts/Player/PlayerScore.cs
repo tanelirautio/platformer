@@ -11,8 +11,7 @@ namespace pf
         const int MAX_SCORE_CHARACTER_COUNT = 8;
         const float UI_UPDATE_WAIT_TIME = 0.0001f;
 
-        private int totalScore = 0;
-        private int levelScore = 0;
+        private int score = 0;
         private TextMeshProUGUI scoreText;
         private bool coroutineRunning = false;
 
@@ -30,49 +29,23 @@ namespace pf
         public void Reset()
         {
             print("Reset player score");
-            levelScore = 0;
-
-            if(LevelLoader.GetPreviousSceneIndex() == (int)LevelLoader.Scenes.Continue)
-            {
-                Array.Clear(PlayerStats.Scores, 0, PlayerStats.Scores.Length);
-                totalScore = 0;
-                string str = totalScore.ToString();
-                scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
-            }
-            else if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
-                LevelLoader.GetPreviousSceneIndex() != -1)
-            {
-                print("get values from PlayerStats.Scores");
-
-                for (int i = 0; i < PlayerStats.GetCurrentLevel(); i++)
-                {
-                    totalScore += PlayerStats.Scores[i];
-                }
-
-                string str = totalScore.ToString();
-                scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
-            }
+            score = 0;
+            string str = score.ToString();
+            scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
         }
 
         public void AddScore(int score)
         {
-            levelScore += score;
-            totalScore += score;
+            this.score += score;
 
             //debug
-            print("Current total score: " + totalScore);
-            print("Current level score: " + levelScore);
+            print("Current level score: " + this.score);
             UpdateUiScore();
         }
 
-        public int GetLevelScore()
+        public int GetScore()
         {
-            return levelScore;
-        }
-
-        public int GetTotalScore()
-        {
-            return totalScore;
+            return score;
         }
 
         private void UpdateUiScore()
@@ -88,22 +61,22 @@ namespace pf
             coroutineRunning = true;
             int currentUiScore = int.Parse(scoreText.text);
 
-            while (currentUiScore != totalScore)
+            while (currentUiScore != score)
             {
-                if (currentUiScore < totalScore)
+                if (currentUiScore < score)
                 {
                     currentUiScore = currentUiScore + 5;
-                    if (currentUiScore > totalScore)
+                    if (currentUiScore > score)
                     {
-                        currentUiScore = totalScore;
+                        currentUiScore = score;
                     }
                 }
                 else
                 {
                     currentUiScore = currentUiScore - 5;
-                    if (currentUiScore < totalScore)
+                    if (currentUiScore < score)
                     {
-                        currentUiScore = totalScore;
+                        currentUiScore = score;
                     }
                 }
 

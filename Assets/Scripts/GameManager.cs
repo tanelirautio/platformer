@@ -43,11 +43,6 @@ namespace pf
                 print("saved level is: " + s.currentLevel);
                 print("saved health is: " + s.health);
 
-                for (int i = 0; i < s.scores.Length; i++)
-                {
-                    print("current score " + i + ": " + s.scores[i]);
-                }
-
                 for (int i=0; i < s.bestScores.Length; i++)
                 {
                     print("best score " + i + ": " + s.bestScores[i]);
@@ -72,7 +67,10 @@ namespace pf
                 print("Pineapple: " + s.collectedPineapples);
                 print("Strawberries: " + s.collectedStrawberries);
 
-                print("****************************");
+                for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
+                {
+                    print("level " + i + " completed: " + s.levelsCompleted[i] + " | completed without hits: " + s.levelsCompletedWithoutHits[i]);
+                 }
             }
 
             if (Input.GetKeyDown(KeyCode.R))
