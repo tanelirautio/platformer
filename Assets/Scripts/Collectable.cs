@@ -10,16 +10,15 @@ namespace pf
     {
         public enum Type
         {
-            Heart,
-            Apple,
-            Strawberry,
-            Carrot,
-            Bananas,
-            Cherries,
-            Kiwi,
-            Melon,
-            Orange,
-            Pineapple
+            Heart = 0,
+            Apple = 1,
+            Bananas = 2,
+            Cherries = 3,
+            Kiwi = 4,
+            Melon = 5,
+            Orange = 6,
+            Pineapple = 7,
+            Strawberry = 8
         }
 
         public Type type;
@@ -33,6 +32,7 @@ namespace pf
 
         private PlayerScore score;
         private PlayerHealth health;
+        private AchievementManager achievements;
 
         private static Dictionary<Type, int> collectables;
         private bool initDone = false;
@@ -43,6 +43,7 @@ namespace pf
         {
             score = GameObject.Find("Player").GetComponent<PlayerScore>();
             health = GameObject.Find("Player").GetComponent<PlayerHealth>();
+            achievements = GameObject.Find("Player").GetComponent<AchievementManager>();
 
             obj = transform.Find("Object");
             points = transform.Find("Points");
@@ -64,14 +65,13 @@ namespace pf
                 {
                     { Type.Heart, 1000 },
                     { Type.Apple, 100 },
-                    { Type.Carrot, 1000 },
-                    { Type.Strawberry, 50 },
                     { Type.Bananas, 200 },
                     { Type.Cherries, 300 },
                     { Type.Kiwi, 400 },
                     { Type.Melon, 500 },
                     { Type.Orange, 600 },
-                    { Type.Pineapple, 700 }
+                    { Type.Pineapple, 700 },
+                    { Type.Strawberry, 800 }
                 };
                 initDone = true;
             }
@@ -94,6 +94,7 @@ namespace pf
                 if (type != Type.Heart)
                 {
                     StatisticsManager.AddCollectedFruit(type);
+                    achievements.CheckCollectAchievement(type);
                     ShowFadingScore();
                 }
                 else

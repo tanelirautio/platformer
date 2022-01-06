@@ -11,6 +11,7 @@ namespace pf
     {
         private int selectedCharacter = 0;
         private bool selectionChanged = false;
+        private MenuMusic menuMusic;
 
         public TextMeshPro titleText;
         public TextMeshPro nameText;
@@ -33,6 +34,7 @@ namespace pf
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+            menuMusic = GameObject.Find("MenuAudio").GetComponent<MenuMusic>();
         }
 
         void Start()
@@ -83,7 +85,9 @@ namespace pf
 
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
+                
                 levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
+                menuMusic.StopFade(1f);
             }
         }
 

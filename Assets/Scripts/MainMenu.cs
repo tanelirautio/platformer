@@ -29,18 +29,28 @@ namespace pf
         private Selection selection = 0;
 
         private DataLoader dataLoader;
+        private MenuMusic menuMusic;
         private bool firstRun = true;
 
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             dataLoader = GetComponent<DataLoader>();
+            menuMusic = GameObject.Find("MenuAudio").GetComponent<MenuMusic>();
+
+            // We don't need GameAudio object in the menus
+            GameObject gameAudio = GameObject.Find("GameAudio");
+            if (gameAudio)
+            {
+                Destroy(gameAudio);
+            }
         }
 
         void Start()
         {
             titleText.outlineColor = Color.black;
             titleText.outlineWidth = 0.2f;
+            menuMusic.Play("Intro");
         }
 
         // Update is called once per frame

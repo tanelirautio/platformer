@@ -2,6 +2,7 @@
 using DG.Tweening;
 using UnityEngine.Experimental.Rendering.Universal;
 using System;
+using UnityEngine.Assertions;
 
 namespace pf
 {
@@ -34,6 +35,7 @@ namespace pf
         private GameObject uiCanvas;
         private LevelEnd levelEnd;
         private Light2D light2D;
+        //private AchievementManager achievementManager;
 
         private bool gracePeriod = false;
         private bool killZoneDamageTaken = false;
@@ -71,6 +73,7 @@ namespace pf
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             uiCanvas = GameObject.Find("UICanvas");
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
+            //achievementManager = GetComponent<AchievementManager>();
 
             PlayerStats.SceneIndex = levelLoader.GetCurrentSceneIndex();
 
@@ -79,6 +82,12 @@ namespace pf
             // This way independently played levels can still show them
             DataLoader.ParseData();
 #endif
+            // We don't need MenuAudio object during the game
+            GameObject menuAudio = GameObject.Find("MenuAudio");
+            if(menuAudio)
+            {
+                Destroy(menuAudio);
+            }
         }
 
         private void Start()
@@ -113,14 +122,12 @@ namespace pf
             timerStarted = false;
             hasBeenHit = false;
             light2D.enabled = false;
+
+            Assert.IsNotNull(spawnPoint);
             if (spawnPoint)
             {
                 transform.position = spawnPoint.transform.position;
                 print("Spawning at: " + transform.position);
-            }
-            else
-            {
-                print("Spawn point not found!");
             }
         }
 

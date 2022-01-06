@@ -35,6 +35,11 @@ namespace pf
             {
                 localizationMissing = true;
             }
+            else
+            {
+                textField.color = Color.white;
+                localizationMissing = false;
+            }
         }
 
         public string GetText()

@@ -17,15 +17,25 @@ namespace pf
         private Bounds bounds;
         private TextAsset credits;
         private LevelLoader levelLoader;
+        private MenuMusic menuMusic;
 
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
-            AudioManager.Instance.PlayMusic("8bit Bossa", 0);
+            menuMusic = GameObject.Find("MenuAudio").GetComponent<MenuMusic>();
+
+            // We don't need GameAudio object in the menus
+            GameObject gameAudio = GameObject.Find("GameAudio");
+            if (gameAudio)
+            {
+                Destroy(gameAudio);
+            }
         }
 
         void Start()
         {
+            menuMusic.Play("Credits");
+
             string filename;
             switch (LocalizationManager.language)
             {
@@ -80,7 +90,7 @@ namespace pf
 
         private void LoadNextScene()
         {
-            AudioManager.Instance.StopMusicFade(1.0f);
+            menuMusic.Stop();
             levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
         }
     }

@@ -52,7 +52,7 @@ namespace pf
                 PlayerStats.CollectedStrawberries = saveData.collectedStrawberries;
 
                 
-                for(int i=0; i<saveData.levelsCompleted.Length; i++)
+                for(int i=0; i < saveData.levelsCompleted.Length; i++)
                 {
                     if(i < PlayerStats.LevelsCompleted.Length)
                     {
@@ -60,11 +60,19 @@ namespace pf
                     }
                 }                
                 
-                for(int i=0; i<saveData.levelsCompletedWithoutHits.Length; i++)
+                for(int i=0; i < saveData.levelsCompletedWithoutHits.Length; i++)
                 {
                     if(i < PlayerStats.LevelsCompletedWithoutHits.Length)
                     {
                         PlayerStats.LevelsCompletedWithoutHits[i] = saveData.levelsCompletedWithoutHits[i];
+                    }
+                }
+
+                for(int i=0; i < saveData.completedAchievements.Length; i++)
+                {
+                    if(i < PlayerStats.CompletedAchievements.Length)
+                    {
+                        PlayerStats.CompletedAchievements[i] = saveData.completedAchievements[i];
                     }
                 }
                

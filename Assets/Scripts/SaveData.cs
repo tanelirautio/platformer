@@ -28,8 +28,10 @@ namespace pf
         public int collectedMelons;
         public int collectedOranges;
         public int collectedPineapples;
-        
 
+        // Achievements
+        public bool[] completedAchievements;
+        
         public SaveData()
         {
             version = Defs.SAVEDATA_VERSION;
@@ -76,9 +78,12 @@ namespace pf
             {
                 levelsCompletedWithoutHits[i] = PlayerStats.LevelsCompletedWithoutHits[i];
             }
-            
 
-
+            completedAchievements = new bool[Defs.ACHIEVEMENT_COUNT];
+            for(int i=0; i < Defs.ACHIEVEMENT_COUNT; i++)
+            {
+                completedAchievements[i] = PlayerStats.CompletedAchievements[i];
+            }
         }
     }
 }

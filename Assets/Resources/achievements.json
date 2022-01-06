@@ -1,100 +1,100 @@
 {
 	"Items": [
 		{
-			"meta": "Collect 100 apples",
+			"id" : "0",
+			"meta": "Collect 2 apples",
 			"type": "1",
-			"code": "10001",
-			"item": "apple",
-			"count": "100",
+			"collectableItem": "1",
+			"count": "2",
 			"title": "ach_title_collect_100_apples",
 			"desc": "ach_desc_collect_100_apples"
 		},
 		{
+			"id" : "1",
 			"meta": "Collect 100 bananas",
 			"type": "1",
-			"code": "10002",
-			"item": "banana",
+			"collectableItem": "2",
 			"count": "100",
 			"title": "ach_title_collect_100_bananas",
 			"desc": "ach_desc_collect_100_bananas"
 		},
 		{
+			"id" : "2",
 			"meta": "Collect 100 strawberries",
 			"type": "1",
-			"code": "10003",
-			"item": "strawberry",
+			"collectableItem": "8",
 			"count": "100",
 			"title": "ach_title_collect_100_strawberries",
 			"desc": "ach_desc_collect_100_strawberries"
 		},
 		{
+			"id" : "3",
 			"meta": "Finish first level",
 			"type": "2",
-			"code": "20000",
 			"count": "1",
 			"title": "ach_title_finish_1_level",
 			"desc": "ach_desc_finish_1_level"
 		},
 		{
+			"id" : "4",
 			"meta": "Finish 10 levels",
 			"type": "2",
-			"code": "20001",
 			"count": "10",
 			"title": "ach_title_finish_10_levels",
 			"desc": "ach_desc_finish_10_levels"
 		},
 		{
+			"id" : "5",
 			"meta": "Finish 20 levels",
 			"type": "2",
-			"code": "20002",
 			"count": "20",
 			"title": "ach_title_finish_20_levels",
 			"desc": "ach_desc_finish_20_levels"
 		},
 		{
+			"id" : "6",
 			"meta": "Finish 30 levels",
 			"type": "2",
-			"code": "20003",
 			"count": "10",
 			"title": "ach_title_finish_30_levels",
 			"desc": "ach_desc_finish_30_levels"
 		},
 		{
+			"id" : "7",
 			"meta": "Finish 40 levels",
 			"type": "2",
-			"code": "20004",
 			"count": "20",
 			"title": "ach_title_finish_40_levels",
 			"desc": "ach_desc_finish_40_levels"
 		},
 		{
+			"id" : "8",
 			"meta": "Finish 10 levels without a hit",
 			"type": "3",
-			"code": "30001",
 			"count": "10",
 			"title": "ach_title_finish_10_levels_without_hit",
 			"desc": "ach_desc_finish_10_levels_without_hit"
 		},
 		{
+			"id" : "9",
 			"meta": "Finish 20 levels without a hit",
 			"type": "3",
-			"code": "30002",
 			"count": "20",
 			"title": "ach_title_finish_20_levels_without_hit",
 			"desc": "ach_desc_finish_20_levels_without_hit"
 		},
 		{
+			"id" : "10",
 			"meta": "Finish 30 levels without a hit",
 			"type": "3",
-			"code": "30003",
 			"count": "30",
 			"title": "ach_title_finish_30_levels_without_hit",
 			"desc": "ach_desc_finish_30_levels_without_hit"
 		},
 		{
+			"id" : "11",
 			"meta": "Finish 40 levels without a hit",
 			"type": "3",
-			"code": "30004",
 			"count": "40",
 			"title": "ach_title_finish_40_levels_without_hit",
 			"desc": "ach_desc_finish_40_levels_without_hit"

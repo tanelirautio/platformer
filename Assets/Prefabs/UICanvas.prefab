@@ -234,8 +234,9 @@ GameObject:
   - component: {fileID: 650503569}
   - component: {fileID: 650503571}
   - component: {fileID: 650503570}
+  - component: {fileID: 6050605055084459434}
   m_Layer: 5
-  m_Name: AchieveTitle (1)
+  m_Name: AchieveDesc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,6 +358,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6050605055084459434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650503568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe7fe632f61fe647a9b70aff9aa2f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
 --- !u!1 &682711268
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +382,7 @@ GameObject:
   - component: {fileID: 682711269}
   - component: {fileID: 682711271}
   - component: {fileID: 682711270}
+  - component: {fileID: 8476818361479598927}
   m_Layer: 5
   m_Name: AchievementPanel
   m_TagString: Untagged
@@ -394,7 +409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 320, y: -20}
+  m_AnchoredPosition: {x: 320, y: 20}
   m_SizeDelta: {x: 340, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &682711271
@@ -435,6 +450,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &8476818361479598927
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682711268}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5310c07951190746b7de7c02840180f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &784712297
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +937,7 @@ GameObject:
   - component: {fileID: 1698316327}
   - component: {fileID: 1698316329}
   - component: {fileID: 1698316328}
+  - component: {fileID: 9116431189736065865}
   m_Layer: 5
   m_Name: AchieveTitle
   m_TagString: Untagged
@@ -1026,6 +1061,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9116431189736065865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698316326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe7fe632f61fe647a9b70aff9aa2f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
 --- !u!1 &1729143958
 GameObject:
   m_ObjectHideFlags: 0
