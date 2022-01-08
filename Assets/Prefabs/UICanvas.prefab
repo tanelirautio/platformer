@@ -258,8 +258,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25, y: -8}
-  m_SizeDelta: {x: 250, y: 17}
+  m_AnchoredPosition: {x: 16.5, y: -8}
+  m_SizeDelta: {x: 270, y: 17}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &650503571
 CanvasRenderer:
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Created a collection based achievemement
+  m_text: Finish 10 levels without hits
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.627451, b: 0.39215687, a: 1}
+  m_Color: {r: 0.754717, g: 0.19579923, b: 0.49706125, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -961,8 +961,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26, y: 10}
-  m_SizeDelta: {x: 250, y: 13}
+  m_AnchoredPosition: {x: 16.5, y: 10}
+  m_SizeDelta: {x: 270, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1698316329
 CanvasRenderer:
@@ -992,7 +992,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Collection
+  m_text: Indestructible
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -1025,7 +1025,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1454,7 +1454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 32, y: 0}
+  m_AnchoredPosition: {x: 20, y: 0}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &264125556530919861
@@ -1478,7 +1478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

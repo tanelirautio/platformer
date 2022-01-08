@@ -53,7 +53,7 @@ namespace pf
         }
 
         private void LateUpdate()
-        {
+        {     
             if (localizationMissing)
             {
                 textField.color = Color.red;
