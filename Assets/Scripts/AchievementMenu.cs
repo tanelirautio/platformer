@@ -9,7 +9,7 @@ namespace pf
     {
 
         public GameObject achievement;
-        //public Transform parent;
+        public Transform parent;
 
         // Start is called before the first frame update
         void Start()
@@ -23,7 +23,7 @@ namespace pf
             for(int i=0; i < PlayerStats.Achievements.Count; i++)
             {
                 GameObject go = Instantiate(achievement, new Vector3(0, 0, 0), Quaternion.identity);
-                go.transform.SetParent(this.transform, false);
+                go.transform.SetParent(parent, false);
                 go.name = achievement.name + "_" + i;
                 Vector3 pos = go.transform.position;
                 pos.y = offset - i * 4;

@@ -189,8 +189,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16.5, y: 10}
-  m_SizeDelta: {x: 270, y: 12}
+  m_AnchoredPosition: {x: 16.5, y: 8}
+  m_SizeDelta: {x: 270, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1778589896258450722
 CanvasRenderer:
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Indestructible
+  m_text: Never been this far away from home
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -247,15 +247,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Finish 10 levels without hits
+  m_text: Collect 100 strawberries xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
   m_sharedMaterial: {fileID: 8177285001819549125, guid: 846d0c4a9ea18bd49bdd2c674490798a, type: 2}
@@ -467,8 +467,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

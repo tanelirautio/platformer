@@ -127,6 +127,7 @@ namespace pf
                     case Selection.Achievements:
                         {
                             print("Achievements!");
+                            levelLoader.LoadScene((int)LevelLoader.Scenes.Achievements);
                             break;
                         }
                     case Selection.Statistics:
