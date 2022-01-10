@@ -4029,6 +4029,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PIneapple
       objectReference: {fileID: 0}
+    - target: {fileID: 2366536209537223180, guid: 79dcce98cea4b0f4c876f3e4e41f670e, type: 3}
+      propertyPath: type
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2366536209537223183, guid: 79dcce98cea4b0f4c876f3e4e41f670e, type: 3}
       propertyPath: m_RootOrder
       value: 8
