@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace pf
 {
@@ -16,7 +17,7 @@ namespace pf
         void Update()
         {
             // TODO: this is for debugging
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 /*
 #if UNITY_EDITOR
@@ -29,13 +30,13 @@ namespace pf
                 levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
             }
 
-            if(Input.GetKeyDown(KeyCode.S))
+            if (Keyboard.current.sKey.wasPressedThisFrame)
             {
                 SaveSystem.Save();
                 print("Saved!");
             }
 
-            if(Input.GetKeyDown(KeyCode.L))
+            if (Keyboard.current.lKey.wasPressedThisFrame)
             {
                 SaveData s = SaveSystem.Load();
                 print("*****************************");
@@ -73,7 +74,7 @@ namespace pf
                  }
             }
 
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Keyboard.current.rKey.wasPressedThisFrame)
             {
                 SaveSystem.Reset();
                 print("Save file reset!");

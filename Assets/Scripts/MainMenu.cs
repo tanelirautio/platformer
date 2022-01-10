@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 using System;
 
@@ -25,12 +26,92 @@ namespace pf
 
         private LevelLoader levelLoader;
 
-        private bool selectionChanged = false;
         private Selection selection = 0;
 
         private DataLoader dataLoader;
         private MenuMusic menuMusic;
         private bool firstRun = true;
+
+        private PlayerInputActions playerInputActions;
+
+        private void OnNavigate(InputAction.CallbackContext context)
+        {
+            var value = context.ReadValue<Vector2>();
+            var delta = -(int)value.y; // -1 or 1, invert...
+            if (delta == 0) return;
+
+            selection += delta;
+            if (selection == Selection.Load && !dataLoader.ShowLoadOption)
+            {
+                selection += delta;
+            }
+
+            // handle wrap
+            if (selection < Selection.New)
+            {
+                selection = Selection.Quit;
+            }
+            else if (selection > Selection.Quit)
+            {
+                selection = Selection.New;
+            }
+
+            CheckSelection();
+        }
+
+        private void OnSubmit(InputAction.CallbackContext context)
+        {
+            switch (selection)
+            {
+                case Selection.New:
+                {
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
+                    break;
+                }
+                case Selection.Load:
+                {
+                    print("Load game!");
+                    if (dataLoader.GetSaveData() != null)
+                    {
+                        PlayerStats.SelectedCharacter = dataLoader.GetSaveData().selectedCharacter;
+                        PlayerStats.SceneIndex = dataLoader.GetSaveData().currentLevel;
+                        PlayerStats.Health = dataLoader.GetSaveData().health;
+                        levelLoader.LoadScene(PlayerStats.SceneIndex);
+                    }
+                    break;
+                }
+                case Selection.Options:
+                {
+                    print("Options!");
+                    break;
+                }
+                case Selection.Achievements:
+                {
+                    print("Achievements!");
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.Achievements);
+                    break;
+                }
+                case Selection.Statistics:
+                {
+                    print("Statistics!");
+                    break;
+                }
+                case Selection.Credits:
+                {
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
+                    break;
+                }
+                case Selection.Quit:
+                {
+#if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+#else
+                    Application.Quit();
+#endif
+                    break;
+                }
+            }
+        }
 
         private void Awake()
         {
@@ -44,6 +125,26 @@ namespace pf
             {
                 Destroy(gameAudio);
             }
+
+            playerInputActions = new PlayerInputActions();
+        }
+
+        private void OnEnable()
+        {
+            playerInputActions.MenuControls.Navigate.performed += OnNavigate;
+            playerInputActions.MenuControls.Navigate.Enable();
+
+            playerInputActions.MenuControls.Submit.performed += OnSubmit;
+            playerInputActions.MenuControls.Submit.Enable();
+        }
+
+        private void OnDisable()
+        {
+            playerInputActions.MenuControls.Navigate.Disable();
+            playerInputActions.MenuControls.Navigate.performed -= OnNavigate;
+
+            playerInputActions.MenuControls.Submit.Disable();
+            playerInputActions.MenuControls.Submit.performed -= OnSubmit;
         }
 
         void Start()
@@ -60,98 +161,6 @@ namespace pf
             {
                 CheckSelection();
                 firstRun = false;
-            }
-
-            //quick hack to get something working, replace with real input manager
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                selection++;
-                if (!dataLoader.ShowLoadOption && selection == Selection.Load)
-                {
-                    selection++;
-                }
-                selectionChanged = true;
-            }
-            else if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                selection--;
-                if (!dataLoader.ShowLoadOption && selection == Selection.Load)
-                {
-                    selection--;
-                }
-                selectionChanged = true;
-            }
-
-            if (selection < Selection.New)
-            {
-                selection = Selection.Quit;
-            }
-            else if (selection > Selection.Quit)
-            {
-                selection = Selection.New;
-            }
-
-            if (selectionChanged)
-            {
-                CheckSelection();
-                selectionChanged = false;
-            }
-
-            // TODO:
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
-            {
-                switch (selection)
-                {
-                    case Selection.New:
-                        {
-                            levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
-                            break;
-                        }
-                    case Selection.Load:
-                        {
-                            print("Load game!");
-                            if (dataLoader.GetSaveData() != null)
-                            {
-                                PlayerStats.SelectedCharacter = dataLoader.GetSaveData().selectedCharacter;
-                                PlayerStats.SceneIndex = dataLoader.GetSaveData().currentLevel;
-                                PlayerStats.Health = dataLoader.GetSaveData().health;
-                                levelLoader.LoadScene(PlayerStats.SceneIndex);
-                            }
-                            break;
-                        }
-                    case Selection.Options:
-                        {
-                            print("Options!");
-                            break;
-                        }
-                    case Selection.Achievements:
-                        {
-                            print("Achievements!");
-                            levelLoader.LoadScene((int)LevelLoader.Scenes.Achievements);
-                            break;
-                        }
-                    case Selection.Statistics:
-                        {
-                            print("Statistics!");
-                            break;
-                        }
-                    case Selection.Credits:
-                        {
-                            levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
-                            break;
-                        }
-                    case Selection.Quit:
-                        {
-#if UNITY_EDITOR
-                            UnityEditor.EditorApplication.isPlaying = false;
-#else
-                    Application.Quit();
-#endif
-                            break;
-                        }
-
-                }
-
             }
         }
 

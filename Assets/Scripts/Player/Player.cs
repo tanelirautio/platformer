@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Assertions;
 
@@ -20,6 +21,10 @@ namespace pf
 
         [SerializeField] private float stopFollowingPlayerY = -2f;
         [SerializeField] private float killZoneY = -10f;
+
+        private PlayerInputActions playerInputActions;
+        private InputAction jumpAction;
+        private InputAction movementAction;
 
         private Controller2D controller;
         private Movement movement;
@@ -88,6 +93,23 @@ namespace pf
             {
                 Destroy(menuAudio);
             }
+
+            playerInputActions = new PlayerInputActions();
+        }
+
+        private void OnEnable()
+        {
+            jumpAction = playerInputActions.PlayerControls.Jump;
+            jumpAction.Enable();
+
+            movementAction = playerInputActions.PlayerControls.Movement;
+            movementAction.Enable();
+        }
+
+        private void OnDisable()
+        {
+            jumpAction.Disable();
+            movementAction.Disable();
         }
 
         private void Start()
@@ -140,14 +162,14 @@ namespace pf
 
             if (!controllerDisabled)
             {
-                input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                input = movementAction.ReadValue<Vector2>();
             }
             else
             {
                 input.x = 0;
                 input.y = 0;
 
-                if (Input.GetKeyDown(KeyCode.Space) && levelEnd.LevelEndReady())
+                if (jumpAction.WasPerformedThisFrame() && levelEnd.LevelEndReady())
                 {
                     LoadNextScene();
                 }
@@ -155,7 +177,7 @@ namespace pf
 
             movement.CalculateVelocityX(input.x, (controller.collisions.below) ? accTimeGrounded : accTimeAirborne);
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (jumpAction.WasPressedThisFrame())
             {
                 if (controller.collisions.below)
                 {
@@ -163,7 +185,7 @@ namespace pf
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (jumpAction.WasReleasedThisFrame())
             {
                 movement.DoubleGravity();
             }
@@ -297,7 +319,7 @@ namespace pf
                         );
                         anim.CollectPowerup(type);
                         light2D.enabled = true;
-                        light2D.color = Color.blue;                      
+                        light2D.color = Color.blue;
                         powerups.jumpPowerEnabled = true;
                     }
                     break;
@@ -368,7 +390,7 @@ namespace pf
                 else
                 {
                     trap = collision.gameObject.GetComponentInParent<Trap>();
-                    type = trap.type;     
+                    type = trap.type;
                 }
 
                 if (!isGracePeriod() && !isDead)
