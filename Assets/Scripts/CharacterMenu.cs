@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace pf
@@ -31,11 +32,60 @@ namespace pf
         };
 
         private LevelLoader levelLoader;
+        private PlayerInputActions playerInputActions;
 
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             menuMusic = GameObject.Find("MenuAudio").GetComponent<MenuMusic>();
+            playerInputActions = new PlayerInputActions();
+        }
+
+        private void OnNavigate(InputAction.CallbackContext context)
+        {
+            var value = context.ReadValue<Vector2>();
+            var delta = (int)value.x;
+            if (delta == 0) return;
+
+            selectedCharacter += delta;
+            if (selectedCharacter > 3) {
+                selectedCharacter = -1;
+            } else if (selectedCharacter < -1) {
+                selectedCharacter = 3;
+            }
+
+            CheckSelectedCharacter();
+        }
+
+        private void OnSubmit(InputAction.CallbackContext context)
+        {
+            if (selectedCharacter == -1)
+            {
+                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+            }
+            else
+            {
+                levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
+                menuMusic.StopFade(1f);
+            }
+        }
+
+        private void OnEnable()
+        {
+            playerInputActions.MenuControls.Navigate.performed += OnNavigate;
+            playerInputActions.MenuControls.Navigate.Enable();
+
+            playerInputActions.MenuControls.Submit.performed += OnSubmit;
+            playerInputActions.MenuControls.Submit.Enable();
+        }
+
+        private void OnDisable()
+        {
+            playerInputActions.MenuControls.Navigate.Disable();
+            playerInputActions.MenuControls.Navigate.performed -= OnNavigate;
+
+            playerInputActions.MenuControls.Submit.Disable();
+            playerInputActions.MenuControls.Submit.performed -= OnSubmit;
         }
 
         void Start()
@@ -58,44 +108,6 @@ namespace pf
 
         void Update()
         {
-            //quick hack to get something working, replace with real input manager
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                selectedCharacter++;
-                if (selectedCharacter > 3)
-                {
-                    selectedCharacter = -1;
-                }
-                selectionChanged = true;
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                selectedCharacter--;
-                if (selectedCharacter < -1)
-                {
-                    selectedCharacter = 3;
-                }
-                selectionChanged = true;
-            }
-
-            if (selectionChanged)
-            {
-                CheckSelectedCharacter();
-                selectionChanged = false;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
-            {
-                if (selectedCharacter == -1)
-                {
-                    levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
-                }
-                else
-                {
-                    levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
-                    menuMusic.StopFade(1f);
-                }
-            }
         }
 
         private void CheckBackButton()

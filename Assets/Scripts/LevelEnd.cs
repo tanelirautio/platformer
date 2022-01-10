@@ -75,17 +75,17 @@ namespace pf
         void Update()
         {
             /*
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F)) // @NOTE: Keyboard.current.fKey.wasPressedThisFrame
             {
                 FadeBackground();
                 ShowTrophyBase();
                 ShowLevelCompleteText();
                 CheckTrophies(false, 0, 0);
             }
-            if(Input.GetKeyDown(KeyCode.G))
+            if(Input.GetKeyDown(KeyCode.G)) // @NOTE: Keyboard.current.gKey.wasPressedThisFrame
             {
                 Reset();
-            } 
+            }
             */
         }
 
@@ -103,7 +103,7 @@ namespace pf
 
         private void FadeBackground()
         {
-            fadeImage.DOFade(1.0f, 1.0f); //.OnComplete(ShowTrophyBase);     
+            fadeImage.DOFade(1.0f, 1.0f); //.OnComplete(ShowTrophyBase);
         }
         private void ShowTrophyBase()
         {
@@ -126,7 +126,7 @@ namespace pf
             bool showThird = false;
 
             // Then check if player has accomplished level objectives and
-            // show the trophies that are granted to player 
+            // show the trophies that are granted to player
 
             // Check from the saved data if trophies have been given in previous plays
             int level = PlayerStats.GetCurrentLevel();
@@ -159,7 +159,7 @@ namespace pf
                 }
                 if (c.CompletedTime || time <= parTime)
                 {
-                    
+
                     showThird = true;
                     if (!c.CompletedTime)
                     {

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 using DG.Tweening;
 
@@ -19,6 +21,9 @@ namespace pf
         private LevelLoader levelLoader;
         private MenuMusic menuMusic;
 
+        private PlayerInputActions playerInputActions;
+        private InputAction submitAction;
+
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
@@ -30,6 +35,19 @@ namespace pf
             {
                 Destroy(gameAudio);
             }
+
+            playerInputActions = new PlayerInputActions();
+        }
+
+        private void OnEnable()
+        {
+            submitAction = playerInputActions.MenuControls.Submit;
+            submitAction.Enable();
+        }
+
+        private void OnDisable()
+        {
+            submitAction.Disable();
         }
 
         void Start()
@@ -82,7 +100,7 @@ namespace pf
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            if (submitAction.WasPerformedThisFrame())
             {
                 LoadNextScene();
             }

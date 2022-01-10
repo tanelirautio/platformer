@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace pf
@@ -27,11 +28,11 @@ namespace pf
         void Update()
         {
             // TODO Just for testing, remove eventually
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Keyboard.current.digit0Key.wasPressedThisFrame)
             {
                 StartCoroutine(FadeBlackOutSquare());
             }
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Keyboard.current.pKey.wasPressedThisFrame)
             {
                 StartCoroutine(FadeBlackOutSquare(false));
             }
