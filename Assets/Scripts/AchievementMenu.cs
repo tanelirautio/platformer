@@ -10,6 +10,7 @@ namespace pf
 
         public GameObject achievement;
         public Transform parent;
+        public GameObject container;
 
         // Start is called before the first frame update
         void Start()
@@ -26,7 +27,7 @@ namespace pf
                 go.transform.SetParent(parent, false);
                 go.name = achievement.name + "_" + i;
                 Vector3 pos = go.transform.position;
-                pos.y = offset - i * 4;
+                pos.y = offset - i * 3;
                 go.transform.position = pos;
 
                 TextMeshProUGUI title = go.transform.Find("AchieveTitle").GetComponent<TextMeshProUGUI>();
@@ -36,7 +37,7 @@ namespace pf
                 TextMeshProUGUI desc = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
                 desc.text = PlayerStats.Achievements[i].desc;
 
-                print(title.text + ": " + desc.text);
+                //print(title.text + ": " + desc.text);
             }
         }
 

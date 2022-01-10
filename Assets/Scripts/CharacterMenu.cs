@@ -17,16 +17,17 @@ namespace pf
         public TextMeshPro nameText;
         public TextMeshPro descriptionText;
         public GameObject[] characters = new GameObject[4];
+        public GameObject back;
 
         private Dictionary<int, Dictionary<string, Transform>> charTransforms = new Dictionary<int, Dictionary<string, Transform>>();
 
         private string[] names = new string[4] { "Leo", "Viivi", "Venla", "Milja" };
         private string[] descriptions = new string[4]
         {
-        "leo_desc",
-        "viivi_desc",
-        "venla_desc",
-        "milja_desc"
+            "leo_desc",
+            "viivi_desc",
+            "venla_desc",
+            "milja_desc"
         };
 
         private LevelLoader levelLoader;
@@ -63,14 +64,14 @@ namespace pf
                 selectedCharacter++;
                 if (selectedCharacter > 3)
                 {
-                    selectedCharacter = 0;
+                    selectedCharacter = -1;
                 }
                 selectionChanged = true;
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 selectedCharacter--;
-                if (selectedCharacter < 0)
+                if (selectedCharacter < -1)
                 {
                     selectedCharacter = 3;
                 }
@@ -85,14 +86,33 @@ namespace pf
 
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
-                
-                levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
-                menuMusic.StopFade(1f);
+                if (selectedCharacter == -1)
+                {
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+                }
+                else
+                {
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
+                    menuMusic.StopFade(1f);
+                }
+            }
+        }
+
+        private void CheckBackButton()
+        {
+            if(selectedCharacter == -1)
+            {
+                back.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+            else
+            {
+                back.GetComponent<SpriteRenderer>().color = Color.gray;
             }
         }
 
         private void CheckSelectedCharacter()
         {
+            CheckBackButton();
             for (int i = 0; i < 4; i++)
             {
                 var charData = charTransforms[i];
