@@ -12,15 +12,15 @@ namespace pf
     {
 
         public GameObject achievement;
-        public GameObject achievementContainer;
+        public GameObject container;
+        public GameObject scrollArea;
         public GameObject back;
-        public GameObject scrollbar;
-        public ScrollRect scrollrect;
+
+        private ScrollRect scrollrect;
+        private RectTransform viewport;
 
         private List<Transform> achievements = new List<Transform>();
         private int index = 0;
-        private bool lerping = false;
-
         public enum Selection
         {
             Scroll,
@@ -35,6 +35,9 @@ namespace pf
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             playerInputActions = new PlayerInputActions();
+
+            scrollrect = scrollArea.GetComponent<ScrollRect>();
+            viewport = scrollArea.GetComponent<RectTransform>();
         }
 
         void Start()
@@ -48,7 +51,7 @@ namespace pf
             for (int i = 0; i < PlayerStats.Achievements.Count; i++)
             {
                 GameObject go = Instantiate(achievement, new Vector3(0, 0, 0), Quaternion.identity);
-                go.transform.SetParent(achievementContainer.transform, false);
+                go.transform.SetParent(container.transform, false);
                 go.name = achievement.name + "_" + i;
                 Vector3 pos = go.transform.position;
                 pos.y = offset - i * 3f;
@@ -60,21 +63,60 @@ namespace pf
                 TextMeshProUGUI desc = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
                 desc.text = PlayerStats.Achievements[i].desc;
 
-                //print(title.text + ": " + desc.text);
+                //TODO grey out the achievement if not completed
+                /*
+                if(!PlayerStats.CompletedAchievements[i])
+                {
+                    go.GetComponent<Image>().color = new Color(100f/255f, 100f/255f, 100f/255f);
+                    go.transform.Find("AchieveImgBg/AchieveImg").GetComponent<RawImage>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f);
+
+                    var titleText = go.transform.Find("AchieveTitle").GetComponent<TextMeshProUGUI>();
+                    titleText.DOColor(new Color(150f / 255f, 150f / 255f, 150f / 255f), 0f);  
+ 
+                    var descText = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
+                    descText.DOColor(new Color(150f / 255f, 150f / 255f, 150f / 255f), 0f);
+                }
+                */
+
                 achievements.Add(go.transform);
             }
 
             achievements[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
             back.GetComponent<SpriteRenderer>().color = Color.gray;
-        }
- 
-        public void SnapTo(RectTransform target)
-        {
-            Canvas.ForceUpdateCanvases();
 
-            achievementContainer.GetComponent<RectTransform>().anchoredPosition =
-                (Vector2)scrollrect.transform.InverseTransformPoint(achievementContainer.GetComponent<RectTransform>().position)
-                - (Vector2)scrollrect.transform.InverseTransformPoint(target.position);
+
+        }
+        private void Navigate(RectTransform item)
+        {
+            Vector3 itemCurrentLocalPostion = scrollrect.GetComponent<RectTransform>().InverseTransformVector(ConvertLocalPosToWorldPos(item));
+            Vector3 itemTargetLocalPos = scrollrect.GetComponent<RectTransform>().InverseTransformVector(ConvertLocalPosToWorldPos(viewport));
+
+            Vector3 diff = itemTargetLocalPos - itemCurrentLocalPostion;
+            diff.z = 0.0f;
+
+            var newNormalizedPosition = new Vector2(
+                diff.x / (container.GetComponent<RectTransform>().rect.width - viewport.rect.width),
+                diff.y / (container.GetComponent<RectTransform>().rect.height - viewport.rect.height)
+                );
+
+            newNormalizedPosition = scrollrect.GetComponent<ScrollRect>().normalizedPosition - newNormalizedPosition;
+
+            newNormalizedPosition.x = Mathf.Clamp01(newNormalizedPosition.x);
+            newNormalizedPosition.y = Mathf.Clamp01(newNormalizedPosition.y);
+
+            DOTween.To(() => scrollrect.GetComponent<ScrollRect>().normalizedPosition, x => scrollrect.GetComponent<ScrollRect>().normalizedPosition = x, newNormalizedPosition, 0.8f);
+        }
+
+        private Vector3 ConvertLocalPosToWorldPos(RectTransform target)
+        {
+            var pivotOffset = new Vector3(
+                (0.5f - target.pivot.x) * target.rect.size.x,
+                (0.5f - target.pivot.y) * target.rect.size.y,
+                0f);
+
+            var localPosition = target.localPosition + pivotOffset;
+
+            return target.parent.TransformPoint(localPosition);
         }
 
         private void OnEnable()
@@ -108,10 +150,10 @@ namespace pf
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
+                    achievements[index].DOScale(1.0f, 1f);
                 }
                 else if(deltaY != 0)
                 {
-                    //TODO actual scrolling, add some tweening?
                     int prevIndex = index;
 
                     if (deltaY == 1) {
@@ -136,8 +178,7 @@ namespace pf
 
                     if(!RendererExtensions.IsFullyVisibleFrom(achievements[index].GetComponent<RectTransform>(), Camera.main))
                     {
-                        SnapTo(achievements[index].GetComponent<RectTransform>());
-                        //scrollrect.content.localPosition = scrollrect.GetSnapToPositionToBringChildIntoView(achievements[index].GetComponent<RectTransform>());
+                        Navigate(achievements[index].GetComponent<RectTransform>());                        
                     }
                 }
             }
@@ -147,6 +188,7 @@ namespace pf
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
+                    achievements[index].DOScale(1.1f, 1f);
                 }
             }
         }
