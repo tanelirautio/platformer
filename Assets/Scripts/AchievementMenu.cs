@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace pf
 {
@@ -11,9 +12,14 @@ namespace pf
     {
 
         public GameObject achievement;
-        public Transform parent;
+        public GameObject achievementContainer;
         public GameObject back;
         public GameObject scrollbar;
+        public ScrollRect scrollrect;
+
+        private List<Transform> achievements = new List<Transform>();
+        private int index = 0;
+        private bool lerping = false;
 
         public enum Selection
         {
@@ -42,7 +48,7 @@ namespace pf
             for (int i = 0; i < PlayerStats.Achievements.Count; i++)
             {
                 GameObject go = Instantiate(achievement, new Vector3(0, 0, 0), Quaternion.identity);
-                go.transform.SetParent(parent, false);
+                go.transform.SetParent(achievementContainer.transform, false);
                 go.name = achievement.name + "_" + i;
                 Vector3 pos = go.transform.position;
                 pos.y = offset - i * 3f;
@@ -55,9 +61,20 @@ namespace pf
                 desc.text = PlayerStats.Achievements[i].desc;
 
                 //print(title.text + ": " + desc.text);
+                achievements.Add(go.transform);
             }
 
+            achievements[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
             back.GetComponent<SpriteRenderer>().color = Color.gray;
+        }
+ 
+        public void SnapTo(RectTransform target)
+        {
+            Canvas.ForceUpdateCanvases();
+
+            achievementContainer.GetComponent<RectTransform>().anchoredPosition =
+                (Vector2)scrollrect.transform.InverseTransformPoint(achievementContainer.GetComponent<RectTransform>().position)
+                - (Vector2)scrollrect.transform.InverseTransformPoint(target.position);
         }
 
         private void OnEnable()
@@ -94,20 +111,34 @@ namespace pf
                 }
                 else if(deltaY != 0)
                 {
-                    //TODO actual scrolling, add some tweening
+                    //TODO actual scrolling, add some tweening?
+                    int prevIndex = index;
 
-                    Scrollbar s = scrollbar.GetComponent<Scrollbar>();
                     if (deltaY == 1) {
-                        print("down");
-                        s.value = 0;  //1/PlayerStats.Achievements.Count;
+                        if (index < achievements.Count-1)
+                        {
+                            index++;
+                        }
                     }
                     else
                     {
-                        print("up");
-                        s.value = 1;
-                        //s.value += (1f / (float)PlayerStats.Achievements.Count);
+                        if (index > 0)
+                        {
+                            index--;
+                        }                 
                     }
 
+                    if(prevIndex != index)
+                    {
+                        achievements[prevIndex].DOScale(1.0f, 1f);
+                        achievements[index].DOScale(1.1f, 1f);
+                    }
+
+                    if(!RendererExtensions.IsFullyVisibleFrom(achievements[index].GetComponent<RectTransform>(), Camera.main))
+                    {
+                        SnapTo(achievements[index].GetComponent<RectTransform>());
+                        //scrollrect.content.localPosition = scrollrect.GetSnapToPositionToBringChildIntoView(achievements[index].GetComponent<RectTransform>());
+                    }
                 }
             }
             else if(selection == Selection.Back)
@@ -126,7 +157,6 @@ namespace pf
             {
                 levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
             }
-        }
+        }        
     }
-
 }

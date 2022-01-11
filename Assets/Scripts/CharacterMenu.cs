@@ -11,7 +11,6 @@ namespace pf
     public class CharacterMenu : MonoBehaviour
     {
         private int selectedCharacter = 0;
-        private bool selectionChanged = false;
         private MenuMusic menuMusic;
 
         public TextMeshPro titleText;
