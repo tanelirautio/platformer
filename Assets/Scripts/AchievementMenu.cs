@@ -8,6 +8,7 @@ using DG.Tweening;
 
 namespace pf
 {
+    [RequireComponent(typeof(AchievementSpriteManager))]
     public class AchievementMenu : MonoBehaviour
     {
 
@@ -21,6 +22,9 @@ namespace pf
 
         private List<Transform> achievements = new List<Transform>();
         private int index = 0;
+
+        private AchievementSpriteManager spriteManager;
+
         public enum Selection
         {
             Scroll,
@@ -38,6 +42,8 @@ namespace pf
 
             scrollrect = scrollArea.GetComponent<ScrollRect>();
             viewport = scrollArea.GetComponent<RectTransform>();
+
+            spriteManager = GetComponent<AchievementSpriteManager>();
         }
 
         void Start()
@@ -63,14 +69,15 @@ namespace pf
                 TextMeshProUGUI desc = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
                 desc.text = PlayerStats.Achievements[i].desc;
 
-                print("Setting position " + i + ": " + go.transform.position);
+                Image img = go.transform.Find("AchieveImgBg/AchieveImg").GetComponent<Image>();
+                img.sprite = spriteManager.GetAchievementSprite(PlayerStats.Achievements[i].img);
 
-                //TODO grey out the achievement if not completed
-                
+                //print("Setting position " + i + ": " + go.transform.position);
+
                 if(!PlayerStats.CompletedAchievements[i])
                 {
                     go.GetComponent<Image>().color = new Color(100f/255f, 100f/255f, 100f/255f);
-                    go.transform.Find("AchieveImgBg/AchieveImg").GetComponent<RawImage>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f);
+                    go.transform.Find("AchieveImgBg/AchieveImg").GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f);
 
                     var titleText = go.transform.Find("AchieveTitle").GetComponent<TextMeshProUGUI>();
                     titleText.DOColor(new Color(150f / 255f, 150f / 255f, 150f / 255f), 0f);  

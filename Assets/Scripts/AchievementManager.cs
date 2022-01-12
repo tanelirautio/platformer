@@ -4,13 +4,20 @@ using UnityEngine;
 using UnityEditor;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.UI;
 
 namespace pf {
 
+    [RequireComponent (typeof(AchievementSpriteManager))]
     public class AchievementManager : MonoBehaviour
     {
+        //Achievement data is loaded in DataParser
+        //Achievement completed data is loaded from save game
+
+        //TODO: put achievements in a list, if player gets multiple achievements simultaneously, show the achievements one at a time
 
         private Animator animator;
+        private Image image;
         private TextLocalizerUI titleLocalizer;
         private TextLocalizerUI descLocalizer;
 
@@ -18,6 +25,8 @@ namespace pf {
         const string ACHIEVEMENT_IDLE = "achievement_idle";
         const string ACHIEVEMENT_IN = "achievement_in";
         const string ACHIEVEMENT_OUT = "achievement_out";
+
+        private AchievementSpriteManager spriteManager;
 
         // Must be the same values as "type" field in achievements.json
         private enum AchievementType
@@ -30,18 +39,11 @@ namespace pf {
         private void Awake()
         {
             animator = GameObject.Find("UICanvas/AchievementPanel").GetComponent<Animator>();
+            image = GameObject.Find("UICanvas/AchievementPanel/AchieveImgBg/AchieveImg").GetComponent<Image>();
             titleLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveTitle").GetComponent<TextLocalizerUI>();
             descLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveDesc").GetComponent<TextLocalizerUI>();
-        }
 
-        void Start()
-        {
-            //Note:
-            //Achievement data is loaded in DataParser
-            //Achievement completed data is loaded from save game
-
-            //TODO: put achievements in a list, if player gets multiple achievements simultaneously,
-            //show the achievements one at a time
+            spriteManager = GetComponent<AchievementSpriteManager>();
         }
 
         public void CheckCollectAchievement(Collectable.Type type)
@@ -64,8 +66,12 @@ namespace pf {
                             descLocalizer.key = ach.desc;
                             descLocalizer.Localize();
 
+                            image.sprite = spriteManager.GetAchievementSprite(ach.img);
+
                             animator.Play(ACHIEVEMENT_IN);
                             Invoke("HideAchievement", 5f);
+
+
 
                             PlayerStats.CompletedAchievements[ach.id] = true;
                         }
@@ -94,6 +100,8 @@ namespace pf {
                             descLocalizer.key = ach.desc;
                             descLocalizer.Localize();
 
+                            image.sprite = spriteManager.GetAchievementSprite(ach.img);
+
                             animator.Play(ACHIEVEMENT_IN);
                             Invoke("HideAchievement", 5f);
 
@@ -121,6 +129,8 @@ namespace pf {
 
                         descLocalizer.key = ach.desc;
                         descLocalizer.Localize();
+
+                        image.sprite = spriteManager.GetAchievementSprite(ach.img);
 
                         animator.Play(ACHIEVEMENT_IN);
                         Invoke("HideAchievement", 5f);

@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 1571760495}
   - component: {fileID: 1571760494}
   - component: {fileID: 1571760498}
+  - component: {fileID: 1571760499}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -533,6 +534,22 @@ MonoBehaviour:
   container: {fileID: 583037803}
   scrollArea: {fileID: 924720234}
   back: {fileID: 247706700}
+--- !u!114 &1571760499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571760493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f615ef875590cf14f99940f7c907337f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ach_sprite_apple: {fileID: 21300000, guid: ddee025affe4cac41b5e719efce6118d, type: 3}
+  ach_sprite_banana: {fileID: 21300000, guid: 135fab613c8966147b35c396dc93e68c, type: 3}
+  ach_sprite_strawberry: {fileID: 21300000, guid: 9d112e766f4f7ef49b515ec37675671a, type: 3}
+  ach_sprite_finish_level: {fileID: 21300000, guid: 5fa26f7ae7b29c242a5c5b31569cd404, type: 3}
 --- !u!1001 &1760142388
 PrefabInstance:
   m_ObjectHideFlags: 0

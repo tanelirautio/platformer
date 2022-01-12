@@ -7,7 +7,8 @@
 			"collectableItem": "1",
 			"count": "2",
 			"title": "ach_title_collect_100_apples",
-			"desc": "ach_desc_collect_100_apples"
+			"desc": "ach_desc_collect_100_apples",
+			"img" : "apple"
 		},
 		{
 			"id" : "1",
@@ -16,7 +17,8 @@
 			"collectableItem": "2",
 			"count": "100",
 			"title": "ach_title_collect_100_bananas",
-			"desc": "ach_desc_collect_100_bananas"
+			"desc": "ach_desc_collect_100_bananas",
+			"img" : "banana"
 		},
 		{
 			"id" : "2",
@@ -25,7 +27,8 @@
 			"collectableItem": "8",
 			"count": "100",
 			"title": "ach_title_collect_100_strawberries",
-			"desc": "ach_desc_collect_100_strawberries"
+			"desc": "ach_desc_collect_100_strawberries",
+			"img" : "strawberry"
 		},
 		{
 			"id" : "3",
@@ -33,7 +36,8 @@
 			"type": "2",
 			"count": "1",
 			"title": "ach_title_finish_1_level",
-			"desc": "ach_desc_finish_1_level"
+			"desc": "ach_desc_finish_1_level",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "4",
@@ -41,7 +45,8 @@
 			"type": "2",
 			"count": "10",
 			"title": "ach_title_finish_10_levels",
-			"desc": "ach_desc_finish_10_levels"
+			"desc": "ach_desc_finish_10_levels",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "5",
@@ -49,7 +54,8 @@
 			"type": "2",
 			"count": "20",
 			"title": "ach_title_finish_20_levels",
-			"desc": "ach_desc_finish_20_levels"
+			"desc": "ach_desc_finish_20_levels",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "6",
@@ -57,7 +63,8 @@
 			"type": "2",
 			"count": "10",
 			"title": "ach_title_finish_30_levels",
-			"desc": "ach_desc_finish_30_levels"
+			"desc": "ach_desc_finish_30_levels",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "7",
@@ -65,7 +72,8 @@
 			"type": "2",
 			"count": "20",
 			"title": "ach_title_finish_40_levels",
-			"desc": "ach_desc_finish_40_levels"
+			"desc": "ach_desc_finish_40_levels",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "8",
@@ -73,7 +81,8 @@
 			"type": "3",
 			"count": "10",
 			"title": "ach_title_finish_10_levels_without_hit",
-			"desc": "ach_desc_finish_10_levels_without_hit"
+			"desc": "ach_desc_finish_10_levels_without_hit",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "9",
@@ -81,7 +90,8 @@
 			"type": "3",
 			"count": "20",
 			"title": "ach_title_finish_20_levels_without_hit",
-			"desc": "ach_desc_finish_20_levels_without_hit"
+			"desc": "ach_desc_finish_20_levels_without_hit",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "10",
@@ -89,7 +99,8 @@
 			"type": "3",
 			"count": "30",
 			"title": "ach_title_finish_30_levels_without_hit",
-			"desc": "ach_desc_finish_30_levels_without_hit"
+			"desc": "ach_desc_finish_30_levels_without_hit",
+			"img" : "finish_level"
 		},
 		{
 			"id" : "11",
@@ -97,7 +108,8 @@
 			"type": "3",
 			"count": "40",
 			"title": "ach_title_finish_40_levels_without_hit",
-			"desc": "ach_desc_finish_40_levels_without_hit"
+			"desc": "ach_desc_finish_40_levels_without_hit",
+			"img" : "finish_level"
 		}
 	]
 }
