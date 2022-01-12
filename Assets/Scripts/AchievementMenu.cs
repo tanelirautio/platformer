@@ -63,8 +63,10 @@ namespace pf
                 TextMeshProUGUI desc = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
                 desc.text = PlayerStats.Achievements[i].desc;
 
+                print("Setting position " + i + ": " + go.transform.position);
+
                 //TODO grey out the achievement if not completed
-                /*
+                
                 if(!PlayerStats.CompletedAchievements[i])
                 {
                     go.GetComponent<Image>().color = new Color(100f/255f, 100f/255f, 100f/255f);
@@ -76,7 +78,7 @@ namespace pf
                     var descText = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
                     descText.DOColor(new Color(150f / 255f, 150f / 255f, 150f / 255f), 0f);
                 }
-                */
+                
 
                 achievements.Add(go.transform);
             }
