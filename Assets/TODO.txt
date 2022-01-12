@@ -1,0 +1,47 @@
+TODO:
+
+Menus:
+------
+- Menu selection can be scrolled when button is kept down
+- Keep the menu music playing continuously when returning to main menu from submenu
+  (for example: returning from achievements menu back to main menu, music starts over)
+- Level selection menu
+- Statistics menu (just reuse Achievement menu code...)
+- Settings menu
+
+Game:
+-----
+- Allow player to fall from jump through platform (tag: "through") when pressing down
+- Implement more traps (Libs/Pixel Adventure 1/Assets/Traps)
+  -> Implemented trap sprites are then moved to Assets/Sprites and traps are made as prefabs
+- Implement more powerups
+  -> invulnerability, more speed, ability to wall climb etc.
+  -> can be also power downs, for example temporary darkness, some sinewave distortion effect etc.
+  -> suggestions are welcome :D
+- Enemies (need to import Pixel Adventure 2 asset pack from Asset Store into the project)
+  -> Some different simple behaviors that can be selected
+- Better level end UI (that can be scrolled with user input OR shows all relevant info in one screen)
+  - Show clearly:
+    -> Trophies that you got / Trophies you haven't got / Trophies that you've got on earlier runs
+    -> Level par time, your time and overall best time
+    -> Level required score & your score
+
+Levels:
+-------
+- Need to design some levels, probably after more traps & enemies :D
+
+Ideas that need to be evaluated:
+--------------------------------
+- Wall climb (code is in, just disabled atm.)
+- Double jump
+- Dash (Need to think if is this evading game only, or can the enemies stomped and/or dashed...)
+- Checkpoint system (Libs/Pixel Adventure 1/Assets/Checkpoints)
+  Possibilities:
+    -> When player gets hit always respawn at checkpoint?
+    -> When player loses all hearts, respawn at checkpoint instead of level start?
+- Multiple save slots
+- 2 player co op mode
+- Menu coherence, is there need to make all to UI system (Canvas)
+- Boss fights
+- Teleports
+- Push buttons to activate things in level
