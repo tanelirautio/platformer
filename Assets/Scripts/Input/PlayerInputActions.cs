@@ -46,6 +46,15 @@ namespace pf
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Debug"",
+                    ""type"": ""Button"",
+                    ""id"": ""c1450c68-7692-4cc0-ab48-26f112cc8df0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -244,6 +253,17 @@ namespace pf
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aef84cc6-2b88-46fd-89f1-3f6a8a10acf5"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Debug"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -511,6 +531,7 @@ namespace pf
             m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
             m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
             m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
+            m_PlayerControls_Debug = m_PlayerControls.FindAction("Debug", throwIfNotFound: true);
             // MenuControls
             m_MenuControls = asset.FindActionMap("MenuControls", throwIfNotFound: true);
             m_MenuControls_Navigate = m_MenuControls.FindAction("Navigate", throwIfNotFound: true);
@@ -577,12 +598,14 @@ namespace pf
         private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
         private readonly InputAction m_PlayerControls_Movement;
         private readonly InputAction m_PlayerControls_Jump;
+        private readonly InputAction m_PlayerControls_Debug;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
             public PlayerControlsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
             public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
+            public InputAction @Debug => m_Wrapper.m_PlayerControls_Debug;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -598,6 +621,9 @@ namespace pf
                     @Jump.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
+                    @Debug.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDebug;
+                    @Debug.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDebug;
+                    @Debug.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDebug;
                 }
                 m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
                 if (instance != null)
@@ -608,6 +634,9 @@ namespace pf
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
+                    @Debug.started += instance.OnDebug;
+                    @Debug.performed += instance.OnDebug;
+                    @Debug.canceled += instance.OnDebug;
                 }
             }
         }
@@ -665,6 +694,7 @@ namespace pf
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnDebug(InputAction.CallbackContext context);
         }
         public interface IMenuControlsActions
         {

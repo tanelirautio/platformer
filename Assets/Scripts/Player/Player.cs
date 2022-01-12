@@ -40,7 +40,7 @@ namespace pf
         private GameObject uiCanvas;
         private LevelEnd levelEnd;
         private Light2D light2D;
-        //private AchievementManager achievementManager;
+        private AchievementManager achievementManager;
 
         private bool gracePeriod = false;
         private bool killZoneDamageTaken = false;
@@ -73,12 +73,14 @@ namespace pf
             anim = GetComponent<PlayerAnimation>();
             wallSliding = GetComponent<PlayerWallSliding>();
             light2D = GetComponent<Light2D>();
-            cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
+            //cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
+            cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             uiCanvas = GameObject.Find("UICanvas");
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
-            //achievementManager = GetComponent<AchievementManager>();
+            
+            achievementManager = GameObject.Find("GameManager").GetComponent<AchievementManager>();
 
             PlayerStats.SceneIndex = levelLoader.GetCurrentSceneIndex();
 
@@ -382,7 +384,7 @@ namespace pf
             if (collision.gameObject.tag == "Trap")
             {
                 Trap trap = collision.gameObject.GetComponent<Trap>();
-                Trap.Type type = Trap.Type.Unknown;
+                Trap.Type type;
                 if(trap != null)
                 {
                     type = trap.type;
@@ -415,14 +417,19 @@ namespace pf
             {
                 timerStarted = false;
 
-                // TODO: level finish - fade to black, load next level (or level menu)
-                print("finish level");
+                print("finished level");
                 controllerDisabled = true;
 
                 float timerMs = timer * 1000;
                 levelEnd.ShowLevelEnd(hasBeenHit, score.GetScore(), timerMs);
 
-                //uiCanvas.SetActive(false);
+                StatisticsManager.SetCompletedLevel(PlayerStats.GetCurrentLevel());
+                achievementManager.CheckCompletedLevelsAchievement();
+                if(!hasBeenHit)
+                {
+                    StatisticsManager.SetCompletedLevelWithoutHits(PlayerStats.GetCurrentLevel());
+                    achievementManager.CheckCompletedLevelsWihtoutHitsAchievement();
+                }
             }
         }
 

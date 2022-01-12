@@ -43,7 +43,7 @@ namespace pf
         {
             score = GameObject.Find("Player").GetComponent<PlayerScore>();
             health = GameObject.Find("Player").GetComponent<PlayerHealth>();
-            achievements = GameObject.Find("Player").GetComponent<AchievementManager>();
+            achievements = GameObject.Find("GameManager").GetComponent<AchievementManager>();
 
             obj = transform.Find("Object");
             points = transform.Find("Points");

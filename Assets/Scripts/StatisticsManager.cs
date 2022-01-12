@@ -61,13 +61,14 @@ namespace pf {
             return 0;
         }
 
-        /*
-        static void SetCompletedLevel(int level)
+        
+        public static void SetCompletedLevel(int level)
         {
             PlayerStats.LevelsCompleted[level] = true;
         }
 
-        static int GetCompletedLevelsAmount()
+        
+        public static int GetCompletedLevelsAmount()
         {
             int levels = 0;
             foreach (bool value in PlayerStats.LevelsCompleted) 
@@ -80,12 +81,12 @@ namespace pf {
             return levels;
         }        
         
-        static void SetCompletedLevelWithoutHits(int level)
+        public static void SetCompletedLevelWithoutHits(int level)
         {
             PlayerStats.LevelsCompletedWithoutHits[level] = true;
         }
 
-        static int GetCompletedLevelsWithoutHitsAmount()
+        public static int GetCompletedLevelsWithoutHitsAmount()
         {
             int levels = 0;
             foreach (bool value in PlayerStats.LevelsCompletedWithoutHits) 
@@ -97,7 +98,7 @@ namespace pf {
             }
             return levels;
         }
-        */
+        
     }
     
 }

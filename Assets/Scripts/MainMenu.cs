@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using DG.Tweening;
 
 namespace pf
 {
@@ -115,6 +116,8 @@ namespace pf
 
         private void Awake()
         {
+            DOTween.Init();
+
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             dataLoader = GetComponent<DataLoader>();
             menuMusic = GameObject.Find("MenuAudio").GetComponent<MenuMusic>();
@@ -171,11 +174,12 @@ namespace pf
             {
                 if (i == (int)selection)
                 {
+                    menu[i].transform.DOScale(1.1f, 1f);
                     menu[i].color = Color.white;
                 }
                 else
                 {
-                    //print("Setting index: " + i + " gray");
+                    menu[i].transform.DOScale(1.0f, 1f);
                     menu[i].color = Color.gray;
                 }
 
