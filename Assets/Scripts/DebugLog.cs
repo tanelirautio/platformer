@@ -8,7 +8,7 @@ namespace pf
     public class DebugLog : MonoBehaviour
     {
         string myLog = "*begin log";
-        string filename = "";
+        //string filename = "";
         bool doShow = false;
         int kChars = 700;
 
