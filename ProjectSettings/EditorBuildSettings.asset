@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Achievements.unity
     guid: dbc1dbd8a7faed245abe79a5617ef403
   - enabled: 1
+    path: Assets/Scenes/Statistics.unity
+    guid: 19757425e816ff342932b579f0a4caba
+  - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 5fa275c56311732428a6375cfd4e1f29
   - enabled: 1

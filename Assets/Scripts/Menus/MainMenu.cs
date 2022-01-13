@@ -95,6 +95,7 @@ namespace pf
                 case Selection.Statistics:
                 {
                     print("Statistics!");
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.Statistics);
                     break;
                 }
                 case Selection.Credits:
