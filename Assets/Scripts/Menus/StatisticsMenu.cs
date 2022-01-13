@@ -43,8 +43,6 @@ namespace pf {
         {
             DataLoader.ParseData();
 
-            float x = stat.transform.position.x;
-            float y = stat.transform.position.y;
             float offset = 8f;
             int i = 0;
 
@@ -60,12 +58,13 @@ namespace pf {
                 go.transform.SetParent(container.transform, false);
                 go.name = stat.name + "_" + i;
                 Vector3 pos = go.transform.position;
-                pos.y = offset - i * 3f;
+                pos.y = offset - i * 2f;
                 go.transform.position = pos;
 
-                TextMeshProUGUI title = go.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-                title.text = StatisticsManager.GetLocalizationKey(type);
-
+                TextLocalizerUI titleLocalizer = go.transform.Find("Title").GetComponent<TextLocalizerUI>();
+                titleLocalizer.key = StatisticsManager.GetLocalizationKey(type);
+                titleLocalizer.Localize();
+      
                 TextMeshProUGUI count = go.transform.Find("Count").GetComponent<TextMeshProUGUI>();
                 count.text = StatisticsManager.GetCollectedFruits(type).ToString();
 

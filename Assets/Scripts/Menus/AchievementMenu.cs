@@ -50,8 +50,6 @@ namespace pf
         {
             DataLoader.ParseData();
 
-            float x = achievement.transform.position.x;
-            float y = achievement.transform.position.y;
             float offset = 8f;
 
             for (int i = 0; i < PlayerStats.Achievements.Count; i++)
