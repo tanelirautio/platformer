@@ -108,7 +108,7 @@ namespace pf
         private void ShowTrophyBase()
         {
             trophyBase.SetActive(true);
-            trophyBase.transform.DOScale(1.0f, 1.0f);
+            trophyBase.transform.DOScale(Defs.MENU_NORMAL_SCALE, 1.0f);
         }
 
         private void CheckTrophies(bool hit, int score, float time)

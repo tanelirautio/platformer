@@ -105,10 +105,6 @@ namespace pf
             CheckSelectedCharacter();
         }
 
-        void Update()
-        {
-        }
-
         private void CheckBackButton()
         {
             if(selectedCharacter == -1)

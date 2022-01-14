@@ -23,11 +23,13 @@ namespace pf
         public void PlayFade(string song, float fadeTime)
         {
             StartCoroutine(AudioManager.Instance.PlayMusicFade(song, fadeTime));
+            IsPlaying = true;
         }        
         
         public void StopFade(float fadeTime)
         {
             StartCoroutine(AudioManager.Instance.StopMusicFade(fadeTime));
+            IsPlaying = false;
         }
     }
 }

@@ -17,5 +17,8 @@ namespace pf
         public const float CREDITS_TIME = 40.0f;
 
         public const int ACHIEVEMENT_COUNT = 12;
+
+        public const float MENU_NORMAL_SCALE = 1.0f;
+        public const float MENU_SELECTED_SCALE = 1.1f;
     }
 }

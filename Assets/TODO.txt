@@ -3,10 +3,7 @@ TODO:
 Menus:
 ------
 - Menu selection can be scrolled when button is kept down
-- Keep the menu music playing continuously when returning to main menu from submenu
-  (for example: returning from achievements menu back to main menu, music starts over)
 - Level selection menu
-- Statistics menu (just reuse Achievement menu code...)
 - Settings menu
 
 Game:
@@ -45,3 +42,9 @@ Ideas that need to be evaluated:
 - Boss fights
 - Teleports
 - Push buttons to activate things in level
+
+Done and/or fixed:
+-----------------
+- Statistics menu (just reuse Achievement menu code...) [just add more stats there in the future!]
+- Keep the menu music playing continuously when returning to main menu from submenu
+  (for example: returning from achievements menu back to main menu, music starts over)

@@ -157,7 +157,7 @@ namespace pf
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
-                    achievements[index].DOScale(1.0f, 1f);
+                    achievements[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
                 }
                 else if(deltaY != 0)
                 {
@@ -179,8 +179,8 @@ namespace pf
 
                     if(prevIndex != index)
                     {
-                        achievements[prevIndex].DOScale(1.0f, 1f);
-                        achievements[index].DOScale(1.1f, 1f);
+                        achievements[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                        achievements[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
                     }
 
                     if(!RendererExtensions.IsFullyVisibleFrom(achievements[index].GetComponent<RectTransform>(), Camera.main))
@@ -195,7 +195,7 @@ namespace pf
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
-                    achievements[index].DOScale(1.1f, 1f);
+                    achievements[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
                 }
             }
         }

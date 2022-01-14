@@ -84,6 +84,7 @@ namespace pf
                 case Selection.Options:
                 {
                     print("Options!");
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.Settings);
                     break;
                 }
                 case Selection.Achievements:
@@ -171,12 +172,12 @@ namespace pf
             {
                 if (i == (int)selection)
                 {
-                    menu[i].transform.DOScale(1.1f, 1f);
+                    menu[i].transform.DOScale(Defs.MENU_SELECTED_SCALE, 1f);
                     menu[i].color = Color.white;
                 }
                 else
                 {
-                    menu[i].transform.DOScale(1.0f, 1f);
+                    menu[i].transform.DOScale(Defs.MENU_NORMAL_SCALE, 1f);
                     menu[i].color = Color.gray;
                 }
 

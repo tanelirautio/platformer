@@ -16,10 +16,11 @@ public class LevelLoader : MonoBehaviour
         MainMenu = 0,
         CharacterSelect = 1,
         Continue = 2,
-        Achievements = 3,
-        Statistics = 4,
-        Credits = 5,
-        StartLevel = 6
+        Settings = 3,
+        Achievements = 4,
+        Statistics = 5,
+        Credits = 6,
+        StartLevel = 7
     }
 
     public static int GetPreviousSceneIndex()

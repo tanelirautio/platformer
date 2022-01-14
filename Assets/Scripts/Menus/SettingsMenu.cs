@@ -6,10 +6,10 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 
-namespace pf {
-    public class StatisticsMenu : MonoBehaviour
+namespace pf
+{
+    public class SettingsMenu : MonoBehaviour
     {
-        public GameObject stat;
         public GameObject container;
         public GameObject scrollArea;
         public GameObject back;
@@ -17,7 +17,7 @@ namespace pf {
         private ScrollRect scrollrect;
         private RectTransform viewport;
 
-        private List<Transform> stats = new List<Transform>();
+        private List<Transform> settings = new List<Transform>();
         private int index = 0;
 
         public enum Selection
@@ -41,38 +41,7 @@ namespace pf {
 
         void Start()
         {
-            DataLoader.ParseData();
-
-            float offset = 8f;
-            int i = 0;
-
-            foreach (Collectable.Type type in Enum.GetValues(typeof(Collectable.Type)))
-            {
-                if(type == Collectable.Type.Heart)
-                {
-                    //TODO: add hearts_collected to statistics
-                    continue;
-                }
-
-                GameObject go = Instantiate(stat, new Vector3(0, 0, 0), Quaternion.identity);
-                go.transform.SetParent(container.transform, false);
-                go.name = stat.name + "_" + i;
-                Vector3 pos = go.transform.position;
-                pos.y = offset - i * 2f;
-                go.transform.position = pos;
-
-                TextLocalizerUI titleLocalizer = go.transform.Find("Title").GetComponent<TextLocalizerUI>();
-                titleLocalizer.key = StatisticsManager.GetLocalizationKey(type);
-                titleLocalizer.Localize();
-      
-                TextMeshProUGUI count = go.transform.Find("Count").GetComponent<TextMeshProUGUI>();
-                count.text = StatisticsManager.GetCollectedFruits(type).ToString();
-
-                stats.Add(go.transform);
-                i++;
-            }
-
-            stats[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
+            //settings[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
             back.GetComponent<SpriteRenderer>().color = Color.gray;
         }
 
@@ -140,7 +109,7 @@ namespace pf {
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
-                    stats[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                    settings[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
                 }
                 else if (deltaY != 0)
                 {
@@ -148,7 +117,7 @@ namespace pf {
 
                     if (deltaY == 1)
                     {
-                        if (index < stats.Count - 1)
+                        if (index < settings.Count - 1)
                         {
                             index++;
                         }
@@ -163,13 +132,13 @@ namespace pf {
 
                     if (prevIndex != index)
                     {
-                        stats[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
-                        stats[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                        settings[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                        settings[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
                     }
 
-                    if (!RendererExtensions.IsFullyVisibleFrom(stats[index].GetComponent<RectTransform>(), Camera.main))
+                    if (!RendererExtensions.IsFullyVisibleFrom(settings[index].GetComponent<RectTransform>(), Camera.main))
                     {
-                        Navigate(stats[index].GetComponent<RectTransform>());
+                        Navigate(settings[index].GetComponent<RectTransform>());
                     }
                 }
             }
@@ -179,7 +148,7 @@ namespace pf {
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
-                    stats[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    settings[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
                 }
             }
         }
