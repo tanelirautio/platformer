@@ -82,7 +82,7 @@ namespace pf
             
             achievementManager = GameObject.Find("GameManager").GetComponent<AchievementManager>();
 
-            PlayerStats.SceneIndex = levelLoader.GetCurrentSceneIndex();
+            PlayerStats.SceneIndex = LevelLoader.GetCurrentSceneIndex();
 
 #if UNITY_EDITOR
             // Try to load level objectives and achievements when played in Unity editor
@@ -351,7 +351,7 @@ namespace pf
         {
             // TODO: debug, if we reach the last scene, just go to main menu...
             // In the real game show end screen
-            if (levelLoader.GetCurrentSceneIndex() == levelLoader.GetTotalSceneCount()-1)
+            if (LevelLoader.GetCurrentSceneIndex() == levelLoader.GetTotalSceneCount()-1)
             {
                 levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
             }

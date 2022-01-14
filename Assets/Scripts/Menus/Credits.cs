@@ -19,7 +19,7 @@ namespace pf
         private Bounds bounds;
         private TextAsset credits;
         private LevelLoader levelLoader;
-        private MenuMusic menuMusic;
+        private Music music;
 
         private PlayerInputActions playerInputActions;
         private InputAction submitAction;
@@ -27,15 +27,7 @@ namespace pf
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
-            menuMusic = GameObject.Find("MenuAudio").GetComponent<MenuMusic>();
-
-            // We don't need GameAudio object in the menus
-            GameObject gameAudio = GameObject.Find("GameAudio");
-            if (gameAudio)
-            {
-                Destroy(gameAudio);
-            }
-
+            music = GameObject.Find("AudioSystem").GetComponent<Music>();
             playerInputActions = new PlayerInputActions();
         }
 
@@ -52,7 +44,7 @@ namespace pf
 
         void Start()
         {
-            menuMusic.Play("Credits");
+            music.Play("Credits");
 
             string filename;
             switch (LocalizationManager.language)
@@ -108,7 +100,7 @@ namespace pf
 
         private void LoadNextScene()
         {
-            menuMusic.Stop();
+            music.Stop();
             levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
         }
     }

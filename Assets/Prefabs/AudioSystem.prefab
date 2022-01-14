@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 310016435689343778}
   - component: {fileID: 4401825447975447682}
   m_Layer: 0
-  m_Name: MenuAudio
+  m_Name: AudioSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43b080e7492c4594895c395545850e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneNames: []
+  instanceName: AudioSystem
 --- !u!114 &4401825447975447682
 MonoBehaviour:
   m_ObjectHideFlags: 0

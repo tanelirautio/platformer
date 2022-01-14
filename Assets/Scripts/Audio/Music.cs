@@ -4,17 +4,20 @@ using UnityEngine;
 
 namespace pf
 {
-    public class MenuMusic : MonoBehaviour
+    public class Music : MonoBehaviour
     {
-        // any other methods you need
+        public bool IsPlaying { get; private set; }
+
         public void Play(string song)
         {
-            AudioManager.Instance.PlayMusic(song, 0); 
+            AudioManager.Instance.PlayMusic(song, 0);
+            IsPlaying = true;
         }
 
         public void Stop()
         {
-            AudioManager.Instance.StopMusic(); 
+            AudioManager.Instance.StopMusic();
+            IsPlaying = false;
         }
 
         public void PlayFade(string song, float fadeTime)

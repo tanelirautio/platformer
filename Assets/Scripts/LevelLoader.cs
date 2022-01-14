@@ -49,7 +49,7 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    public int GetCurrentSceneIndex()
+    public static int GetCurrentSceneIndex()
     {
         return SceneManager.GetActiveScene().buildIndex;
     }

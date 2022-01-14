@@ -39,7 +39,7 @@ namespace pf
         {
             print("Reset player health");
 
-            if (levelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
+            if (LevelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
                 LevelLoader.GetPreviousSceneIndex() != (int)LevelLoader.Scenes.Continue &&
                 LevelLoader.GetPreviousSceneIndex() != -1)
             {

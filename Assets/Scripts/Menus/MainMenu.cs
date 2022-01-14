@@ -30,7 +30,7 @@ namespace pf
         private Selection selection = 0;
 
         private DataLoader dataLoader;
-        private MenuMusic menuMusic;
+        private Music music;
         private bool firstRun = true;
 
         private PlayerInputActions playerInputActions;
@@ -121,15 +121,7 @@ namespace pf
 
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             dataLoader = GetComponent<DataLoader>();
-            menuMusic = GameObject.Find("MenuAudio").GetComponent<MenuMusic>();
-
-            // We don't need GameAudio object in the menus
-            GameObject gameAudio = GameObject.Find("GameAudio");
-            if (gameAudio)
-            {
-                Destroy(gameAudio);
-            }
-
+            music = GameObject.Find("AudioSystem").GetComponent<Music>();
             playerInputActions = new PlayerInputActions();
         }
 
@@ -155,7 +147,11 @@ namespace pf
         {
             titleText.outlineColor = Color.black;
             titleText.outlineWidth = 0.2f;
-            menuMusic.Play("Intro");
+
+            if (!music.IsPlaying)
+            {
+                music.Play("Intro");
+            }
         }
 
         // Update is called once per frame
