@@ -5,20 +5,40 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using UnityEngine.EventSystems;
+
+
+/*using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;// Required when using Event data.
+
+public class ExampleClass : MonoBehaviour, IPointerDownHandler// required interface when using the OnPointerDown method.
+{
+    //Do this when the mouse is clicked over the selectable object this script is attached to.
+    public void OnPointerDown (PointerEventData eventData) 
+    {
+        Debug.Log (this.gameObject.name + " Was Clicked.");
+    }
+}*/
 
 namespace pf
 {
-    public class SettingsMenu : MonoBehaviour
+    public class SettingsMenu : MonoBehaviour //, IPointerDownHandler, IMoveHandler, IEndDragHandler
     {
         public GameObject container;
         public GameObject scrollArea;
         public GameObject back;
+
+        public GameObject musicVolumeSlider;
+        public GameObject soundVolumeSlider;
 
         private ScrollRect scrollrect;
         private RectTransform viewport;
 
         private List<Transform> settings = new List<Transform>();
         private int index = 0;
+        private int lockedIndex = -1;
 
         public enum Selection
         {
@@ -41,7 +61,27 @@ namespace pf
 
         void Start()
         {
-            //settings[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
+            float offset = 8f;
+            int i = 0;
+
+            musicVolumeSlider.transform.SetParent(container.transform, false);
+            Vector3 pos = musicVolumeSlider.transform.position;
+            pos.y = offset;
+            musicVolumeSlider.transform.position = pos;
+            musicVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.MusicVolume;
+            settings.Add(musicVolumeSlider.transform);
+            i++;
+
+            soundVolumeSlider.transform.SetParent(container.transform, false);
+            pos = soundVolumeSlider.transform.position;
+            pos.y = offset - i * 4f;
+            soundVolumeSlider.transform.position = pos;
+            musicVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.SoundVolume;
+            settings.Add(soundVolumeSlider.transform);
+            i++;
+
+
+            settings[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
             back.GetComponent<SpriteRenderer>().color = Color.gray;
         }
 
@@ -105,13 +145,13 @@ namespace pf
 
             if (selection == Selection.Scroll)
             {
-                if (deltaX == 1)
+                if (deltaX == 1 && lockedIndex == -1)
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
                     settings[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
                 }
-                else if (deltaY != 0)
+                else if (deltaY != 0 && lockedIndex == -1)
                 {
                     int prevIndex = index;
 
@@ -141,6 +181,13 @@ namespace pf
                         Navigate(settings[index].GetComponent<RectTransform>());
                     }
                 }
+                else if(deltaX != 0 && lockedIndex != -1)
+                {
+                    if(lockedIndex == 0 || lockedIndex == 1)
+                    {
+                        HandleSliderMove(deltaX, lockedIndex);
+                    }
+                }
             }
             else if (selection == Selection.Back)
             {
@@ -153,11 +200,64 @@ namespace pf
             }
         }
 
+        private void HandleSliderMove(int deltaX, int lockedIndex)
+        {
+            if(lockedIndex == 0 || lockedIndex == 1)
+            {
+                Slider s = settings[lockedIndex].Find("Slider").GetComponent<Slider>();
+                if(deltaX == 1)
+                {
+                    s.value -= 0.1f;
+                    if(s.value < 0)
+                    {
+                        s.value = 0;
+                    }
+                }
+                else
+                {
+                    s.value += 0.1f;
+                    if(s.value > 1)
+                    {
+                        s.value = 1;
+                    }
+                }
+            }
+        }
+
         private void OnSubmit(InputAction.CallbackContext context)
         {
             if (selection == Selection.Back)
             {
                 levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+            }
+            else
+            {
+                if(index == 0)
+                {
+                    if(lockedIndex == -1)
+                    {
+                        lockedIndex = 0;
+                        settings[0].gameObject.GetComponent<Image>().color = new Color(1,0,0); //material.SetColor("_Color", Color.cyan);
+                    }
+                    else
+                    {
+                        lockedIndex = -1;
+                        settings[0].gameObject.GetComponent<Image>().color = new Color(40f/255f, 42f/255f, 48f/255f); 
+                    }
+                }
+                else if(index == 1)
+                {
+                    if (lockedIndex == -1)
+                    {
+                        lockedIndex = 1;
+                        settings[1].gameObject.GetComponent<Image>().color = new Color(1, 0, 0); //material.SetColor("_Color", Color.cyan);
+                    }
+                    else
+                    {
+                        lockedIndex = -1;
+                        settings[1].gameObject.GetComponent<Image>().color = new Color(40f / 255f, 42f / 255f, 48f / 255f);
+                    }
+                }
             }
         }
     }

@@ -9,6 +9,8 @@ namespace pf
     {
         public int version;
         public int selectedCharacter;
+        public float musicVolume;
+        public float soundVolume;
         public int currentLevel;
         public int[] bestScores;
         //public int[] scores;
@@ -38,6 +40,9 @@ namespace pf
             selectedCharacter = PlayerStats.SelectedCharacter;
             currentLevel = PlayerStats.SceneIndex;
             health = PlayerStats.Health;
+
+            musicVolume = PlayerStats.MusicVolume;
+            soundVolume = PlayerStats.SoundVolume;
 
             bestScores = new int[Defs.LEVEL_AMOUNT];
             for (int i = 0; i < PlayerStats.BestScores.Length; i++)

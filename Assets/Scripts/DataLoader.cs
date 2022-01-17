@@ -27,6 +27,9 @@ namespace pf
 
                 ShowLoadOption = true;
 
+                PlayerStats.MusicVolume = saveData.musicVolume;
+                PlayerStats.SoundVolume = saveData.soundVolume;
+
                 // Level objectives
                 for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
                 {
@@ -80,6 +83,8 @@ namespace pf
             else
             {
                 ShowLoadOption = false;
+                PlayerStats.MusicVolume = 1;
+                PlayerStats.SoundVolume = 1;
             }
         }
 

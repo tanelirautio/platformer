@@ -9,6 +9,8 @@ namespace pf
     {
         public static int SelectedCharacter { get; set; }
         public static int SceneIndex { get; set; }
+        public static float MusicVolume { get; set; }
+        public static float SoundVolume { get; set; }
 
         public static int GetCurrentLevel()
         {
