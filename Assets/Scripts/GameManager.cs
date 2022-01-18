@@ -9,7 +9,7 @@ namespace pf
     {
         private void Awake()
         {
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
     }
 }

@@ -4,27 +4,13 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Audio;
 using System;
 using UnityEngine.EventSystems;
 
-
-/*using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;// Required when using Event data.
-
-public class ExampleClass : MonoBehaviour, IPointerDownHandler// required interface when using the OnPointerDown method.
-{
-    //Do this when the mouse is clicked over the selectable object this script is attached to.
-    public void OnPointerDown (PointerEventData eventData) 
-    {
-        Debug.Log (this.gameObject.name + " Was Clicked.");
-    }
-}*/
-
 namespace pf
 {
-    public class SettingsMenu : MonoBehaviour //, IPointerDownHandler, IMoveHandler, IEndDragHandler
+    public class SettingsMenu : MonoBehaviour
     {
         public GameObject container;
         public GameObject scrollArea;
@@ -32,6 +18,8 @@ namespace pf
 
         public GameObject musicVolumeSlider;
         public GameObject soundVolumeSlider;
+
+        public AudioManager audioManager;
 
         private ScrollRect scrollrect;
         private RectTransform viewport;
@@ -46,6 +34,13 @@ namespace pf
             Back
         }
 
+        private enum LockedSettings
+        {
+            NotLocked = -1,
+            MusicVolume = 0,
+            SoundVolume = 1
+        }
+
         private PlayerInputActions playerInputActions;
         private Selection selection = 0;
         private LevelLoader levelLoader;
@@ -54,6 +49,8 @@ namespace pf
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             playerInputActions = new PlayerInputActions();
+
+            audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
 
             scrollrect = scrollArea.GetComponent<ScrollRect>();
             viewport = scrollArea.GetComponent<RectTransform>();
@@ -69,6 +66,10 @@ namespace pf
             pos.y = offset;
             musicVolumeSlider.transform.position = pos;
             musicVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.MusicVolume;
+            if (PlayerStats.MusicVolume == 0)
+            {
+                soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = 1f;
+            }
             settings.Add(musicVolumeSlider.transform);
             i++;
 
@@ -76,7 +77,11 @@ namespace pf
             pos = soundVolumeSlider.transform.position;
             pos.y = offset - i * 4f;
             soundVolumeSlider.transform.position = pos;
-            musicVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.SoundVolume;
+            soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.SoundVolume;
+            if(PlayerStats.SoundVolume == 0)
+            {
+                soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = 1f;
+            }
             settings.Add(soundVolumeSlider.transform);
             i++;
 
@@ -145,13 +150,13 @@ namespace pf
 
             if (selection == Selection.Scroll)
             {
-                if (deltaX == 1 && lockedIndex == -1)
+                if (deltaX == 1 && lockedIndex == (int)LockedSettings.NotLocked)
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
                     settings[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
                 }
-                else if (deltaY != 0 && lockedIndex == -1)
+                else if (deltaY != 0 && lockedIndex == (int)LockedSettings.NotLocked)
                 {
                     int prevIndex = index;
 
@@ -181,9 +186,9 @@ namespace pf
                         Navigate(settings[index].GetComponent<RectTransform>());
                     }
                 }
-                else if(deltaX != 0 && lockedIndex != -1)
+                else if(deltaX != 0 && lockedIndex != (int)LockedSettings.NotLocked)
                 {
-                    if(lockedIndex == 0 || lockedIndex == 1)
+                    if(lockedIndex == (int)LockedSettings.MusicVolume || lockedIndex == (int)LockedSettings.SoundVolume)
                     {
                         HandleSliderMove(deltaX, lockedIndex);
                     }
@@ -202,15 +207,15 @@ namespace pf
 
         private void HandleSliderMove(int deltaX, int lockedIndex)
         {
-            if(lockedIndex == 0 || lockedIndex == 1)
+            if(lockedIndex == (int)LockedSettings.MusicVolume || lockedIndex == (int)LockedSettings.SoundVolume)
             {
                 Slider s = settings[lockedIndex].Find("Slider").GetComponent<Slider>();
                 if(deltaX == 1)
                 {
                     s.value -= 0.1f;
-                    if(s.value < 0)
+                    if(s.value < 0.001f)
                     {
-                        s.value = 0;
+                        s.value = 0.001f;
                     }
                 }
                 else
@@ -221,6 +226,17 @@ namespace pf
                         s.value = 1;
                     }
                 }
+
+                if(lockedIndex == (int)LockedSettings.MusicVolume)
+                {
+                    audioManager.SetVolume(s.value, AudioManager.AudioChannel.Music);
+                    PlayerStats.MusicVolume = s.value;
+                }
+                else
+                {
+                    audioManager.SetVolume(s.value, AudioManager.AudioChannel.fx);
+                    PlayerStats.SoundVolume = s.value;
+                }      
             }
         }
 
@@ -234,28 +250,34 @@ namespace pf
             {
                 if(index == 0)
                 {
-                    if(lockedIndex == -1)
+                    if(lockedIndex == (int)LockedSettings.NotLocked)
                     {
-                        lockedIndex = 0;
-                        settings[0].gameObject.GetComponent<Image>().color = new Color(1,0,0); //material.SetColor("_Color", Color.cyan);
+                        lockedIndex = (int)LockedSettings.MusicVolume;
+                        settings[0].gameObject.GetComponent<Image>().color = new Color(1,1,1);
+                        settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
                     }
                     else
                     {
-                        lockedIndex = -1;
-                        settings[0].gameObject.GetComponent<Image>().color = new Color(40f/255f, 42f/255f, 48f/255f); 
+                        lockedIndex = (int)LockedSettings.NotLocked;
+                        settings[0].gameObject.GetComponent<Image>().color = new Color(40f/255f, 42f/255f, 48f/255f);
+                        settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
+                        SaveSystem.Save();
                     }
                 }
                 else if(index == 1)
                 {
-                    if (lockedIndex == -1)
+                    if (lockedIndex == (int)LockedSettings.NotLocked)
                     {
-                        lockedIndex = 1;
-                        settings[1].gameObject.GetComponent<Image>().color = new Color(1, 0, 0); //material.SetColor("_Color", Color.cyan);
+                        lockedIndex = (int)LockedSettings.SoundVolume;
+                        settings[1].gameObject.GetComponent<Image>().color = new Color(1, 1, 1); //material.SetColor("_Color", Color.cyan);
+                        settings[1].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
                     }
                     else
                     {
-                        lockedIndex = -1;
+                        lockedIndex = (int)LockedSettings.NotLocked;
                         settings[1].gameObject.GetComponent<Image>().color = new Color(40f / 255f, 42f / 255f, 48f / 255f);
+                        settings[1].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
+                        SaveSystem.Save();
                     }
                 }
             }

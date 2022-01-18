@@ -19,6 +19,16 @@ namespace pf
             // TODO: this is for debugging
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
+                print("should exit!");
+                if(levelLoader == null)
+                {
+                    print("levelloader is null, fetch it from scene...");
+                    levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+                }
+                if (levelLoader == null)
+                {
+                    print("levelloader is still null!");
+                }
                 levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
             }
 

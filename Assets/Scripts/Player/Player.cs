@@ -89,13 +89,6 @@ namespace pf
             // This way independently played levels can still show them
             DataLoader.ParseData();
 #endif
-            // We don't need MenuAudio object during the game
-            GameObject menuAudio = GameObject.Find("MenuAudio");
-            if(menuAudio)
-            {
-                Destroy(menuAudio);
-            }
-
             playerInputActions = new PlayerInputActions();
         }
 

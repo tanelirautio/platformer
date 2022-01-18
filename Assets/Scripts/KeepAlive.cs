@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace pf
 {
-    public class AudioSystem : MonoBehaviour
+    public class KeepAlive : MonoBehaviour
     {
         [Tooltip("Names of the scenes this object should stay alive in when transitioning into")]
         public List<string> sceneNames;
@@ -35,10 +35,10 @@ namespace pf
         void CheckForDuplicateInstances()
         {
             // cache all objects containing this component
-            AudioSystem[] collection = FindObjectsOfType<AudioSystem>();
+            KeepAlive[] collection = FindObjectsOfType<KeepAlive>();
 
             // iterate through the objects with this component, deleting those with matching identifiers
-            foreach (AudioSystem obj in collection)
+            foreach (KeepAlive obj in collection)
             {
                 if (obj != this) // avoid deleting the object running this check
                 {

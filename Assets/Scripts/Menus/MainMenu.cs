@@ -24,7 +24,8 @@ namespace pf
 
         public TextMeshPro titleText;
         public TextMeshPro[] menu = new TextMeshPro[7];
-
+        
+        private AudioManager audioManager;
         private LevelLoader levelLoader;
 
         private Selection selection = 0;
@@ -124,6 +125,7 @@ namespace pf
             dataLoader = GetComponent<DataLoader>();
             music = GameObject.Find("AudioSystem").GetComponent<Music>();
             playerInputActions = new PlayerInputActions();
+            audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
         }
 
         private void OnEnable()
@@ -149,6 +151,11 @@ namespace pf
             titleText.outlineColor = Color.black;
             titleText.outlineWidth = 0.2f;
 
+            print("PlayerStats.MusicVolume: " + PlayerStats.MusicVolume);
+            print("PlayerStats.SoundVolume: " + PlayerStats.SoundVolume);
+
+            audioManager.SetVolume(PlayerStats.MusicVolume, AudioManager.AudioChannel.Music);
+            audioManager.SetVolume(PlayerStats.SoundVolume, AudioManager.AudioChannel.fx);
             if (!music.IsPlaying)
             {
                 music.Play("Intro");

@@ -9,9 +9,12 @@ namespace pf
     {
         public static int SelectedCharacter { get; set; }
         public static int SceneIndex { get; set; }
-        public static float MusicVolume { get; set; }
-        public static float SoundVolume { get; set; }
+        public static float MusicVolume { get; set; } = 1f;
+        public static float SoundVolume { get; set; } = 1f;
 
+        //TODO: Make CurrentLevel separate from SceneIndex
+        //SceneIndex is changed with every scene change
+        //CurrentLevel is only changed when player plays actual levels!
         public static int GetCurrentLevel()
         {
             return SceneIndex - (int)LevelLoader.Scenes.StartLevel;
