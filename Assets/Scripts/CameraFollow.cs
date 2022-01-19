@@ -17,7 +17,6 @@ namespace pf
 
         float currentLookAheadX;
         float targetLookAheadX;
-        float lookAheadDirX;
         float smoothLookVelocityX;
         float smoothVelocityY;
 
@@ -54,23 +53,20 @@ namespace pf
 
             focusArea.Update(target.m_collider.bounds);
 
-            Vector2 focusPosition = focusArea.centre + Vector2.up * verticalOffset;
+            Vector2 focusPosition = focusArea.bounds.center + verticalOffset * Vector2.up;
 
             if (focusArea.velocity.x != 0)
             {
-                lookAheadDirX = Mathf.Sign(focusArea.velocity.x);
+                float lookAheadDirX = Mathf.Sign(focusArea.velocity.x);
                 if (Mathf.Sign(target.playerInput.x) == Mathf.Sign(focusArea.velocity.x) && target.playerInput.x != 0)
                 {
                     lookAheadStopped = false;
                     targetLookAheadX = lookAheadDirX * lookAheadDstX;
                 }
-                else
+                else if (!lookAheadStopped)
                 {
-                    if (!lookAheadStopped)
-                    {
-                        lookAheadStopped = true;
-                        targetLookAheadX = currentLookAheadX + (lookAheadDirX * lookAheadDstX - currentLookAheadX) / 4.0f;
-                    }
+                    lookAheadStopped = true;
+                    targetLookAheadX = currentLookAheadX + (lookAheadDirX * lookAheadDstX - currentLookAheadX) / 4.0f;
                 }
             }
 
@@ -84,55 +80,49 @@ namespace pf
         private void OnDrawGizmos()
         {
             Gizmos.color = new Color(1, 0, 0, 0.5f);
-            Gizmos.DrawCube(focusArea.centre, focusAreaSize);
+            Gizmos.DrawCube(focusArea.bounds.center, focusArea.bounds.size);
         }
 
         struct FocusArea
         {
-            public Vector2 centre;
-            public Vector2 velocity;
-            float left, right;
-            float top, bottom;
+            public Rect bounds;
+		    public Vector2 velocity;
 
-            public FocusArea(Bounds targetBounds, Vector2 size)
+            public FocusArea(Bounds target, Vector2 size)
             {
-                left = targetBounds.center.x - size.x / 2;
-                right = targetBounds.center.x + size.x / 2;
-                bottom = targetBounds.min.y;
-                top = targetBounds.min.y + size.y;
+                var position = new Vector2(
+                    target.center.x - size.x / 2,
+                    target.min.x
+                );
 
+                bounds = new Rect(position, size);
                 velocity = Vector2.zero;
-                centre = new Vector2((left + right) / 2, (top + bottom) / 2);
             }
 
-            public void Update(Bounds targetBounds)
+            public void Update(Bounds target)
             {
-                float shiftX = 0;
-                if (targetBounds.min.x < left)
+                float dx = 0;
+                if (target.min.x < bounds.xMin)
                 {
-                    shiftX = targetBounds.min.x - left;
+                    dx = target.min.x - bounds.xMin;
                 }
-                else if (targetBounds.max.x > right)
+                else if (target.max.x > bounds.xMax)
                 {
-                    shiftX = targetBounds.max.x - right;
+                    dx = target.max.x - bounds.xMax;
                 }
-                left += shiftX;
-                right += shiftX;
 
-                float shiftY = 0;
-                if (targetBounds.min.y < bottom)
+                float dy = 0;
+                if (target.min.y < bounds.yMin)
                 {
-                    shiftY = targetBounds.min.y - bottom;
+                    dy = target.min.y - bounds.yMin;
                 }
-                else if (targetBounds.max.y > top)
+                else if (target.max.y > bounds.yMax)
                 {
-                    shiftY = targetBounds.max.y - top;
+                    dy = target.max.y - bounds.yMax;
                 }
-                top += shiftY;
-                bottom += shiftY;
 
-                centre = new Vector2((left + right) / 2, (top + bottom) / 2);
-                velocity = new Vector2(shiftX, shiftY);
+                velocity = new Vector2(dx, dy);
+                bounds.center += new Vector2(dx, dy);
             }
         }
     }
