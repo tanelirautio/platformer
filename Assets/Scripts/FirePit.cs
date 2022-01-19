@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 namespace pf
 {
@@ -9,6 +10,9 @@ namespace pf
         private Animator anim;
         private GameObject flame;
         private bool firePitOn = false;
+
+        private Light2D fireLight;
+        private float lightBaseIntensity;
 
         //animation states
         const string FIRE_PIT_OFF = "fire_pit_off";
@@ -19,12 +23,23 @@ namespace pf
         {
             anim = GetComponent<Animator>();
             flame = transform.Find("Flame").gameObject;
+
+            fireLight = GetComponent<Light2D>();
+            lightBaseIntensity = fireLight.intensity;
         }
 
         private void Start()
         {
             anim.Play(FIRE_PIT_OFF);
             flame.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (fireLight.enabled)
+            {
+                fireLight.intensity = lightBaseIntensity + 0.4f * Mathf.PerlinNoise(10.0f * Time.realtimeSinceStartup, 0.0f);
+            }
         }
 
         public void Trigger()
@@ -41,6 +56,7 @@ namespace pf
         {
             anim.Play(FIRE_PIT_ON);
             flame.SetActive(true);
+            fireLight.enabled = true;
         }
 
     }
