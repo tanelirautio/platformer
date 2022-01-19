@@ -10,12 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7898692051165750312}
   - component: {fileID: 6588902699748506034}
-  - component: {fileID: 6632574670641131937}
-  - component: {fileID: 6053827889052801239}
   - component: {fileID: 2741060287115186571}
   - component: {fileID: 8416632084873614925}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: DebugManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,34 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneNames: []
   instanceName: GameManager
---- !u!114 &6632574670641131937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5724715490896626501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1abd27d94a39df544985f35f562e4fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6053827889052801239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5724715490896626501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f615ef875590cf14f99940f7c907337f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ach_sprite_apple: {fileID: 21300000, guid: ddee025affe4cac41b5e719efce6118d, type: 3}
-  ach_sprite_banana: {fileID: 21300000, guid: 135fab613c8966147b35c396dc93e68c, type: 3}
-  ach_sprite_strawberry: {fileID: 21300000, guid: 9d112e766f4f7ef49b515ec37675671a, type: 3}
-  ach_sprite_finish_level: {fileID: 21300000, guid: 5fa26f7ae7b29c242a5c5b31569cd404, type: 3}
 --- !u!114 &2741060287115186571
 MonoBehaviour:
   m_ObjectHideFlags: 0

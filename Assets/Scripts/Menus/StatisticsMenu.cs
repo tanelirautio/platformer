@@ -48,12 +48,6 @@ namespace pf {
 
             foreach (Collectable.Type type in Enum.GetValues(typeof(Collectable.Type)))
             {
-                if(type == Collectable.Type.Heart)
-                {
-                    //TODO: add hearts_collected to statistics
-                    continue;
-                }
-
                 GameObject go = Instantiate(stat, new Vector3(0, 0, 0), Quaternion.identity);
                 go.transform.SetParent(container.transform, false);
                 go.name = stat.name + "_" + i;
@@ -70,10 +64,25 @@ namespace pf {
 
                 stats.Add(go.transform);
                 i++;
+
+                if(type != Collectable.Type.Heart)
+                {
+                    ColorizePanel(go.transform, Color.gray);
+                }
             }
 
             stats[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
             back.GetComponent<SpriteRenderer>().color = Color.gray;
+        }
+
+        private void ColorizePanel(Transform t, Color c)
+        {
+            TextMeshProUGUI title = t.Find("Title").GetComponent<TextMeshProUGUI>();
+            title.DOColor(c, 0.01f);
+            TextMeshProUGUI count = t.Find("Count").GetComponent<TextMeshProUGUI>();
+            count.DOColor(c, 0.01f);
+
+            print("Colorizing panel text: " + title.text + " to: " + c);
         }
 
         private void Navigate(RectTransform item)
@@ -141,6 +150,7 @@ namespace pf {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
                     stats[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                    ColorizePanel(stats[index], Color.gray);
                 }
                 else if (deltaY != 0)
                 {
@@ -164,7 +174,9 @@ namespace pf {
                     if (prevIndex != index)
                     {
                         stats[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                        ColorizePanel(stats[prevIndex], Color.gray);
                         stats[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                        ColorizePanel(stats[index], Color.white);
                     }
 
                     if (!RendererExtensions.IsFullyVisibleFrom(stats[index].GetComponent<RectTransform>(), Camera.main))
@@ -180,6 +192,7 @@ namespace pf {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
                     stats[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    ColorizePanel(stats[index], Color.white);
                 }
             }
         }

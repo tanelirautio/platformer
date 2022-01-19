@@ -43,7 +43,7 @@ namespace pf
         {
             score = GameObject.Find("Player").GetComponent<PlayerScore>();
             health = GameObject.Find("Player").GetComponent<PlayerHealth>();
-            achievements = GameObject.Find("GameManager").GetComponent<AchievementManager>();
+            achievements = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
 
             obj = transform.Find("Object");
             points = transform.Find("Points");
@@ -93,7 +93,6 @@ namespace pf
                 
                 if (type != Type.Heart)
                 {
-                    StatisticsManager.AddCollectedFruit(type);
                     achievements.CheckCollectAchievement(type);
                     ShowFadingScore();
                 }
@@ -108,7 +107,8 @@ namespace pf
                         StartCoroutine(WaitForDestroy(Defs.COLLECTABLE_FADE_TIME));
                     }
                 }
-                
+                StatisticsManager.AddCollectedItem(type);
+
             }
             print("Collision between " + this.name + " and " + collision.gameObject.name);
         }

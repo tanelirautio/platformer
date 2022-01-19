@@ -45,6 +45,7 @@ namespace pf
                 }
 
                 // Statistics
+                PlayerStats.CollectedHearts = saveData.collectedHearts;
                 PlayerStats.CollectedApples = saveData.collectedApples;
                 PlayerStats.CollectedBananas = saveData.collectedBananas;
                 PlayerStats.CollectedCherries = saveData.collectedCherries;

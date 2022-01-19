@@ -80,7 +80,7 @@ namespace pf
             uiCanvas = GameObject.Find("UICanvas");
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
             
-            achievementManager = GameObject.Find("GameManager").GetComponent<AchievementManager>();
+            achievementManager = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
 
             PlayerStats.SceneIndex = LevelLoader.GetCurrentSceneIndex();
 

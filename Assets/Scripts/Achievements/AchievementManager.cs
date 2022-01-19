@@ -41,16 +41,7 @@ namespace pf {
             animator = GameObject.Find("UICanvas/AchievementPanel").GetComponent<Animator>();
             image = GameObject.Find("UICanvas/AchievementPanel/AchieveImgBg/AchieveImg").GetComponent<Image>();
             titleLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveTitle").GetComponent<TextLocalizerUI>();
-            if(titleLocalizer == null)
-            {
-                print("1. TitleLocalizer is null");
-            }
             descLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveDesc").GetComponent<TextLocalizerUI>();
-            if (descLocalizer == null)
-            {
-                print("1. DescLocalizer is null");
-            }
-
             spriteManager = GetComponent<AchievementSpriteManager>();
         }
 
@@ -66,23 +57,9 @@ namespace pf {
                         if(PlayerStats.CompletedAchievements[ach.id] == false)
                         {
                             print("Completed achievement id: " + ach.id + "!");
-                            // TODO: Show Completed Achievement UI (correct image)
-
-                            if (titleLocalizer == null)
-                            {
-                                print("2. TitleLocalizer is null");
-                                titleLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveTitle").GetComponent<TextLocalizerUI>();
-                            }
 
                             titleLocalizer.key = ach.title;
                             titleLocalizer.Localize();
-
-                            if (descLocalizer == null)
-                            {
-                                print("2. DescLocalizer is null");
-                                descLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveDesc").GetComponent<TextLocalizerUI>();
-                            }
-
                             descLocalizer.key = ach.desc;
                             descLocalizer.Localize();
 
@@ -91,9 +68,11 @@ namespace pf {
                             animator.Play(ACHIEVEMENT_IN);
                             Invoke("HideAchievement", 5f);
 
-
-
                             PlayerStats.CompletedAchievements[ach.id] = true;
+                        }
+                        else
+                        {
+                            print("Already completed achievement: " + ach.id);
                         }
                     }
                 }
@@ -112,21 +91,9 @@ namespace pf {
                         if (PlayerStats.CompletedAchievements[ach.id] == false)
                         {
                             print("Completed achievement id: " + ach.id + "!");
-                            // TODO: Show Completed Achievement UI (correct image)
-
-                            if (titleLocalizer == null)
-                            {
-                                print("3. TitleLocalizer is null");
-                            }
 
                             titleLocalizer.key = ach.title;
                             titleLocalizer.Localize();
-
-                            if (descLocalizer == null)
-                            {
-                                print("3. DescLocalizer is null");
-                            }
-
                             descLocalizer.key = ach.desc;
                             descLocalizer.Localize();
 
@@ -136,6 +103,10 @@ namespace pf {
                             Invoke("HideAchievement", 5f);
 
                             PlayerStats.CompletedAchievements[ach.id] = true;
+                        }
+                        else
+                        {
+                            print("Already completed achievement: " + ach.id);
                         }
                     }
                 }
@@ -152,11 +123,9 @@ namespace pf {
                     if (StatisticsManager.GetCompletedLevelsAmount() >= ach.count)
                     {
                         print("Completed achievement id: " + ach.id + "!");
-                        // TODO: Show Completed Achievement UI (correct image)
 
                         titleLocalizer.key = ach.title;
                         titleLocalizer.Localize();
-
                         descLocalizer.key = ach.desc;
                         descLocalizer.Localize();
 
@@ -167,6 +136,10 @@ namespace pf {
 
                         PlayerStats.CompletedAchievements[ach.id] = true;
                     }
+                }
+                else
+                {
+                    print("Already completed achievement: " + ach.id);
                 }
             }
         }
