@@ -1,5 +1,4 @@
 using System;
-//using System.Collections.Specialized;
 using UnityEngine;
 
 namespace pf
@@ -37,13 +36,8 @@ namespace pf
         public Movement(float speed, float maxJumpHeight, float timeToJumpApex)
         {
             this.speed = speed;
-            this.maxJumpHeight = maxJumpHeight;
             this.timeToJumpApex = timeToJumpApex;
-
-            gravity = -2 * maxJumpHeight / Mathf.Pow(timeToJumpApex, 2);
-            gravityDown = gravity * 1.5f;
-
-            jumpForce = 2 * maxJumpHeight / timeToJumpApex;
+            SetMaxJumpHeight(maxJumpHeight);
         }
 
         public void CalculateUpdate(float h, float y)
@@ -122,6 +116,15 @@ namespace pf
             reachedApex = false;
             maxHeightReached = Mathf.NegativeInfinity;
             this.startHeight = startHeight;
+        }
+
+        public void SetMaxJumpHeight(float maxJumpHeight) {
+            this.maxJumpHeight = maxJumpHeight;
+
+            gravity = -2 * maxJumpHeight / Mathf.Pow(timeToJumpApex, 2);
+            gravityDown = gravity * 1.5f;
+
+            jumpForce = 2 * maxJumpHeight / timeToJumpApex;
         }
     }
 }

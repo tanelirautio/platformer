@@ -307,11 +307,7 @@ namespace pf
                 {
                     if (!powerups.jumpPowerEnabled)
                     {
-                        movement = new Movement(
-                            moveSpeed,
-                            maxJumpHeight + Defs.POWERUP_EXTRA_JUMP_POWER,
-                            timeToJumpApex
-                        );
+                        movement.SetMaxJumpHeight(maxJumpHeight + Defs.POWERUP_EXTRA_JUMP_POWER);
                         anim.CollectPowerup(type);
                         light2D.enabled = true;
                         light2D.color = Color.blue;
@@ -330,7 +326,7 @@ namespace pf
                 {
                     if (powerups.jumpPowerEnabled)
                     {
-                        ResetMovement();
+                        movement.SetMaxJumpHeight(maxJumpHeight);
                         light2D.enabled = false;
                         powerups.jumpPowerEnabled = false;
                         anim.PowerupExpired(type);
