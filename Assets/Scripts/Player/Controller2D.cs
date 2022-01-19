@@ -89,6 +89,16 @@ namespace pf
             float directionY = Mathf.Sign(moveAmount.y);
             float rayLength = Mathf.Abs(moveAmount.y) + SKINWIDTH;
 
+            // Check if we are still intersecting with the collider we
+            // chose to fallthrough.
+            if (collisions.fallingThroughCollider != null)
+            {
+                if (!m_collider.bounds.Intersects(collisions.fallingThroughCollider.bounds))
+                {
+                    collisions.fallingThroughCollider = null;
+                }
+            }
+
             for (int i = 0; i < verticalRayCount; i++)
             {
                 Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
@@ -101,18 +111,16 @@ namespace pf
                 {
                     if (hit.collider.tag == "Through")
                     {
-                        if (directionY == 1 || hit.distance == 0)
+                        var fallingThrough = (collisions.fallingThroughCollider != null);
+
+                        if (fallingThrough || directionY == 1 || hit.distance == 0)
                         {
                             continue;
                         }
-                        if (collisions.fallingThroughPlatform)
-                        {
-                            continue;
-                        }
+
                         if (playerInput.y == -1)
                         {
-                            collisions.fallingThroughPlatform = true;
-                            Invoke("ResetFallingThroughPlatform", 0.5f);
+                            collisions.fallingThroughCollider = hit.collider;
                             continue;
                         }
                     }
@@ -126,11 +134,6 @@ namespace pf
             }
         }
 
-        void ResetFallingThroughPlatform()
-        {
-            collisions.fallingThroughPlatform = false;
-        }
-
         public struct CollisionInfo
         {
             public bool above, below;
@@ -138,12 +141,16 @@ namespace pf
 
             public Vector2 moveAmountOld;
             public int faceDir;
-            public bool fallingThroughPlatform;
+
+            /// Non-null if currently falling through something.
+            /// @TODO: This probably should be a list of colliders.
+            public Collider2D fallingThroughCollider;
 
             public void Reset()
             {
                 above = below = false;
                 left = right = false;
+                fallingThroughCollider = null;
             }
         }
     }
