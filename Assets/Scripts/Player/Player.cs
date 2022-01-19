@@ -79,7 +79,7 @@ namespace pf
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             uiCanvas = GameObject.Find("UICanvas");
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
-            
+
             achievementManager = GameObject.Find("GameManager").GetComponent<AchievementManager>();
 
             PlayerStats.SceneIndex = LevelLoader.GetCurrentSceneIndex();
@@ -185,7 +185,7 @@ namespace pf
                 movement.DoubleGravity();
             }
 
-            controller.Move(movement.CalculateVelocity(Time.deltaTime, transform.position.y));
+            controller.Move(movement.CalculateVelocity(Time.deltaTime, transform.position.y), input);
 
             // Removes the accumulation of gravity
             if (controller.collisions.above || controller.collisions.below)
