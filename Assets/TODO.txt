@@ -8,7 +8,6 @@ Menus:
 
 Game:
 -----
-- Allow player to fall from jump through platform (tag: "through") when pressing down
 - Implement more traps (Libs/Pixel Adventure 1/Assets/Traps)
   -> Implemented trap sprites are then moved to Assets/Sprites and traps are made as prefabs
 - Implement more powerups
@@ -48,3 +47,5 @@ Done and/or fixed:
 - Statistics menu (just reuse Achievement menu code...) [just add more stats there in the future!]
 - Keep the menu music playing continuously when returning to main menu from submenu
   (for example: returning from achievements menu back to main menu, music starts over)
+- Allow player to fall from jump through platform (tag: "through") when pressing down
+  - NOTE: 'press' vs 'is pressed' - currently 'is pressed' triggers fallthrough
