@@ -86,7 +86,7 @@ namespace pf
         struct FocusArea
         {
             public Rect bounds;
-		    public Vector2 velocity;
+            public Vector2 velocity;
 
             public FocusArea(Bounds target, Vector2 size)
             {
