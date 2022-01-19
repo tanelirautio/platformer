@@ -31,6 +31,34 @@ namespace pf
             Back
         }
 
+        private enum ColorInfoKey
+        {
+            Achieved,
+            NotAchieved,
+            Selected
+        }
+
+        private class ColorInfo
+        {
+            public ColorInfo(Color bgColor, Color imgColor, Color textColor)
+            {
+                BgColor = bgColor;
+                ImgColor = imgColor;
+                TextColor = textColor;
+            }
+            
+            public Color BgColor { get; private set; }
+            public Color ImgColor { get; private set; }
+            public Color TextColor { get; private set; }
+        }
+
+        private Dictionary<ColorInfoKey, ColorInfo> colors = new Dictionary<ColorInfoKey, ColorInfo>() {
+            { ColorInfoKey.Achieved, new ColorInfo(new Color (192f / 255f, 50f / 255f, 127f / 255f), new Color(1,1,1), new Color(1,1,1)) },
+            { ColorInfoKey.NotAchieved, new ColorInfo(new Color(100f/255f, 100f/255f, 100f/255f), new Color(100f / 255f, 100f / 255f, 100f / 255f), new Color(150f / 255f, 150f / 255f, 150f / 255f)) },
+            { ColorInfoKey.Selected, new ColorInfo(new Color(1,1,1), new Color(100f / 255f, 100f / 255f, 100f / 255f), new Color(0,0,0)) }
+        };
+
+
         private PlayerInputActions playerInputActions;
         private Selection selection = 0;
         private LevelLoader levelLoader;
@@ -72,9 +100,11 @@ namespace pf
 
                 //print("Setting position " + i + ": " + go.transform.position);
 
+                /*
                 if(!PlayerStats.CompletedAchievements[i])
                 {
                     go.GetComponent<Image>().color = new Color(100f/255f, 100f/255f, 100f/255f);
+
                     go.transform.Find("AchieveImgBg/AchieveImg").GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f);
 
                     var titleText = go.transform.Find("AchieveTitle").GetComponent<TextMeshProUGUI>();
@@ -82,6 +112,23 @@ namespace pf
  
                     var descText = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
                     descText.DOColor(new Color(150f / 255f, 150f / 255f, 150f / 255f), 0f);
+                }   */             
+                
+                if(!PlayerStats.CompletedAchievements[i])
+                {
+                    ColorizePanel(go.transform, ColorInfoKey.NotAchieved);
+
+                    /*
+                    go.GetComponent<Image>().color = colors[ColorInfoKey.NotAchieved].BgColor;
+
+                    go.transform.Find("AchieveImgBg/AchieveImg").GetComponent<Image>().color = colors[ColorInfoKey.NotAchieved].ImgColor;
+
+                    var titleText = go.transform.Find("AchieveTitle").GetComponent<TextMeshProUGUI>();
+                    titleText.DOColor(colors[ColorInfoKey.NotAchieved].TextColor, 0f);  
+ 
+                    var descText = go.transform.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
+                    descText.DOColor(colors[ColorInfoKey.NotAchieved].TextColor, 0f);
+                    */
                 }
                 
 
@@ -93,6 +140,17 @@ namespace pf
 
 
         }
+
+        private void ColorizePanel(Transform t, ColorInfoKey key)
+        {
+            t.gameObject.GetComponent<Image>().color = colors[key].BgColor;
+            t.Find("AchieveImgBg/AchieveImg").GetComponent<Image>().color = colors[key].ImgColor;
+            var titleText = t.Find("AchieveTitle").GetComponent<TextMeshProUGUI>();
+            titleText.DOColor(colors[key].TextColor, 0f);
+            var descText = t.Find("AchieveDesc").GetComponent<TextMeshProUGUI>();
+            descText.DOColor(colors[key].TextColor, 0f);
+        }
+
         private void Navigate(RectTransform item)
         {
             Vector3 itemCurrentLocalPostion = scrollrect.GetComponent<RectTransform>().InverseTransformVector(ConvertLocalPosToWorldPos(item));
@@ -180,7 +238,15 @@ namespace pf
                     if(prevIndex != index)
                     {
                         achievements[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                        if (!PlayerStats.CompletedAchievements[prevIndex])
+                        {
+
+                        }
                         achievements[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                        if (!PlayerStats.CompletedAchievements[index])
+                        {
+                           
+                        }
                     }
 
                     if(!RendererExtensions.IsFullyVisibleFrom(achievements[index].GetComponent<RectTransform>(), Camera.main))
