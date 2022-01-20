@@ -2,7 +2,6 @@
 using DG.Tweening;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.InputSystem;
-using System;
 using UnityEngine.Assertions;
 
 namespace pf
@@ -48,8 +47,7 @@ namespace pf
         private bool isDead = false;
         private bool hasBeenHit = false;
 
-        private bool timerStarted = false;
-        private float timer = 0;
+        private Timer levelCompletionTimer = new Timer();
 
         private bool controllerDisabled = false;
 
@@ -134,9 +132,8 @@ namespace pf
                 health.Reset();
             }
             score.Reset();
+            levelCompletionTimer.Reset();
             ResetMovement();
-            timer = 0;
-            timerStarted = false;
             hasBeenHit = false;
             light2D.enabled = false;
 
@@ -150,10 +147,7 @@ namespace pf
 
         private void Update()
         {
-            if (timerStarted)
-            {
-                timer += Time.deltaTime;
-            }
+            levelCompletionTimer.Update(Time.deltaTime);
 
             if (!controllerDisabled)
             {
@@ -170,14 +164,11 @@ namespace pf
                 }
             }
 
-            movement.CalculateVelocityX(input.x, (controller.collisions.below) ? accTimeGrounded : accTimeAirborne);
+            movement.CalculateVelocityX(input.x, controller.collisions.below ? accTimeGrounded : accTimeAirborne);
 
-            if (jumpAction.WasPressedThisFrame())
+            if (controller.collisions.below && jumpAction.WasPressedThisFrame())
             {
-                if (controller.collisions.below)
-                {
-                    movement.Jump(transform.position.y);
-                }
+                movement.Jump(transform.position.y);
             }
 
             if (jumpAction.WasReleasedThisFrame())
@@ -404,12 +395,12 @@ namespace pf
         {
             if (collision.gameObject.tag == "Finish")
             {
-                timerStarted = false;
+                levelCompletionTimer.Stop();
 
                 print("finished level");
                 controllerDisabled = true;
 
-                float timerMs = timer * 1000;
+                float timerMs = levelCompletionTimer.Elapsed * 1000.0f;
                 levelEnd.ShowLevelEnd(hasBeenHit, score.GetScore(), timerMs);
 
                 StatisticsManager.SetCompletedLevel(PlayerStats.GetCurrentLevel());
@@ -426,7 +417,7 @@ namespace pf
         {
             if (collision.tag == "SpawnPoint")
             {
-                timerStarted = true;
+                levelCompletionTimer.Start();
             }
         }
     }
