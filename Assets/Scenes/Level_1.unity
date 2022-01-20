@@ -39594,14 +39594,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4519532599149700713, guid: 645f80c2fa9f5f04a83b90500d1b3bb2, type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4519532599149700713, guid: 645f80c2fa9f5f04a83b90500d1b3bb2, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -600794841
-      objectReference: {fileID: 0}
     - target: {fileID: 4519532599149700715, guid: 645f80c2fa9f5f04a83b90500d1b3bb2, type: 3}
       propertyPath: m_Name
       value: Spikes
