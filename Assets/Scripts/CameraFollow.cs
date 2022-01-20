@@ -92,7 +92,7 @@ namespace pf
             {
                 var position = new Vector2(
                     target.center.x - size.x / 2,
-                    target.min.x
+                    target.min.y
                 );
 
                 bounds = new Rect(position, size);
