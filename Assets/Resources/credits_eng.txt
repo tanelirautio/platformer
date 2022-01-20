@@ -1,6 +1,7 @@
 <b>Programming</b>
 
 Taneli Rautio
+Juha Lehtinen
 
 
 
