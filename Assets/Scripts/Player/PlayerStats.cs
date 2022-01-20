@@ -28,6 +28,7 @@ namespace pf
         // Statistics
         public static bool[] LevelsCompleted = new bool[Defs.LEVEL_AMOUNT];
         public static bool[] LevelsCompletedWithoutHits = new bool[Defs.LEVEL_AMOUNT];
+        public static int CollectedHearts { get; set; }
         public static int CollectedApples { get; set; }
         public static int CollectedBananas { get; set; }
         public static int CollectedStrawberries { get; set; }

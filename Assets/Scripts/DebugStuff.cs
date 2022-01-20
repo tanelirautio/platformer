@@ -16,7 +16,7 @@ namespace pf
 
         void Update()
         {
-            // TODO: this is for debugging
+            // TODO: this is for debugging, remove GameObject which uses this from the final build
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 print("should exit!");
@@ -61,6 +61,7 @@ namespace pf
                     print("objectives per level: " + s.levelObjectivesCompleted[i, 0] + ", " + s.levelObjectivesCompleted[i, 1] + ", " + s.levelObjectivesCompleted[i, 2]);
                 }
 
+                print("Hearts: " + s.collectedHearts);
                 print("Apples: " + s.collectedApples);
                 print("Bananas: " + s.collectedBananas);
                 print("Cherries: " + s.collectedCherries);

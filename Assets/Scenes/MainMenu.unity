@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: 
---- !u!1001 &866236018
+--- !u!1001 &688038210
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -353,7 +353,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5724715490896626501, guid: 79bb9c8dae0fd3e4eab46713969ca49c, type: 3}
       propertyPath: m_Name
-      value: GameManager
+      value: DebugManager
       objectReference: {fileID: 0}
     - target: {fileID: 7898692051165750312, guid: 79bb9c8dae0fd3e4eab46713969ca49c, type: 3}
       propertyPath: m_RootOrder

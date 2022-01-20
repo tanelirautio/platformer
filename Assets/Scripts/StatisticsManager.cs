@@ -5,22 +5,9 @@ using UnityEngine;
 namespace pf {
     public class StatisticsManager 
     {
-        /*
-        private static Dictionary<Collectable.Type, int> collectedFruits = new Dictionary<Collectable.Type, int>() 
-        {
-            { Collectable.Type.Apple, 0 },
-            { Collectable.Type.Bananas, 0 },
-            { Collectable.Type.Cherries, 0 },
-            { Collectable.Type.Kiwi, 0 },
-            { Collectable.Type.Melon, 0 },
-            { Collectable.Type.Orange, 0 },
-            { Collectable.Type.Pineapple, 0 },
-            { Collectable.Type.Strawberry, 0 }
-        };
-        */
-
         private static Dictionary<Collectable.Type, string> localizationStrings = new Dictionary<Collectable.Type, string>()
         {
+            { Collectable.Type.Heart, "hearts_collected" },
             { Collectable.Type.Apple, "apples_collected" },
             { Collectable.Type.Bananas, "bananas_collected" },
             { Collectable.Type.Cherries, "cherries_collected" },
@@ -31,10 +18,13 @@ namespace pf {
             { Collectable.Type.Strawberry, "strawberries_collected" }
         };
 
-        public static void AddCollectedFruit(Collectable.Type type)
+        public static void AddCollectedItem(Collectable.Type type)
         {
             switch (type)
             {
+                case Collectable.Type.Heart:
+                    PlayerStats.CollectedHearts++;
+                    break;
                 case Collectable.Type.Apple:
                     PlayerStats.CollectedApples++;
                     break;
@@ -94,28 +84,12 @@ namespace pf {
             }
             return string.Empty;
         }
-
-        /*
-        public static Dictionary<Collectable.Type, int> GetCollectedFruits()
-        {
-            collectedFruits[Collectable.Type.Apple] = PlayerStats.CollectedApples;
-            collectedFruits[Collectable.Type.Bananas] = PlayerStats.CollectedBananas;
-            collectedFruits[Collectable.Type.Cherries] = PlayerStats.CollectedCherries;
-            collectedFruits[Collectable.Type.Kiwi] = PlayerStats.CollectedKiwis;
-            collectedFruits[Collectable.Type.Melon] = PlayerStats.CollectedMelons;
-            collectedFruits[Collectable.Type.Orange] = PlayerStats.CollectedOranges;
-            collectedFruits[Collectable.Type.Pineapple] = PlayerStats.CollectedPineapples;
-            collectedFruits[Collectable.Type.Strawberry] = PlayerStats.CollectedStrawberries;
-            return collectedFruits;
-        }
-        */
         
         public static void SetCompletedLevel(int level)
         {
             PlayerStats.LevelsCompleted[level] = true;
         }
-
-        
+    
         public static int GetCompletedLevelsAmount()
         {
             int levels = 0;

@@ -21,7 +21,8 @@ namespace pf
         // Statistics
         public bool[] levelsCompleted;
         public bool[] levelsCompletedWithoutHits;
-        
+
+        public int collectedHearts;
         public int collectedApples;
         public int collectedBananas;
         public int collectedStrawberries;
@@ -63,6 +64,7 @@ namespace pf
                 bestTimes[i] = c.BestTime;
             }
 
+            collectedHearts = PlayerStats.CollectedHearts;
             collectedApples = PlayerStats.CollectedApples;
             collectedBananas = PlayerStats.CollectedBananas;
             collectedCherries = PlayerStats.CollectedCherries;
