@@ -19,7 +19,7 @@ namespace pf
         public GameObject musicVolumeSlider;
         public GameObject soundVolumeSlider;
 
-        public AudioManager audioManager;
+        private AudioManager audioManager;
 
         private ScrollRect scrollrect;
         private RectTransform viewport;
@@ -254,12 +254,16 @@ namespace pf
                     {
                         lockedIndex = (int)LockedSettings.MusicVolume;
                         settings[0].gameObject.GetComponent<Image>().color = new Color(1,1,1);
+                        settings[0].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(0, 0, 0);
+                        settings[0].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
                     }
                     else
                     {
                         lockedIndex = (int)LockedSettings.NotLocked;
                         settings[0].gameObject.GetComponent<Image>().color = new Color(40f/255f, 42f/255f, 48f/255f);
+                        settings[0].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(1, 1, 1);
+                        settings[0].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
                         SaveSystem.Save();
                     }
@@ -269,13 +273,17 @@ namespace pf
                     if (lockedIndex == (int)LockedSettings.NotLocked)
                     {
                         lockedIndex = (int)LockedSettings.SoundVolume;
-                        settings[1].gameObject.GetComponent<Image>().color = new Color(1, 1, 1); //material.SetColor("_Color", Color.cyan);
+                        settings[1].gameObject.GetComponent<Image>().color = new Color(1, 1, 1);
+                        settings[1].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(0, 0, 0);
+                        settings[1].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[1].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
                     }
                     else
                     {
                         lockedIndex = (int)LockedSettings.NotLocked;
                         settings[1].gameObject.GetComponent<Image>().color = new Color(40f / 255f, 42f / 255f, 48f / 255f);
+                        settings[1].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(1, 1, 1);
+                        settings[1].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[1].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
                         SaveSystem.Save();
                     }

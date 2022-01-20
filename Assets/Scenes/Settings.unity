@@ -1455,7 +1455,6 @@ MonoBehaviour:
   back: {fileID: 272067558}
   musicVolumeSlider: {fileID: 662218551}
   soundVolumeSlider: {fileID: 1702710243}
-  audioManager: {fileID: 0}
 --- !u!1001 &1636714567
 PrefabInstance:
   m_ObjectHideFlags: 0
