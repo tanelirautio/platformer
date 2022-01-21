@@ -8,12 +8,9 @@ namespace pf
     {
         public enum Language
         {
-            English,
-            Finnish
+            English = 0,
+            Finnish = 1
         }
-
-        public static Language language = Language.English;
-        //public static Language language = Language.Finnish;
 
         private static Dictionary<string, string> localizedEN;
         private static Dictionary<string, string> localizedFI;
@@ -53,12 +50,12 @@ namespace pf
 
             string value = key;
 
-            switch (language)
+            switch (PlayerStats.Language)
             {
-                case Language.English:
+                case (int)Language.English:
                     localizedEN.TryGetValue(key, out value);
                     break;
-                case Language.Finnish:
+                case (int)Language.Finnish:
                     localizedFI.TryGetValue(key, out value);
                     break;
             }

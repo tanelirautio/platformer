@@ -29,6 +29,7 @@ namespace pf
 
                 PlayerStats.MusicVolume = saveData.musicVolume;
                 PlayerStats.SoundVolume = saveData.soundVolume;
+                PlayerStats.Language = saveData.language;
 
                 // Level objectives
                 for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)

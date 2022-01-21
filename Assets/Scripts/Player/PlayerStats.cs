@@ -11,6 +11,7 @@ namespace pf
         public static int SceneIndex { get; set; }
         public static float MusicVolume { get; set; } = 1f;
         public static float SoundVolume { get; set; } = 1f;
+        public static int Language { get; set; } = 0; 
 
         //TODO: Make CurrentLevel separate from SceneIndex
         //SceneIndex is changed with every scene change

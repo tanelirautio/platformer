@@ -47,15 +47,15 @@ namespace pf
             music.Play("Credits");
 
             string filename;
-            switch (LocalizationManager.language)
+            switch (PlayerStats.Language)
             {
 
-                case LocalizationManager.Language.Finnish:
+                case (int)LocalizationManager.Language.Finnish:
                 {
                     filename = "credits_fin";
                     break;
                 }
-                case LocalizationManager.Language.English:
+                case (int)LocalizationManager.Language.English:
                 default:
                 {
                     filename = "credits_eng";

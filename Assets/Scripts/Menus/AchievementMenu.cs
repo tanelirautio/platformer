@@ -54,7 +54,6 @@ namespace pf
 
         private Dictionary<ColorInfoKey, ColorInfo> colors = new Dictionary<ColorInfoKey, ColorInfo>() {
             { ColorInfoKey.Achieved, new ColorInfo(new Color (192f / 255f, 50f / 255f, 127f / 255f), new Color(1,1,1), new Color(1,1,1)) },
-            //{ ColorInfoKey.NotAchieved, new ColorInfo(new Color(100f/255f, 100f/255f, 100f/255f), new Color(100f / 255f, 100f / 255f, 100f / 255f), new Color(150f / 255f, 150f / 255f, 150f / 255f)) },
             { ColorInfoKey.NotAchieved, new ColorInfo(Color.gray, Color.gray, Color.white) },
             { ColorInfoKey.Selected, new ColorInfo(new Color(1,1,1), new Color(100f / 255f, 100f / 255f, 100f / 255f), new Color(0,0,0)) }
         };

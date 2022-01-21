@@ -16,10 +16,12 @@ namespace pf
         public GameObject scrollArea;
         public GameObject back;
 
-        public GameObject musicVolumeSlider;
-        public GameObject soundVolumeSlider;
+        public GameObject musicVolumeSliderPrefab;
+        public GameObject soundVolumeSliderPrefab;
+        public GameObject languageSelectPrefab;
 
         private AudioManager audioManager;
+        private LanguageSelect language;
 
         private ScrollRect scrollrect;
         private RectTransform viewport;
@@ -38,7 +40,8 @@ namespace pf
         {
             NotLocked = -1,
             MusicVolume = 0,
-            SoundVolume = 1
+            SoundVolume = 1,
+            Language = 2
         }
 
         private PlayerInputActions playerInputActions;
@@ -61,33 +64,35 @@ namespace pf
             float offset = 8f;
             int i = 0;
 
+            GameObject musicVolumeSlider = Instantiate(musicVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             musicVolumeSlider.transform.SetParent(container.transform, false);
             Vector3 pos = musicVolumeSlider.transform.position;
             pos.y = offset;
             musicVolumeSlider.transform.position = pos;
             musicVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.MusicVolume;
-            if (PlayerStats.MusicVolume == 0)
-            {
-                soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = 1f;
-            }
             settings.Add(musicVolumeSlider.transform);
             i++;
 
+            GameObject soundVolumeSlider = Instantiate(soundVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             soundVolumeSlider.transform.SetParent(container.transform, false);
             pos = soundVolumeSlider.transform.position;
-            pos.y = offset - i * 4f;
+            pos.y = offset - 4f;
             soundVolumeSlider.transform.position = pos;
             soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.SoundVolume;
-            if(PlayerStats.SoundVolume == 0)
-            {
-                soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = 1f;
-            }
             settings.Add(soundVolumeSlider.transform);
             i++;
 
-
+            //GameObject soundVolumeSlider = Instantiate(soundVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject languageSelect = languageSelectPrefab;
+            languageSelect.transform.SetParent(container.transform, false);
+            pos = languageSelect.transform.position;
+            pos.y = offset - 8.5f;
+            languageSelect.transform.position = pos;
+            settings.Add(languageSelect.transform);
+            
             settings[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
             back.GetComponent<SpriteRenderer>().color = Color.gray;
+            language = languageSelect.GetComponent<LanguageSelect>();
         }
 
         private void Navigate(RectTransform item)
@@ -193,6 +198,13 @@ namespace pf
                         HandleSliderMove(deltaX, lockedIndex);
                     }
                 }
+                else if(deltaY != 0 && lockedIndex != (int)LockedSettings.NotLocked)
+                {
+                    if(lockedIndex == (int)LockedSettings.Language)
+                    {
+                        print("Should change language selection here!");
+                    }
+                }
             }
             else if (selection == Selection.Back)
             {
@@ -248,12 +260,13 @@ namespace pf
             }
             else
             {
-                if(index == 0)
+                //TODO: simplify this if-else mess... But it works for now at least :)
+                if (index == 0)
                 {
-                    if(lockedIndex == (int)LockedSettings.NotLocked)
+                    if (lockedIndex == (int)LockedSettings.NotLocked)
                     {
                         lockedIndex = (int)LockedSettings.MusicVolume;
-                        settings[0].gameObject.GetComponent<Image>().color = new Color(1,1,1);
+                        settings[0].gameObject.GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[0].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[0].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
@@ -261,14 +274,14 @@ namespace pf
                     else
                     {
                         lockedIndex = (int)LockedSettings.NotLocked;
-                        settings[0].gameObject.GetComponent<Image>().color = new Color(40f/255f, 42f/255f, 48f/255f);
+                        settings[0].gameObject.GetComponent<Image>().color = new Color(40f / 255f, 42f / 255f, 48f / 255f);
                         settings[0].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[0].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
                         SaveSystem.Save();
                     }
                 }
-                else if(index == 1)
+                else if (index == 1)
                 {
                     if (lockedIndex == (int)LockedSettings.NotLocked)
                     {
@@ -286,6 +299,21 @@ namespace pf
                         settings[1].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[1].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
                         SaveSystem.Save();
+                    }
+                }
+                else if (index == 2)
+                {
+                    if (lockedIndex == (int)LockedSettings.NotLocked)
+                    {
+                        lockedIndex = (int)LockedSettings.Language;
+                        language.SelectionMode(true);
+                        settings[2].gameObject.GetComponent<Image>().color = Color.white;
+                    }
+                    else
+                    {
+                        lockedIndex = (int)LockedSettings.NotLocked;
+                        language.SelectionMode(false);
+                        settings[2].gameObject.GetComponent<Image>().color = new Color(40f / 255f, 42f / 255f, 48f / 255f);
                     }
                 }
             }

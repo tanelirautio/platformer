@@ -11,9 +11,9 @@ namespace pf
         public int selectedCharacter;
         public float musicVolume;
         public float soundVolume;
+        public int language;
         public int currentLevel;
         public int[] bestScores;
-        //public int[] scores;
         public int health;
         public bool[,] levelObjectivesCompleted;
         public float[] bestTimes;
@@ -44,6 +44,7 @@ namespace pf
 
             musicVolume = PlayerStats.MusicVolume;
             soundVolume = PlayerStats.SoundVolume;
+            language = PlayerStats.Language;
 
             bestScores = new int[Defs.LEVEL_AMOUNT];
             for (int i = 0; i < PlayerStats.BestScores.Length; i++)
