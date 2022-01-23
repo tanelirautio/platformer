@@ -21,6 +21,16 @@ namespace pf
 
         public void ChangeLanguage(int selection)
         {
+            // wrap selections around
+            if (selection >= languageSelections.Count)
+            {
+                selection = 0;
+            }
+            else if(selection < 0)
+            {
+                selection = languageSelections.Count - 1;
+            }
+
             Color selected = Color.white;
             Color notSelected = Color.gray;
             if (isInSelectionMode)

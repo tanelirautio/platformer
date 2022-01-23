@@ -203,6 +203,7 @@ namespace pf
                     if(lockedIndex == (int)LockedSettings.Language)
                     {
                         print("Should change language selection here!");
+                        ChangeLanguageSelection(deltaY, lockedIndex);
                     }
                 }
             }
@@ -213,6 +214,24 @@ namespace pf
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
                     settings[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                }
+            }
+        }
+
+        private void ChangeLanguageSelection(int deltaY, int lockedIndex)
+        {
+            if(lockedIndex == (int)LockedSettings.Language)
+            {
+                int selectedLanguage = language.GetSelectedLanguage();
+                if (deltaY == 1)
+                {
+                    print("down");
+                    language.ChangeLanguage(selectedLanguage + 1);
+                }
+                else
+                {
+                    print("up");
+                    language.ChangeLanguage(selectedLanguage - 1);
                 }
             }
         }
@@ -312,8 +331,16 @@ namespace pf
                     else
                     {
                         lockedIndex = (int)LockedSettings.NotLocked;
+                        PlayerStats.Language = language.GetSelectedLanguage();
                         language.SelectionMode(false);
                         settings[2].gameObject.GetComponent<Image>().color = new Color(40f / 255f, 42f / 255f, 48f / 255f);
+                        SaveSystem.Save();
+
+                        var texts = FindObjectsOfType<TextLocalizerUI>();
+                        foreach(var text in texts)
+                        {
+                            text.Localize();
+                        }
                     }
                 }
             }

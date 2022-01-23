@@ -588,6 +588,7 @@ GameObject:
   - component: {fileID: 5913148128859475127}
   - component: {fileID: 5913148128859475121}
   - component: {fileID: 5913148128859475126}
+  - component: {fileID: 8148328213914890637}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -711,6 +712,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8148328213914890637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913148128859475124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe7fe632f61fe647a9b70aff9aa2f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: music_volume
 --- !u!1 &5913148129235187059
 GameObject:
   m_ObjectHideFlags: 0
