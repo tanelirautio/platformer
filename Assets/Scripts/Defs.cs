@@ -4,20 +4,28 @@ namespace pf
     {
         public const int SAVEDATA_VERSION = 1;
 
+        // Game
         public const int LEVEL_AMOUNT = 3;
         public const int OBJECTIVES_PER_LEVEL = 3;
-
         public const float GRACE_PERIOD_LENGTH = 2.0f;
+
+        // Collectables
         public const float COLLECTABLE_FADE_TIME = 1.0f;
         public const float COLLECTABLE_FADE_INVOKE_TIME = 1.0f;
-        public const float POWERUP_FADE_TIME = 2.0f;
 
+        // Powerups
+        public const float POWERUP_FADE_TIME = 2.0f;
         public const float POWERUP_EXTRA_JUMP_POWER = 2.0f;
 
+        // Credits
         public const float CREDITS_TIME = 40.0f;
 
+        // Achievements
         public const int ACHIEVEMENT_COUNT = 12;
+        public const float ACHIEVEMENT_SHOW_TIME = 3.0f;
+        public const float ACHIEVEMENT_WAIT_TIME = 0.5f;
 
+        // Menu
         public const float MENU_NORMAL_SCALE = 1.0f;
         public const float MENU_SELECTED_SCALE = 1.1f;
     }

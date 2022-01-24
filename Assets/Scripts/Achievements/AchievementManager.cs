@@ -14,8 +14,6 @@ namespace pf {
         //Achievement data is loaded in DataParser
         //Achievement completed data is loaded from save game
 
-        //TODO: put achievements in a list, if player gets multiple achievements simultaneously, show the achievements one at a time
-
         private Animator animator;
         private Image image;
         private TextLocalizerUI titleLocalizer;
@@ -27,6 +25,9 @@ namespace pf {
         const string ACHIEVEMENT_OUT = "achievement_out";
 
         private AchievementSpriteManager spriteManager;
+
+        private static Queue<Achievements> achievementsToShow = new Queue<Achievements>();
+        private bool canShowAchievement = true;
 
         // Must be the same values as "type" field in achievements.json
         private enum AchievementType
@@ -56,23 +57,9 @@ namespace pf {
                     {
                         if(PlayerStats.CompletedAchievements[ach.id] == false)
                         {
-                            print("Completed achievement id: " + ach.id + "!");
-
-                            titleLocalizer.key = ach.title;
-                            titleLocalizer.Localize();
-                            descLocalizer.key = ach.desc;
-                            descLocalizer.Localize();
-
-                            image.sprite = spriteManager.GetAchievementSprite(ach.img);
-
-                            animator.Play(ACHIEVEMENT_IN);
-                            Invoke("HideAchievement", 5f);
-
+                            achievementsToShow.Enqueue(ach);
                             PlayerStats.CompletedAchievements[ach.id] = true;
-                        }
-                        else
-                        {
-                            print("Already completed achievement: " + ach.id);
+                            print("Completed achievement id: " + ach.id + " - " + ach.title);
                         }
                     }
                 }
@@ -90,23 +77,9 @@ namespace pf {
                     {
                         if (PlayerStats.CompletedAchievements[ach.id] == false)
                         {
-                            print("Completed achievement id: " + ach.id + "!");
-
-                            titleLocalizer.key = ach.title;
-                            titleLocalizer.Localize();
-                            descLocalizer.key = ach.desc;
-                            descLocalizer.Localize();
-
-                            image.sprite = spriteManager.GetAchievementSprite(ach.img);
-
-                            animator.Play(ACHIEVEMENT_IN);
-                            Invoke("HideAchievement", 5f);
-
+                            achievementsToShow.Enqueue(ach);
                             PlayerStats.CompletedAchievements[ach.id] = true;
-                        }
-                        else
-                        {
-                            print("Already completed achievement: " + ach.id);
+                            print("Completed achievement id: " + ach.id + " - " + ach.title);
                         }
                     }
                 }
@@ -122,31 +95,40 @@ namespace pf {
                 {
                     if (StatisticsManager.GetCompletedLevelsAmount() >= ach.count)
                     {
-                        print("Completed achievement id: " + ach.id + "!");
-
-                        titleLocalizer.key = ach.title;
-                        titleLocalizer.Localize();
-                        descLocalizer.key = ach.desc;
-                        descLocalizer.Localize();
-
-                        image.sprite = spriteManager.GetAchievementSprite(ach.img);
-
-                        animator.Play(ACHIEVEMENT_IN);
-                        Invoke("HideAchievement", 5f);
-
+                        achievementsToShow.Enqueue(ach);
                         PlayerStats.CompletedAchievements[ach.id] = true;
+                        print("Completed achievement id: " + ach.id + " - " + ach.title);
                     }
-                }
-                else
-                {
-                    print("Already completed achievement: " + ach.id);
                 }
             }
         }
 
-        private void HideAchievement()
+
+        private void Update()
         {
-            animator.Play(ACHIEVEMENT_OUT);
+            if(achievementsToShow.Count > 0 && canShowAchievement)
+            {
+                Achievements ach = achievementsToShow.Dequeue();
+                titleLocalizer.key = ach.title;
+                titleLocalizer.Localize();
+                descLocalizer.key = ach.desc;
+                descLocalizer.Localize();
+                image.sprite = spriteManager.GetAchievementSprite(ach.img);
+                animator.Play(ACHIEVEMENT_IN);
+                StartCoroutine(HideAchievement());
+                canShowAchievement = false;
+                print("AchievementsToShow: " + achievementsToShow.Count);
+                print("Showing achievement id: " + ach.id + " - " + ach.title);
+            }
         }
+
+        private IEnumerator HideAchievement()
+        {
+            yield return new WaitForSeconds(Defs.ACHIEVEMENT_SHOW_TIME);
+            animator.Play(ACHIEVEMENT_OUT);
+            yield return new WaitForSeconds(Defs.ACHIEVEMENT_WAIT_TIME);
+            canShowAchievement = true;
+            yield return null;
+        } 
     }
 }

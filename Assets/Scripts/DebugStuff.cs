@@ -41,6 +41,12 @@ namespace pf
             if (Keyboard.current.lKey.wasPressedThisFrame)
             {
                 SaveData s = SaveSystem.Load();
+                if(s == null)
+                {
+                    print("No save data!");
+                    return;
+                }
+
                 print("*****************************");
                 print("saved character is: " + s.selectedCharacter);
                 print("saved level is: " + s.currentLevel);

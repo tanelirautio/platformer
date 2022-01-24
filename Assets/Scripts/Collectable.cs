@@ -34,10 +34,13 @@ namespace pf
         private PlayerHealth health;
         private AchievementManager achievements;
 
+        // Animation states
+        const string COLLECTED = "collected";
+
         private static Dictionary<Type, int> collectables;
         private bool initDone = false;
 
-        private bool playerHit = false;
+        private bool playerHasCollectedThis = false;
 
         private void Awake()
         {
@@ -81,16 +84,17 @@ namespace pf
         {
             if (collision.gameObject.tag == "Player")
             {
-                if(playerHit)
+                if(playerHasCollectedThis)
                 {
                     return;
                 }
-                playerHit = true;
+                playerHasCollectedThis = true;
 
                 obj.gameObject.SetActive(false);           
                 collected.gameObject.SetActive(true);
-                collectedAnim.Play("collected");
-                
+                collectedAnim.Play(COLLECTED);
+                StatisticsManager.AddCollectedItem(type);
+
                 if (type != Type.Heart)
                 {
                     achievements.CheckCollectAchievement(type);
@@ -107,7 +111,7 @@ namespace pf
                         StartCoroutine(WaitForDestroy(Defs.COLLECTABLE_FADE_TIME));
                     }
                 }
-                StatisticsManager.AddCollectedItem(type);
+
 
             }
             print("Collision between " + this.name + " and " + collision.gameObject.name);

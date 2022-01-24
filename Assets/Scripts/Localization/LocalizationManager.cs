@@ -53,11 +53,9 @@ namespace pf
             switch (PlayerStats.Language)
             {
                 case (int)Language.English:
-                    print("english: " + key);
                     localizedEN.TryGetValue(key, out value);
                     break;
                 case (int)Language.Finnish:
-                    print("finnish " + key);
                     localizedFI.TryGetValue(key, out value);
                     break;
             }
