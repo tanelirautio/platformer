@@ -24,8 +24,10 @@ namespace pf
             if (saveData != null)
             {
                 //print("Save version: " + saveData.version);
-
-                ShowLoadOption = true;
+                if (saveData.currentLevel > (int)LevelLoader.Scenes.StartLevel)
+                {
+                    ShowLoadOption = true;
+                }
 
                 PlayerStats.MusicVolume = saveData.musicVolume;
                 PlayerStats.SoundVolume = saveData.soundVolume;

@@ -2,12 +2,15 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+using UnityEngine.Assertions;
 
 namespace pf
 {
     public static class SaveSystem
     {
         const string SAVEFILE = "save.bin";
+
+        private static SaveData loadedData = null;
 
         public static void Save()
         {
@@ -18,7 +21,7 @@ namespace pf
 
             try
             {
-                SaveData data = new SaveData();
+                SaveData data = CompareSaves(loadedData, new SaveData());
                 formatter.Serialize(stream, data);
             }
             catch (Exception ex)
@@ -31,6 +34,22 @@ namespace pf
             }
         }
 
+        private static SaveData CompareSaves(SaveData oldData, SaveData newData)
+        {
+            // Sanity checks if older levels are played again so the progress won't disappear
+            if(oldData != null && oldData.currentLevel > newData.currentLevel)
+            {
+                newData.currentLevel = oldData.currentLevel;
+                newData.selectedCharacter = oldData.selectedCharacter;
+                newData.health = oldData.health;
+            }
+
+            // Shouldn't never trigger but let's put it in just in case...
+            Assert.IsTrue(newData.currentLevel == -1 || newData.currentLevel >= (int)LevelLoader.Scenes.StartLevel);
+
+            return newData;
+        }
+
         public static SaveData Load()
         {
             string path = Application.persistentDataPath + "/" + SAVEFILE;
@@ -39,11 +58,11 @@ namespace pf
                 BinaryFormatter formatter = new BinaryFormatter();
                 FileStream stream = new FileStream(path, FileMode.Open);
 
-                SaveData data = null;
+                loadedData = null;
 
                 try
                 {
-                    data = formatter.Deserialize(stream) as SaveData;
+                    loadedData = formatter.Deserialize(stream) as SaveData;
                 }
                 catch (Exception ex)
                 {
@@ -54,7 +73,7 @@ namespace pf
                     stream.Close();
                 }
 
-                return data;
+                return loadedData;
             }
             else
             {

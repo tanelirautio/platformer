@@ -1,13 +1,31 @@
+
+Game overview:
+--------------
+- This game will be intended for young kids who haven't played console platformers at all
+  -> Losing all health just puts you back to start of the level with default health
+  -> Every level starts with 0 score. Best scores are saved per level. (Maybe we can show cumulated best score somewhere though...)
+- Overall difficulty should be quite easy and the difficulty should ramp up quite slowly
+- Extra difficulty and/or replayability are added via level trophies which may become more difficult to obtain faster
+- Some hard to get level specific achievements can be also designed
+
+- All external code/libs/assets should be either Public Domain (CC0) or use some "just give attribution in credits" license.
+- For simplicity the levels are made from traditional square tiles, no slopes or any advanced polygons
+- Character selection is purely cosmetics, they all behave the same way
+
 TODO:
 
 Menus:
 ------
 - Menu selection can be scrolled when button is kept down
 - Level selection menu
-- Settings menu
+- Make them look more nicer (if time allows)
 
 Game:
 -----
+- In-game menu/pause
+  -> Opens with esc (kb) or select (gamepad)
+  -> Exit to level select or continue game
+  -> Possibly some other options if needed
 - Implement more traps (Libs/Pixel Adventure 1/Assets/Traps)
   -> Implemented trap sprites are then moved to Assets/Sprites and traps are made as prefabs
 - Implement more powerups
@@ -21,6 +39,9 @@ Game:
     -> Trophies that you got / Trophies you haven't got / Trophies that you've got on earlier runs
     -> Level par time, your time and overall best time
     -> Level required score & your score
+  - If first time play, just advance here to next level
+  - If playing a level again, show possibility to continue to next level and possibility exit to level select screen
+- Give extra points for remaining hearts at the end of the levels
 
 Levels:
 -------
@@ -39,13 +60,17 @@ Ideas that need to be evaluated:
 - 2 player co op mode
 - Menu coherence, is there need to make all to UI system (Canvas)
 - Boss fights
-- Teleports
 - Push buttons to activate things in level
+- Teleports
+- Ladders
+- Jump pad
+- Simple dialogue system: Player encounters NPC, some text is shown in a dialog box and the dialog continues/exits with pressing fire button
 
 Done and/or fixed:
 -----------------
 - Statistics menu (just reuse Achievement menu code...) [just add more stats there in the future!]
+- Settings menu (it's ugly but hey it works!) Maybe menus get more love after the actual game is playable
+  - NOTE: scrollable menus are a bit broken if used with mouse/touch. In initial release controls are gamepad/keyboard and mouse/touch will be disabled so not an issue. Good keep in mind though if/when adding support for mouse/touch. 
 - Keep the menu music playing continuously when returning to main menu from submenu
-  (for example: returning from achievements menu back to main menu, music starts over)
 - Allow player to fall from jump through platform (tag: "through") when pressing down
   - NOTE: 'press' vs 'is pressed' - currently 'is pressed' triggers fallthrough

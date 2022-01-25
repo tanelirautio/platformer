@@ -8,7 +8,7 @@ namespace pf
     public static class PlayerStats
     {
         public static int SelectedCharacter { get; set; }
-        public static int SceneIndex { get; set; }
+        public static int SceneIndex { get; set; } = -1;
         public static float MusicVolume { get; set; } = 1f;
         public static float SoundVolume { get; set; } = 1f;
         public static int Language { get; set; } = 0; 
@@ -16,10 +16,12 @@ namespace pf
         //TODO: Make CurrentLevel separate from SceneIndex
         //SceneIndex is changed with every scene change
         //CurrentLevel is only changed when player plays actual levels!
+       
         public static int GetCurrentLevel()
         {
             return SceneIndex - (int)LevelLoader.Scenes.StartLevel;
         }
+       
 
         public static int Health { get; set; }
         public static int[] BestScores = new int[Defs.LEVEL_AMOUNT];

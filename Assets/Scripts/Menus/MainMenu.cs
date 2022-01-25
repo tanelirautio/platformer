@@ -72,6 +72,9 @@ namespace pf
                 }
                 case Selection.Load:
                 {
+                    //TODO: Taneli 25.1.2022:
+                    // If there's a level selection screen which allows playing completed levels (and defaults to next not completed level),
+                    // there's no need for explicit "load game" selection in main menu at all. 
                     print("Load game!");
                     if (dataLoader.GetSaveData() != null)
                     {

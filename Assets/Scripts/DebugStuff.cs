@@ -16,7 +16,7 @@ namespace pf
 
         void Update()
         {
-            // TODO: this is for debugging, remove GameObject which uses this from the final build
+            // TODO: this is for debugging, remove/hide GameObject which uses this from the final build
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 print("should exit!");

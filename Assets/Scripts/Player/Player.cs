@@ -108,6 +108,7 @@ namespace pf
         private void Start()
         {
             Spawn();
+            SaveSystem.Save();
         }
 
         private void ResetMovement()
@@ -347,16 +348,10 @@ namespace pf
                 }
 
 
-                CheckValuesAndSave();
+                SaveSystem.Save();
 
                 levelLoader.LoadNextScene();
             }
-        }
-
-        private void CheckValuesAndSave()
-        {
-            // TODO: save only relevant data, do not overwrite higher values
-            SaveSystem.Save();
         }
 
         private void OnTriggerStay2D(Collider2D collision)
