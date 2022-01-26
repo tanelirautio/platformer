@@ -7,7 +7,7 @@ namespace pf
 {
     public class DebugStuff : MonoBehaviour
     {
-        private LevelLoader levelLoader;
+        private static LevelLoader levelLoader;
 
         void Start()
         {
@@ -17,6 +17,15 @@ namespace pf
         void Update()
         {
             // TODO: this is for debugging, remove/hide GameObject which uses this from the final build
+            if (Keyboard.current.f10Key.wasPressedThisFrame)
+            {
+                if (levelLoader == null)
+                {
+                    print("levelloader is null, fetch it from scene...");
+                    levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+                }
+                levelLoader.LoadScene((int)LevelLoader.Scenes.LevelSelect);
+            }
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 print("should exit!");
@@ -29,7 +38,15 @@ namespace pf
                 {
                     print("levelloader is still null!");
                 }
-                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+
+                if (LevelLoader.GetCurrentSceneIndex() == (int)LevelLoader.Scenes.MainMenu)
+                {
+                    Application.Quit();
+                }
+                else
+                {
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+                }
             }
 
             if (Keyboard.current.sKey.wasPressedThisFrame)
