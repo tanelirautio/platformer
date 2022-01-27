@@ -17,7 +17,7 @@ namespace pf
         private ScrollRect scrollrect;
         private RectTransform viewport;
 
-        public List<Transform> levels = new List<Transform>();
+        public List<Transform> levelImages = new List<Transform>();
         private int index = 0;
 
         public enum Selection
@@ -69,10 +69,63 @@ namespace pf
 
         void Start()
         {
-            //TODO: parse level names & images from json
             DataLoader.ParseData();
 
             //float offset = 8f;
+
+            for(int i = 0; i < levelImages.Count; i++)
+            {
+                if(i < Defs.LEVEL_AMOUNT)
+                {
+                    Image trophy0 = levelImages[i].Find("TrophyBg/Trophy0").GetComponent<Image>();
+                    Image trophy1 = levelImages[i].Find("TrophyBg/Trophy1").GetComponent<Image>();
+                    Image trophy2 = levelImages[i].Find("TrophyBg/Trophy2").GetComponent<Image>();
+
+                    if (PlayerStats.LevelsCompleted[i])
+                    {
+                        if(PlayerStats.CompletedObjectives[i].CompletedNoHits)
+                        {
+                            trophy0.color = new Color(1, 234f / 255f, 0);
+                        }
+                        else
+                        {
+                            trophy0.color = new Color(48f/255f, 48f / 255f, 48f/255f);
+                        }
+
+                        if(PlayerStats.CompletedObjectives[i].CompletedPoints)
+                        {
+                            trophy1.color = new Color(1, 234f / 255f, 0);
+                        }
+                        else
+                        {
+                            trophy1.color = new Color(48f / 255f, 48f / 255f, 48f / 255f);
+                        }
+
+                        if (PlayerStats.CompletedObjectives[i].CompletedTime)
+                        {
+                            trophy2.color = new Color(1, 234f / 255f, 0);
+                        }
+                        else
+                        {
+                            trophy2.color = new Color(48f / 255f, 48f / 255f, 48f / 255f);
+                        }
+                    }
+                    else
+                    {
+                        if (i != 0) // first level is always shown as open
+                        {
+                            levelImages[i].GetComponent<Image>().color = new Color(105f / 255f, 105f / 255f, 105f / 255f);
+                        }
+                        trophy0.color = new Color(48f / 255f, 48f / 255f, 48f / 255f);
+                        trophy1.color = new Color(48f / 255f, 48f / 255f, 48f / 255f);
+                        trophy2.color = new Color(48f / 255f, 48f / 255f, 48f / 255f);
+                    }
+                }
+                else
+                {
+                    levelImages[i].GetComponent<Image>().color = new Color(105f/255f, 105f/255f, 105f/255f);
+                }
+            }
 
             /*
             for (int i = 0; i < PlayerStats.Achievements.Count; i++)
