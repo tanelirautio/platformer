@@ -88,6 +88,16 @@ namespace pf
                 go.name = levelPrefab.name + "_" + i;
                 go.transform.position = levelIconPositions[i].position;
 
+                LevelUtils utils = go.GetComponent<LevelUtils>();
+                if(i < 10)
+                {
+                    utils.levelPack = 0;
+                }
+                else if(i < 20)
+                {
+                    utils.levelPack = 1;
+                }
+
 
                 if(i < levelImages.Count )
                 {
@@ -200,27 +210,27 @@ namespace pf
             name.color = colors[ColorInfoKey.Closed].TextColor;
         }
 
-        private void Navigate(RectTransform item)
+        
+        private void Navigate(Transform item)
         {
-            Vector3 itemCurrentLocalPostion = scrollrect.GetComponent<RectTransform>().InverseTransformVector(ConvertLocalPosToWorldPos(item));
-            Vector3 itemTargetLocalPos = scrollrect.GetComponent<RectTransform>().InverseTransformVector(ConvertLocalPosToWorldPos(viewport));
-
-            Vector3 diff = itemTargetLocalPos - itemCurrentLocalPostion;
-            diff.z = 0.0f;
-
-            var newNormalizedPosition = new Vector2(
-                diff.x / (container.GetComponent<RectTransform>().rect.width - viewport.rect.width),
-                diff.y / (container.GetComponent<RectTransform>().rect.height - viewport.rect.height)
-                );
-
-            newNormalizedPosition = scrollrect.GetComponent<ScrollRect>().normalizedPosition - newNormalizedPosition;
-
-            newNormalizedPosition.x = Mathf.Clamp01(newNormalizedPosition.x);
-            newNormalizedPosition.y = Mathf.Clamp01(newNormalizedPosition.y);
-
+            LevelUtils levelUtils = item.gameObject.GetComponent<LevelUtils>();
+            Vector2 newNormalizedPosition = Vector2.zero;
+            switch(levelUtils.levelPack)
+            {
+                case 0:
+                {
+                    newNormalizedPosition = new Vector2(0, Mathf.Infinity);
+                    break;
+                }
+                case 1:
+                {
+                    newNormalizedPosition = new Vector2(1, Mathf.Infinity);
+                    break;
+                }
+            }
             DOTween.To(() => scrollrect.GetComponent<ScrollRect>().normalizedPosition, x => scrollrect.GetComponent<ScrollRect>().normalizedPosition = x, newNormalizedPosition, 0.8f);
         }
-
+        
         private Vector3 ConvertLocalPosToWorldPos(RectTransform target)
         {
             var pivotOffset = new Vector3(
@@ -266,7 +276,7 @@ namespace pf
                 {
                     if (deltaX == 1)
                     {
-                        if (index == 0)
+                        if (index == 0 || index == 5)
                         {
                             selection = Selection.Back;
                             back.GetComponent<SpriteRenderer>().color = Color.white;
@@ -275,27 +285,28 @@ namespace pf
                         }
                         else
                         {
-                            index = index - 1;
-                            if (index == 4 || index == 14)
+                            if (index == 10 || index == 15)
                             {
-                                isBottomRow = false;
+                                index = index - 6;
                             }
-                            if(index == 9)
+                            else
                             {
-                                isBottomRow = true;
+                                index = index - 1;
                             }
                         }
                     }
                     else
                     {
-                        index = index + 1;
-                        if (index == 5 || index == 15)
+                        if (index == 4 || index == 9)
                         {
-                            isBottomRow = true;
+                            index = index + 6;
                         }
-                        if(index == 10)
+                        else if (index == 14) {
+                            //do nothing...
+                        }
+                        else
                         {
-                            isBottomRow = false;
+                            index = index + 1;
                         }
                     }
                 }
@@ -303,7 +314,6 @@ namespace pf
                 {
                     if (deltaY == 1)
                     {
-                        print("press down");
                         if (!isBottomRow)
                         {
                             index = index + 5;
@@ -312,7 +322,6 @@ namespace pf
                     }
                     else
                     {
-                        print("press up");
                         if (isBottomRow)
                         {
                             index = index - 5;
@@ -340,10 +349,9 @@ namespace pf
                     levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
                 }
 
-                // TODO: Change this to scroll to show all the level pack levels
                 if (!RendererExtensions.IsFullyVisibleFrom(levelSelectionObjects[index].GetComponent<RectTransform>(), Camera.main))
                 {
-                    Navigate(levelSelectionObjects[index].GetComponent<RectTransform>());
+                    Navigate(levelSelectionObjects[index]);
                 }
                 
             }
@@ -367,6 +375,7 @@ namespace pf
             }
             else
             {
+
                 // Load selected level
             }
         }
