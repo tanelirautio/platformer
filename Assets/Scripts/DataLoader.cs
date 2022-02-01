@@ -12,8 +12,6 @@ namespace pf
         private SaveData saveData = null; 
         private static bool initialized = false;
 
-        public bool ShowLoadOption { get; set; }
-
         void Start()
         {
             //print("Mainmenu start");
@@ -24,11 +22,6 @@ namespace pf
             if (saveData != null)
             {
                 //print("Save version: " + saveData.version);
-                if (saveData.currentLevel > (int)LevelLoader.Scenes.StartLevel)
-                {
-                    ShowLoadOption = true;
-                }
-
                 PlayerStats.MusicVolume = saveData.musicVolume;
                 PlayerStats.SoundVolume = saveData.soundVolume;
                 PlayerStats.Language = saveData.language;
@@ -86,7 +79,6 @@ namespace pf
             }
             else
             {
-                ShowLoadOption = false;
                 PlayerStats.MusicVolume = 1;
                 PlayerStats.SoundVolume = 1;
             }

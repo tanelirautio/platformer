@@ -7,6 +7,9 @@ namespace pf
     public class LevelUtils : MonoBehaviour
     {
         public int levelPack = 0;
+
+        public bool open = false;
+
     }
 
 }

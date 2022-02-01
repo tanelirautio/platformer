@@ -11,7 +11,6 @@ namespace pf
     public class CharacterMenu : MonoBehaviour
     {
         private int selectedCharacter = 0;
-        private Music music;
 
         public TextMeshPro titleText;
         public TextMeshPro nameText;
@@ -36,7 +35,6 @@ namespace pf
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
-            music = GameObject.Find("AudioSystem").GetComponent<Music>();
             playerInputActions = new PlayerInputActions();
         }
 
@@ -64,8 +62,7 @@ namespace pf
             }
             else
             {
-                levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel);
-                music.StopFade(1f);
+                levelLoader.LoadScene((int)LevelLoader.Scenes.LevelSelect);
             }
         }
 

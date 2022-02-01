@@ -98,7 +98,6 @@ namespace pf
                 Image img = go.transform.Find("AchieveImgBg/AchieveImg").GetComponent<Image>();
                 img.sprite = spriteManager.GetAchievementSprite(PlayerStats.Achievements[i].img);
 
-                //print("Setting position " + i + ": " + go.transform.position);
                 if(!PlayerStats.CompletedAchievements[i])
                 {
                     ColorizePanel(go.transform, ColorInfoKey.NotAchieved);
@@ -106,8 +105,6 @@ namespace pf
                 
                 achievements.Add(go.transform);
             }
-
-            //achievements[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
 
             achievements[0].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
             if (!PlayerStats.CompletedAchievements[index])
@@ -194,7 +191,7 @@ namespace pf
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
-                    achievements[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                    achievements[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
                     if (!PlayerStats.CompletedAchievements[index])
                     {
                         ColorizePanel(achievements[index], ColorInfoKey.NotAchieved);
@@ -220,12 +217,12 @@ namespace pf
 
                     if(prevIndex != index)
                     {
-                        achievements[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                        achievements[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
                         if (!PlayerStats.CompletedAchievements[prevIndex])
                         {
                             ColorizePanel(achievements[prevIndex], ColorInfoKey.NotAchieved);
                         }
-                        achievements[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                        achievements[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
                         if (!PlayerStats.CompletedAchievements[index])
                         {
                             ColorizePanel(achievements[index], ColorInfoKey.Selected);
@@ -244,7 +241,7 @@ namespace pf
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
-                    achievements[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    achievements[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
                     if (!PlayerStats.CompletedAchievements[index])
                     {
                         ColorizePanel(achievements[index], ColorInfoKey.Selected);

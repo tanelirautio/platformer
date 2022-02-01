@@ -12,8 +12,7 @@ namespace pf
     {
         public enum Selection
         {
-            New,
-            Load,
+            Play,
             Options,
             Achievements,
             Statistics,
@@ -23,7 +22,7 @@ namespace pf
         };
 
         public TextMeshPro titleText;
-        public TextMeshPro[] menu = new TextMeshPro[7];
+        public TextMeshPro[] menu = new TextMeshPro[6];
         
         private AudioManager audioManager;
         private LevelLoader levelLoader;
@@ -43,19 +42,15 @@ namespace pf
             if (delta == 0) return;
 
             selection += delta;
-            if (selection == Selection.Load && !dataLoader.ShowLoadOption)
-            {
-                selection += delta;
-            }
 
             // handle wrap
-            if (selection < Selection.New)
+            if (selection < Selection.Play)
             {
                 selection = Selection.Quit;
             }
             else if (selection > Selection.Quit)
             {
-                selection = Selection.New;
+                selection = Selection.Play;
             }
 
             CheckSelection();
@@ -65,11 +60,12 @@ namespace pf
         {
             switch (selection)
             {
-                case Selection.New:
+                case Selection.Play:
                 {
                     levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
                     break;
                 }
+                /*
                 case Selection.Load:
                 {
                     //TODO: Taneli 25.1.2022:
@@ -85,6 +81,7 @@ namespace pf
                     }
                     break;
                 }
+                */
                 case Selection.Options:
                 {
                     print("Options!");
@@ -182,18 +179,13 @@ namespace pf
             {
                 if (i == (int)selection)
                 {
-                    menu[i].transform.DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    menu[i].transform.DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
                     menu[i].color = Color.white;
                 }
                 else
                 {
-                    menu[i].transform.DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                    menu[i].transform.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
                     menu[i].color = Color.gray;
-                }
-
-                if (!dataLoader.ShowLoadOption)
-                {
-                    menu[(int)Selection.Load].color = new Color(0.2f, 0.2f, 0.2f, 1);
                 }
             }
         }

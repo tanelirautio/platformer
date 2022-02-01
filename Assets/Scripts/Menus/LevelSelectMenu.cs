@@ -20,6 +20,7 @@ namespace pf
 
         public List<Transform> levelIconPositions = new List<Transform>();
         public List<Sprite> levelImages = new List<Sprite>();
+        public List<TextMeshProUGUI> levelPackTitles = new List<TextMeshProUGUI>();
 
         private int lastCompletedLevel = -1;
         private List<Transform> levelSelectionObjects = new List<Transform>();
@@ -27,6 +28,7 @@ namespace pf
         private PlayerInputActions playerInputActions;
         private Selection selection = 0;
         private LevelLoader levelLoader;
+        private Music music;
 
         private int index = 0;
         private bool isBottomRow = false; 
@@ -37,11 +39,36 @@ namespace pf
             Back
         }
 
+        private List<string> levelPackNames = new List<string>()
+        {
+            "Emergency on Planet Earth",
+            "The Return of the Space Cowboy",
+            "Travelling Without Moving",
+            "Synkronized"
+        };
+
         private List<string> levelNames = new List<string>()
         {
-            "Soul Kitchen",
-            "Ship of Fools",
-            "Blue Sunday"
+            "When You Gonna Learn?",
+            "Too Young To Die",
+            "Hooked Up",
+            "If I Like It, I Do It",
+            "Music of the Mind",
+            "Emergency on Planet Earth",
+            "Whatever It Is, I Just Can't Stop",
+            "Blow Your Mind",
+            "Revolution 1993",
+            "Didgin' Out",
+            "Just Another Story",
+            "Stillness In Time",
+            "Half the Man",
+            "Light Years",
+            "Manifest Destiny",
+            "The Kids",
+            "Mr. Moon",
+            "Scam",
+            "Morning Glory",
+            "Space Cowboy"
         };
 
         private enum ColorInfoKey
@@ -75,11 +102,17 @@ namespace pf
 
             scrollrect = scrollArea.GetComponent<ScrollRect>();
             viewport = scrollArea.GetComponent<RectTransform>();
+            music = GameObject.Find("AudioSystem").GetComponent<Music>();
         }
 
         void Start()
         {
             DataLoader.ParseData();
+
+            for(int i=0; i < levelPackTitles.Count; i++)
+            {
+                levelPackTitles[i].text = levelPackNames[i];
+            }
 
             for (int i = 0; i < levelIconPositions.Count; i++)
             {
@@ -169,9 +202,9 @@ namespace pf
 
         private void SetLevelOpen(GameObject go, int i, Image trophy0, Image trophy1, Image trophy2, TextMeshProUGUI name)
         {
-            go.transform.GetComponent<Image>().color = colors[ColorInfoKey.Open].BgColor;
+            go.GetComponent<LevelUtils>().open = true;
+            go.GetComponent<Image>().color = colors[ColorInfoKey.Open].BgColor;
             name.color = colors[ColorInfoKey.Open].TextColor;
-
 
             if (PlayerStats.CompletedObjectives[i].CompletedNoHits)
             {
@@ -280,7 +313,7 @@ namespace pf
                         {
                             selection = Selection.Back;
                             back.GetComponent<SpriteRenderer>().color = Color.white;
-                            levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                            levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
                             levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
                         }
                         else
@@ -331,7 +364,7 @@ namespace pf
                         {
                             selection = Selection.Back;
                             back.GetComponent<SpriteRenderer>().color = Color.white;
-                            levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                            levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
                             levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
                         }
                     }
@@ -342,10 +375,10 @@ namespace pf
                     index = Mathf.Clamp(index, 0, levelSelectionObjects.Count - 1);
                     print("ALRIGHTY THEN: index is: " + index);
 
-                    levelSelectionObjects[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                    levelSelectionObjects[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
                     levelSelectionObjects[prevIndex].Find("Selection").gameObject.SetActive(false);
 
-                    levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
                     levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
                 }
 
@@ -361,7 +394,7 @@ namespace pf
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
-                    levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
                     levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
                 }
             }
@@ -371,12 +404,19 @@ namespace pf
         {
             if (selection == Selection.Back)
             {
-                levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+                levelLoader.LoadScene((int)LevelLoader.Scenes.CharacterSelect);
             }
             else
             {
-
-                // Load selected level
+                if(levelSelectionObjects[index].GetComponent<LevelUtils>().open)
+                {
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.StartLevel + index);
+                    music.StopFade(1f);
+                }
+                else
+                {
+                    print("level is not open!");
+                }
             }
         }
     }

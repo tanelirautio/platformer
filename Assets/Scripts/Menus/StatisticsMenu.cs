@@ -149,7 +149,7 @@ namespace pf {
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
-                    stats[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                    stats[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
                     ColorizePanel(stats[index], Color.gray);
                 }
                 else if (deltaY != 0)
@@ -173,9 +173,9 @@ namespace pf {
 
                     if (prevIndex != index)
                     {
-                        stats[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                        stats[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
                         ColorizePanel(stats[prevIndex], Color.gray);
-                        stats[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                        stats[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
                         ColorizePanel(stats[index], Color.white);
                     }
 
@@ -191,7 +191,7 @@ namespace pf {
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
-                    stats[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    stats[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
                     ColorizePanel(stats[index], Color.white);
                 }
             }

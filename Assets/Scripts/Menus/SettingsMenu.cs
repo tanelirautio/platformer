@@ -159,7 +159,7 @@ namespace pf
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
-                    settings[index].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
+                    settings[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
                 }
                 else if (deltaY != 0 && lockedIndex == (int)LockedSettings.NotLocked)
                 {
@@ -182,8 +182,8 @@ namespace pf
 
                     if (prevIndex != index)
                     {
-                        settings[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, 1f);
-                        settings[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                        settings[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
+                        settings[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
                     }
 
                     if (!RendererExtensions.IsFullyVisibleFrom(settings[index].GetComponent<RectTransform>(), Camera.main))
@@ -213,7 +213,7 @@ namespace pf
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
-                    settings[index].DOScale(Defs.MENU_SELECTED_SCALE, 1f);
+                    settings[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
                 }
             }
         }
