@@ -46,6 +46,8 @@ namespace pf
             float intensity = 10f;
             float factor = Mathf.Pow(2, intensity);
             powerupColor = new Color(1.0f * factor, 0 * factor, 0.5f * factor);
+
+
         }
 
         void Start()
@@ -128,7 +130,7 @@ namespace pf
         {
             switch(type)
             {
-                case Powerup.Type.JumpPower:
+                case Powerup.Type.Jump:
                 {
                     baseMaterial.color = powerupColor;
                     break;

@@ -54,6 +54,7 @@ namespace pf
         struct Powerups
         {
             public bool jumpPowerEnabled;
+            public bool speedPowerEnabled;
         }
         private Powerups powerups;
 
@@ -295,15 +296,24 @@ namespace pf
         {
             switch(type)
             {
-                case Powerup.Type.JumpPower:
+                case Powerup.Type.Jump:
                 {
                     if (!powerups.jumpPowerEnabled)
                     {
                         movement.SetMaxJumpHeight(maxJumpHeight + Defs.POWERUP_EXTRA_JUMP_POWER);
                         anim.CollectPowerup(type);
                         light2D.enabled = true;
-                        light2D.color = Color.blue;
+                        light2D.color = Color.red;
                         powerups.jumpPowerEnabled = true;
+                    }
+                    break;
+                }
+                case Powerup.Type.Speed:
+                {
+                    if (!powerups.speedPowerEnabled)
+                    {
+                        movement.SetSpeed(10f);
+                        print("collected speed powerup!");
                     }
                     break;
                 }
@@ -314,7 +324,7 @@ namespace pf
         {
             switch(type)
             {
-                case Powerup.Type.JumpPower:
+                case Powerup.Type.Jump:
                 {
                     if (powerups.jumpPowerEnabled)
                     {
@@ -323,6 +333,11 @@ namespace pf
                         powerups.jumpPowerEnabled = false;
                         anim.PowerupExpired(type);
                     }
+                    break;
+                }
+                case Powerup.Type.Speed:
+                {
+                    print("expire speed powerup");
                     break;
                 }
             }

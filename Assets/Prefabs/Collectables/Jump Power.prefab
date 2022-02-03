@@ -49,6 +49,7 @@ MonoBehaviour:
   type: 0
   activeTimeSeconds: 0
   expire: 0
+  respawn: 0
 --- !u!61 &7469800365505592193
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -146,7 +147,7 @@ SpriteRenderer:
   m_SortingLayerID: -1761649631
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300086, guid: 142ff8784e552734f9d6a895491d0ae8, type: 3}
+  m_Sprite: {fileID: 5868065780882382813, guid: 362c8dfed05d71440b900a8cdbe4ad1d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

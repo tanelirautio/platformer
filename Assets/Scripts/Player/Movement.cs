@@ -126,5 +126,10 @@ namespace pf
 
             jumpForce = 2 * maxJumpHeight / timeToJumpApex;
         }
+
+        public void SetSpeed(float speed)
+        {
+            this.speed = speed;
+        }
     }
 }

@@ -8,7 +8,8 @@ namespace pf
     {
         public enum Type
         {
-            JumpPower
+            Jump,
+            Speed
         }
 
         public Type type;
