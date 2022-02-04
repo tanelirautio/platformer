@@ -16,6 +16,7 @@ namespace pf
         // Powerups
         public const float POWERUP_FADE_TIME = 2.0f;
         public const float POWERUP_EXTRA_JUMP_POWER = 2.0f;
+        public const float POWERUP_EXTRA_SPEED = 4.0f;
 
         // Credits
         public const float CREDITS_TIME = 40.0f;

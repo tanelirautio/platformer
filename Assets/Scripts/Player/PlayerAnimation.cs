@@ -135,6 +135,11 @@ namespace pf
                     baseMaterial.color = powerupColor;
                     break;
                 }
+                case Powerup.Type.Speed:
+                {
+                    baseMaterial.color = Color.green;
+                    break;
+                }
             }
         } 
 

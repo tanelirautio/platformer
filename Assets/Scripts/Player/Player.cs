@@ -301,10 +301,9 @@ namespace pf
                     if (!powerups.jumpPowerEnabled)
                     {
                         movement.SetMaxJumpHeight(maxJumpHeight + Defs.POWERUP_EXTRA_JUMP_POWER);
-                        anim.CollectPowerup(type);
+                        powerups.jumpPowerEnabled = true;
                         light2D.enabled = true;
                         light2D.color = Color.red;
-                        powerups.jumpPowerEnabled = true;
                     }
                     break;
                 }
@@ -312,12 +311,15 @@ namespace pf
                 {
                     if (!powerups.speedPowerEnabled)
                     {
-                        movement.SetSpeed(10f);
-                        print("collected speed powerup!");
+                        movement.SetSpeed(moveSpeed + Defs.POWERUP_EXTRA_SPEED);
+                        powerups.speedPowerEnabled = true;
+                        light2D.enabled = true;
+                        light2D.color = Color.blue;
                     }
                     break;
                 }
             }
+            anim.CollectPowerup(type);
         }
 
         public void PowerupExpired(Powerup.Type type)
