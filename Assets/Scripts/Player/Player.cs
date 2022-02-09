@@ -39,6 +39,7 @@ namespace pf
         private GameObject uiCanvas;
         private LevelEnd levelEnd;
         private Light2D light2D;
+        private float light2DBaseIntensity;
         private AchievementManager achievementManager;
 
         private bool gracePeriod = false;
@@ -72,6 +73,7 @@ namespace pf
             anim = GetComponent<PlayerAnimation>();
             wallSliding = GetComponent<PlayerWallSliding>();
             light2D = GetComponent<Light2D>();
+            light2DBaseIntensity = light2D.intensity;
             //cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
             cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
@@ -88,7 +90,7 @@ namespace pf
             // This way independently played levels can still show them
             DataLoader.ParseData();
 #endif
-            playerInputActions = new PlayerInputActions();
+            playerInputActions = new PlayerInputActions();      
         }
 
         private void OnEnable()
@@ -303,7 +305,8 @@ namespace pf
                         movement.SetMaxJumpHeight(maxJumpHeight + Defs.POWERUP_EXTRA_JUMP_POWER);
                         powerups.jumpPowerEnabled = true;
                         light2D.enabled = true;
-                        light2D.color = Color.red;
+                        light2D.color = new Color(1f, 0f, 0f);
+                        light2D.intensity = light2DBaseIntensity + 0.6f;
                     }
                     break;
                 }
@@ -314,7 +317,8 @@ namespace pf
                         movement.SetSpeed(moveSpeed + Defs.POWERUP_EXTRA_SPEED);
                         powerups.speedPowerEnabled = true;
                         light2D.enabled = true;
-                        light2D.color = Color.blue;
+                        light2D.color = new Color(0f, 0f, 1f);
+                        light2D.intensity = light2DBaseIntensity + 0.6f;
                     }
                     break;
                 }

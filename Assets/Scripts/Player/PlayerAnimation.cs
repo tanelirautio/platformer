@@ -35,7 +35,15 @@ namespace pf
         private float time = 0;
         private bool changeMaterial = false;
 
-        private Color powerupColor;
+        private Color defaultColor = Color.white;
+        //private Color powerupColor;
+
+        private static float factor = 1024f;
+        private static Dictionary<Powerup.Type, Color> powerupColors = new Dictionary<Powerup.Type, Color>()
+        {
+            { Powerup.Type.Jump, new Color(1.0f*factor, 0.5f*factor, 0.5f*factor) },
+            { Powerup.Type.Speed, new Color(0.5f*factor, 0.5f*factor, 1.0f*factor) }
+        };
 
         private void Awake()
         {
@@ -43,9 +51,9 @@ namespace pf
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-            float intensity = 10f;
-            float factor = Mathf.Pow(2, intensity);
-            powerupColor = new Color(1.0f * factor, 0 * factor, 0.5f * factor);
+            //float intensity = 10f;
+            //float factor = Mathf.Pow(2, intensity);
+            //powerupColor = new Color(1.0f * factor, 0 * factor, 0.5f * factor);
 
 
         }
@@ -68,7 +76,7 @@ namespace pf
 
         private void ResetBaseMaterial()
         {
-            baseMaterial.color = Color.black;
+            baseMaterial.color = defaultColor;
         }
 
         void Update()
@@ -132,12 +140,12 @@ namespace pf
             {
                 case Powerup.Type.Jump:
                 {
-                    baseMaterial.color = powerupColor;
+                    baseMaterial.color = powerupColors[Powerup.Type.Jump];
                     break;
                 }
                 case Powerup.Type.Speed:
                 {
-                    baseMaterial.color = Color.green;
+                    baseMaterial.color = powerupColors[Powerup.Type.Speed];
                     break;
                 }
             }
