@@ -36,28 +36,23 @@ namespace pf
         private bool changeMaterial = false;
 
         private Color defaultColor = Color.white;
-        //private Color powerupColor;
+        [ColorUsage(true, true)] public Color jumpColor;
+        [ColorUsage(true, true)] public Color speedColor;
 
-        private static float factor = 1024f;
-        private static Dictionary<Powerup.Type, Color> powerupColors = new Dictionary<Powerup.Type, Color>()
-        {
-            { Powerup.Type.Jump, new Color(1.0f*factor, 0.5f*factor, 0.5f*factor) },
-            { Powerup.Type.Speed, new Color(0.5f*factor, 0.5f*factor, 1.0f*factor) }
-        };
-
+        private Dictionary<Powerup.Type, Color> powerupColors;
         private void Awake()
         {
             player = GetComponent<Player>();
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-            //float intensity = 10f;
-            //float factor = Mathf.Pow(2, intensity);
-            //powerupColor = new Color(1.0f * factor, 0 * factor, 0.5f * factor);
-
-
+            powerupColors = new Dictionary<Powerup.Type, Color>()
+            {
+                { Powerup.Type.Jump, jumpColor },
+                { Powerup.Type.Speed, speedColor }
+            };
         }
-
+    
         void Start()
         {
             print("Selected character: " + PlayerStats.SelectedCharacter);
