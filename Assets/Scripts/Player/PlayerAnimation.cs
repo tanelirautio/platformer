@@ -6,11 +6,11 @@ namespace pf
 {
     public class PlayerAnimation : MonoBehaviour
     {
-        const float PLAYER_VELOCITY_X_THRESHOLD = 0.5f;
-        const float PLAYER_GRACE_PERIOD_FLASH_TIME = 0.25f;
+        //const float PLAYER_VELOCITY_X_THRESHOLD = 0.5f;
+        //const float PLAYER_GRACE_PERIOD_FLASH_TIME = 0.25f;
 
         public Material baseMaterial;
-        public Material hitMaterial;
+        //public Material hitMaterial;
         private Material currentMaterial;
 
         //animation states
@@ -32,8 +32,8 @@ namespace pf
         private bool isTakingDamage = false;
         private bool isDead = false;
 
-        private float time = 0;
-        private bool changeMaterial = false;
+        private float flashTimer = 0;
+        private float[] flashTimes = new float[Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT];
 
         private Color defaultColor = Color.white;
         [ColorUsage(true, true)] public Color jumpColor;
@@ -51,6 +51,13 @@ namespace pf
                 { Powerup.Type.Jump, jumpColor },
                 { Powerup.Type.Speed, speedColor }
             };
+
+            float flashTimeOffset = (Defs.PLAYER_GRACE_PERIOD_LENGTH - Defs.PLAYER_GRACE_PERIOD_OFFSET) / (float)Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT;
+            for(int i=0; i < Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT; i++)
+            {
+                flashTimes[i] = Defs.PLAYER_GRACE_PERIOD_OFFSET + flashTimeOffset * i;
+                Debug.Log(flashTimes[i]);
+            }
         }
     
         void Start()
@@ -76,39 +83,44 @@ namespace pf
 
         void Update()
         {
-            if (player.isGracePeriod())
+            if(player.isGracePeriod())
             {
-                if (changeMaterial)
+                flashTimer += Time.deltaTime;
+
+                int f = 0;
+                for(int i=0; i < flashTimes.Length-1; i++)
                 {
-                    if (currentMaterial != hitMaterial)
+                    if(flashTimer < flashTimes[0] || flashTimer > flashTimes[i] && flashTimer < flashTimes[i+1])
                     {
-                        spriteRenderer.material = hitMaterial;
-                        currentMaterial = hitMaterial;
+                        break;
                     }
-                    else
-                    {
-                        spriteRenderer.material = baseMaterial;
-                        currentMaterial = baseMaterial;
-                    }
-                    changeMaterial = false;
+                    f++;
                 }
 
-                time += Time.deltaTime;
-                if (time > PLAYER_GRACE_PERIOD_FLASH_TIME)
+                if(f % 2 == 0)
                 {
-                    changeMaterial = true;
-                    time = 0;
+                    if (!spriteRenderer.enabled)
+                    {
+                        Debug.Log("BlinkTimer: " + flashTimer);
+                        Debug.Log("f: " + f + " - show player");
+                        spriteRenderer.enabled = true;
+                    }
                 }
-
+                else
+                {
+                    if (spriteRenderer.enabled)
+                    {
+                        Debug.Log("BlinkTimer: " + flashTimer);
+                        Debug.Log("f: " + f + " - hide player");
+                        spriteRenderer.enabled = false;
+                    }
+                }
             }
             else
             {
-                if (currentMaterial != baseMaterial)
-                {
-                    spriteRenderer.material = baseMaterial;
-                    currentMaterial = baseMaterial;
-                    time = 0;
-                }
+                //Debug.Log("*** Grace period over ***");
+                flashTimer = 0f;
+                spriteRenderer.enabled = true;
             }
         }
 
@@ -120,7 +132,7 @@ namespace pf
         public void TakeDamage()
         {
             isTakingDamage = true;
-            changeMaterial = true;
+            //changeMaterial = true;
             Invoke("DamageComplete", 0.5f); //cheesy way
         }
 
@@ -168,7 +180,7 @@ namespace pf
 
             if (controller.collisions.below)
             {
-                if (Mathf.Abs(velocity.x) > PLAYER_VELOCITY_X_THRESHOLD)
+                if (Mathf.Abs(velocity.x) > Defs.PLAYER_VELOCITY_X_THRESHOLD)
                 {
                     ChangeAnimationState(PLAYER_RUN);
                 }

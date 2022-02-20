@@ -7,7 +7,6 @@ namespace pf
         // Game
         public const int LEVEL_AMOUNT = 3;
         public const int OBJECTIVES_PER_LEVEL = 3;
-        public const float GRACE_PERIOD_LENGTH = 2.0f;
 
         // Collectables
         public const float COLLECTABLE_FADE_TIME = 1.0f;
@@ -29,8 +28,13 @@ namespace pf
         // Menu
         public const float MENU_NORMAL_SCALE = 1.0f;
         public const float MENU_SELECTED_SCALE = 1.1f;
-
         public const float MENU_SCALE_SPEED = 1f;
         public const float MENU_LEVELSELECT_SCALE_SPEED = 0.5f;
+
+        // Player
+        public const float PLAYER_VELOCITY_X_THRESHOLD = 0.5f;
+        public const int PLAYER_GRACE_PERIOD_FLASH_AMOUNT = 6;
+        public const float PLAYER_GRACE_PERIOD_LENGTH = 2.0f;
+        public const float PLAYER_GRACE_PERIOD_OFFSET = 0.3f;
     }
 }

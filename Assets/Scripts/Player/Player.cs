@@ -260,7 +260,7 @@ namespace pf
         public void setGracePeriod()
         {
             gracePeriod = true;
-            Invoke("EndGracePeriod", Defs.GRACE_PERIOD_LENGTH);
+            Invoke("EndGracePeriod", Defs.PLAYER_GRACE_PERIOD_LENGTH);
         }
 
         public bool isGracePeriod()
