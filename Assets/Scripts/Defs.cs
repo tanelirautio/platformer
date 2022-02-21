@@ -33,7 +33,7 @@ namespace pf
 
         // Player
         public const float PLAYER_VELOCITY_X_THRESHOLD = 0.5f;
-        public const int PLAYER_GRACE_PERIOD_FLASH_AMOUNT = 6;
+        public const int PLAYER_GRACE_PERIOD_FLASH_AMOUNT = 8;
         public const float PLAYER_GRACE_PERIOD_LENGTH = 2.0f;
         public const float PLAYER_GRACE_PERIOD_OFFSET = 0.3f;
     }

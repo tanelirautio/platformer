@@ -14,7 +14,8 @@ namespace pf
             Spike,
             Saw,
             Fire,
-            KillZone
+            KillZone,
+            SpikeHead
         }
 
         public Type type;
@@ -30,6 +31,7 @@ namespace pf
             {
                 firePit.Trigger();
             }
+
         }
     }
 }
