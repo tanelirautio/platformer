@@ -3045,6 +3045,8 @@ GameObject:
   - component: {fileID: 1131743960}
   - component: {fileID: 1131743959}
   - component: {fileID: 1131743956}
+  - component: {fileID: 1131743962}
+  - component: {fileID: 1131743963}
   m_Layer: 0
   m_Name: Spike Head
   m_TagString: Trap
@@ -3234,6 +3236,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.3833351, y: 0.6582756}
   m_EdgeRadius: 0
+--- !u!95 &1131743962
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131743954}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6dc9426bbad8dfe4cb45f98c6af362ed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1131743963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131743954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f26af5aab2aa4243b94f554903eeadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1218723104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3660,7 +3693,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 7
-      m_TileSpriteIndex: 2
+      m_TileSpriteIndex: 42
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -4381,8 +4414,8 @@ Tilemap:
     m_Data: {fileID: 5117398880213584086, guid: 14f691c137ba17f45853adacfc8ff74e, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: 8322728567554151366, guid: 14f691c137ba17f45853adacfc8ff74e, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 0
@@ -4461,8 +4494,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 8322728567554151366, guid: 14f691c137ba17f45853adacfc8ff74e, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 2805475924750510355, guid: 14f691c137ba17f45853adacfc8ff74e, type: 3}
   - m_RefCount: 3
