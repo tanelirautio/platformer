@@ -391,6 +391,18 @@ namespace pf
                     type = trap.type;
                 }
 
+                if (!isGracePeriod())
+                {
+                    if (type == Trap.Type.SpikeHead)
+                    {
+                        SpikeHead spikeHead = collision.gameObject.GetComponent<SpikeHead>();
+                        if (spikeHead)
+                        {
+                            spikeHead.Collide(collision);
+                        }
+                    }
+                }
+
                 if (!isGracePeriod() && !isDead)
                 {
                     int currentHealth = health.TakeDamage(type);

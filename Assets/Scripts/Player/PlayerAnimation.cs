@@ -101,8 +101,8 @@ namespace pf
                 {
                     if (!spriteRenderer.enabled)
                     {
-                        Debug.Log("BlinkTimer: " + flashTimer);
-                        Debug.Log("f: " + f + " - show player");
+                        //Debug.Log("BlinkTimer: " + flashTimer);
+                        //Debug.Log("f: " + f + " - show player");
                         spriteRenderer.enabled = true;
                     }
                 }
@@ -110,8 +110,8 @@ namespace pf
                 {
                     if (spriteRenderer.enabled)
                     {
-                        Debug.Log("BlinkTimer: " + flashTimer);
-                        Debug.Log("f: " + f + " - hide player");
+                        //Debug.Log("BlinkTimer: " + flashTimer);
+                        //Debug.Log("f: " + f + " - hide player");
                         spriteRenderer.enabled = false;
                     }
                 }
