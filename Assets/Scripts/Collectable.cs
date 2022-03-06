@@ -114,7 +114,7 @@ namespace pf
 
 
             }
-            print("Collision between " + this.name + " and " + collision.gameObject.name);
+            //print("Collision between " + this.name + " and " + collision.gameObject.name);
         }
 
         private IEnumerator WaitForDestroy(float length)

@@ -403,7 +403,7 @@ namespace pf
                     }
                 }
 
-                if (!isGracePeriod() && !isDead)
+                if (!isGracePeriod() && !isDead && type != Trap.Type.FallingPlatform)
                 {
                     int currentHealth = health.TakeDamage(type);
                     HandleDamage(currentHealth);

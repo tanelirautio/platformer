@@ -47,7 +47,7 @@ namespace pf
             if (!firePitOn)
             {
                 anim.Play(FIRE_PIT_TRIGGER);
-                Invoke("TurnOn", 1.0f);
+                Invoke("TurnOn", Defs.TRAP_FIRE_PIT_TURNON_TIME);
                 firePitOn = true;
             }
         }
