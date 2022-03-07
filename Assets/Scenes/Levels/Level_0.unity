@@ -6334,7 +6334,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.00006580353}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -6345,7 +6345,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.625}
+  m_Size: {x: 2, y: 0.6251316}
   m_EdgeRadius: 0
 --- !u!114 &1704666285
 MonoBehaviour:
@@ -6359,8 +6359,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c56494e105c2bb4b831ba7ea9903770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallingHeight: 4
-  fallingTime: 0.5
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  horizontalRayCount: 0
+  verticalRayCount: 0
+  horizontalRaySpacing: 0
+  verticalRaySpacing: 0
+  m_collider: {fileID: 0}
+  passengerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  localIdleWaypoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  localFallingWaypoint: {x: 0, y: -4, z: 0}
+  speed: 0.2
+  fallingSpeed: 4
+  waitTime: 0
+  easeAmount: 0.8
 --- !u!1 &1771753035 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6091684241405785104, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
