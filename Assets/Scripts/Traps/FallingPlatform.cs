@@ -20,6 +20,7 @@ namespace pf
 
         public float speed;
         public float fallingSpeed;
+        public float risingSpeed;
 
         public float waitTime;
         [Range(0, 2)]
@@ -28,8 +29,6 @@ namespace pf
         int fromWaypointIndex;
         float percentBetweenWaypoints;
         float nextMoveTime;
-
-
 
         List<PassengerMovement> passengerMovement;
         Dictionary<Transform, Controller2D> passengerDictionary = new Dictionary<Transform, Controller2D>();
@@ -63,28 +62,40 @@ namespace pf
             UpdateRaycastOrigins();
             Vector3 velocity = Vector3.zero;
 
-            if (state != State.Falling && PlayerDetectedOnPlatform())
+            bool playerOnPlatform = PlayerDetectedOnPlatform();
+
+            if (state != State.Falling && state != State.Bottom && state != State.GoingUp && playerOnPlatform)
             {
-                //TODO: start timer, fall the platform (change state) after 0.5 seconds or smth
-                state = State.Falling;
-            }     
-            
+                ChangeState(State.Falling);
+            }
+            else if(state == State.Bottom && !playerOnPlatform)
+            {
+                ChangeState(State.GoingUp);
+            }
+
             // Always fall to bottom when State.Falling is set
-            if(state == State.Falling) {
+            if (state == State.Falling) {
                 velocity = CalculatePlatformFallMovement(true);
+            }
+            else if(state == State.GoingUp)
+            {
+                velocity = CalculatePlatformFallMovement(false);
             }
             else if(state == State.Idle)
             {
                 velocity = CalculatePlatformIdleMovement();                 
             }
-
-            //TODO: detect player leaving the platform and move up
-            //only after moving back to globalIdleWaypoint[0] change state back to State.Idle
             
             CalculatePassengerMovement(velocity);
             MovePassengers(true);
             transform.Translate(velocity);
             MovePassengers(false);
+        }
+
+        private void ChangeState(State newState)
+        {
+            Debug.Log("Changing state to: " + newState);
+            state = newState;
         }
 
         private bool PlayerDetectedOnPlatform()
@@ -101,7 +112,7 @@ namespace pf
 
                 if (hit && hit.distance != 0)
                 {         
-                    if(fallStartPosition == Vector3.zero)
+                    if(state == State.Idle)
                     {
                         fallStartPosition = transform.position;
                     }
@@ -149,34 +160,49 @@ namespace pf
         {
             if (falling)
             {
+                float maxDistanceBetweenWaypoints = Vector3.Distance(globalFallingWaypoints[0], globalFallingWaypoints[1]);
                 float distanceBetweenWaypoints = Vector3.Distance(fallStartPosition, globalFallingWaypoints[1]);
-                percentBetweenWaypoints += Time.deltaTime * fallingSpeed / distanceBetweenWaypoints;
+                
+
+
+                float multiplier = distanceBetweenWaypoints / fallingSpeed;
+                float f = multiplier * fallingSpeed;
+                Debug.Log("FallStartPosition y: " + fallStartPosition.y + ", Distance between waypoints: " + distanceBetweenWaypoints + ", f: " + f + ", multiplier:" + multiplier);
+
+
+                //percentBetweenWaypoints += Time.deltaTime * fallingSpeed / distanceBetweenWaypoints;
+                percentBetweenWaypoints += Time.deltaTime * f / distanceBetweenWaypoints;
                 percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
                 float easedPercentBetweenWaypoints = Ease(percentBetweenWaypoints);
 
                 Vector3 newPos = Vector3.Lerp(fallStartPosition, globalFallingWaypoints[1], easedPercentBetweenWaypoints);
+
+                if (percentBetweenWaypoints >= 1)
+                {
+                    percentBetweenWaypoints = 0;
+                    ChangeState(State.Bottom);
+                }
+
                 return newPos - transform.position;
             }
-
-            /*
             else
             {
-                fromWaypointIndex %= globalWaypoints.Length;
-                float distanceBetweenWaypoints = Vector3.Distance(globalFallingWaypoint, globalWaypoints[fromWaypointIndex]);
-                percentBetweenWaypoints += Time.deltaTime * speed / distanceBetweenWaypoints;
+                float distanceBetweenWaypoints = Vector3.Distance(globalFallingWaypoints[1], globalFallingWaypoints[0]);
+                percentBetweenWaypoints += Time.deltaTime * risingSpeed / distanceBetweenWaypoints;
                 percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
                 float easedPercentBetweenWaypoints = Ease(percentBetweenWaypoints);
 
-                Vector3 newPos = Vector3.Lerp(globalFallingWaypoint, globalWaypoints[fromWaypointIndex], easedPercentBetweenWaypoints);
+                Vector3 newPos = Vector3.Lerp(globalFallingWaypoints[1], globalFallingWaypoints[0], easedPercentBetweenWaypoints);
 
-                if (percentBetweenWaypoints >= 1) 
+                if (percentBetweenWaypoints >= 1)
                 {
-                    state = State.Idle;
+                    percentBetweenWaypoints = 0;
+                    fromWaypointIndex = 0;
+                    ChangeState(State.Idle);
                 }
+
                 return newPos - transform.position;
-            }   
-            */
-            return Vector3.zero;
+            }
         }
 
         void MovePassengers(bool beforeMovePlatform)
@@ -203,7 +229,7 @@ namespace pf
             float directionY = Mathf.Sign(velocity.y);
 
             // Vertically moving platform
-            /*
+            
             if (velocity.y != 0)
             {
                 float rayLength = Mathf.Abs(velocity.y) + SKINWIDTH;
@@ -229,9 +255,9 @@ namespace pf
                     }
                 }
             }
-            */
+            
 
-            /*
+            
 
             // Horizontally moving platform
             if (velocity.x != 0)
@@ -258,10 +284,10 @@ namespace pf
                 }
 
             }
-            */
+            
 
             // Passenger on top of a horizontally or downward moving platform
-            //if (directionY == -1 || velocity.y == 0 && velocity.x != 0)
+            if (directionY == -1 || velocity.y == 0 && velocity.x != 0)
             {
                 float rayLength = SKINWIDTH * 2;
 
