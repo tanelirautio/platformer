@@ -9,7 +9,6 @@ namespace pf
     { 
         public LayerMask passengerMask;
 
-
         public Vector3[] localIdleWaypoints = new Vector3[2];
         private Vector3[] globalIdleWaypoints;
 
@@ -29,6 +28,7 @@ namespace pf
         int fromWaypointIndex;
         float percentBetweenWaypoints;
         float nextMoveTime;
+        bool playerOnPlatform;
 
         List<PassengerMovement> passengerMovement;
         Dictionary<Transform, Controller2D> passengerDictionary = new Dictionary<Transform, Controller2D>();
@@ -62,7 +62,7 @@ namespace pf
             UpdateRaycastOrigins();
             Vector3 velocity = Vector3.zero;
 
-            bool playerOnPlatform = PlayerDetectedOnPlatform();
+            playerOnPlatform = PlayerDetectedOnPlatform();
 
             if (state != State.Falling && state != State.Bottom && state != State.GoingUp && playerOnPlatform)
             {
@@ -154,27 +154,18 @@ namespace pf
             return newPos - transform.position;
         }
 
-
-
         Vector3 CalculatePlatformFallMovement(bool falling)
         {
             if (falling)
             {
-                float maxDistanceBetweenWaypoints = Vector3.Distance(globalFallingWaypoints[0], globalFallingWaypoints[1]);
                 float distanceBetweenWaypoints = Vector3.Distance(fallStartPosition, globalFallingWaypoints[1]);
-                
-
-
                 float multiplier = distanceBetweenWaypoints / fallingSpeed;
                 float f = multiplier * fallingSpeed;
-                Debug.Log("FallStartPosition y: " + fallStartPosition.y + ", Distance between waypoints: " + distanceBetweenWaypoints + ", f: " + f + ", multiplier:" + multiplier);
-
-
                 //percentBetweenWaypoints += Time.deltaTime * fallingSpeed / distanceBetweenWaypoints;
                 percentBetweenWaypoints += Time.deltaTime * f / distanceBetweenWaypoints;
                 percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
+                //Debug.Log("FallStartPosition y: " + fallStartPosition.y + ", Distance between waypoints: " + distanceBetweenWaypoints + ", f: " + f + ", multiplier:" + multiplier + ", percent between waypoints: " + percentBetweenWaypoints);
                 float easedPercentBetweenWaypoints = Ease(percentBetweenWaypoints);
-
                 Vector3 newPos = Vector3.Lerp(fallStartPosition, globalFallingWaypoints[1], easedPercentBetweenWaypoints);
 
                 if (percentBetweenWaypoints >= 1)
@@ -191,10 +182,15 @@ namespace pf
                 percentBetweenWaypoints += Time.deltaTime * risingSpeed / distanceBetweenWaypoints;
                 percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
                 float easedPercentBetweenWaypoints = Ease(percentBetweenWaypoints);
-
                 Vector3 newPos = Vector3.Lerp(globalFallingWaypoints[1], globalFallingWaypoints[0], easedPercentBetweenWaypoints);
 
-                if (percentBetweenWaypoints >= 1)
+                if(playerOnPlatform)
+                {
+                    percentBetweenWaypoints = 0;
+                    fallStartPosition = transform.position;
+                    ChangeState(State.Falling);
+                }
+                else if (percentBetweenWaypoints >= 1)
                 {
                     percentBetweenWaypoints = 0;
                     fromWaypointIndex = 0;
