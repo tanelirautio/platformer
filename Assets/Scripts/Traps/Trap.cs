@@ -17,7 +17,8 @@ namespace pf
             Fire,
             KillZone,
             SpikeHead,
-            FallingPlatform
+            FallingPlatform,
+            RockHead
         }
 
         public Type type;
@@ -30,7 +31,6 @@ namespace pf
             }
             else if(type == Type.FallingPlatform)
             {
-                Debug.Log("uu");
                 fallingPlatform = GetComponent<FallingPlatform>();
             }
         }
@@ -41,25 +41,6 @@ namespace pf
             {
                 firePit.Trigger();
             }
-            /*
-            else if(type == Type.FallingPlatform && fallingPlatform != null)
-            {
-                Debug.Log("FallingPlatform: OnTriggerEnter2D");
-                fallingPlatform.Trigger(true);
-            }
-            */
-        }
-
-        /*
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (type == Type.FallingPlatform && fallingPlatform != null)
-            {
-                Debug.Log("FallingPlatform: OnTriggerExit2D");
-                fallingPlatform.Trigger(false);
-            }
-        }
-        */
-        
+        }        
     }
 }
