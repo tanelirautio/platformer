@@ -403,7 +403,7 @@ namespace pf
                     }
                 }
 
-                if (!isGracePeriod() && !isDead && type != Trap.Type.FallingPlatform)
+                if (!isGracePeriod() && !isDead && type != Trap.Type.FallingPlatform && type != Trap.Type.RockHead)
                 {
                     int currentHealth = health.TakeDamage(type);
                     HandleDamage(currentHealth);
@@ -437,6 +437,18 @@ namespace pf
                 {
                     StatisticsManager.SetCompletedLevelWithoutHits(PlayerStats.GetCurrentLevel());
                     achievementManager.CheckCompletedLevelsWihtoutHitsAchievement();
+                }
+            }
+            if(collision.gameObject.tag == "Trap")
+            {
+                Trap trap = collision.gameObject.GetComponent<Trap>();
+                if(trap && trap.type == Trap.Type.RockHead)
+                {
+                    RockHead rockHead = collision.gameObject.GetComponent<RockHead>();
+                    if (rockHead)
+                    {
+                        rockHead.PlayerTouch();
+                    }
                 }
             }
         }
