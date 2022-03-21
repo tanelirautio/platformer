@@ -10,6 +10,7 @@ TagManager:
   - Collectable
   - SpawnPoint
   - Powerup
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

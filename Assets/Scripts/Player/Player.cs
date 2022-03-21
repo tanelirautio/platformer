@@ -439,7 +439,15 @@ namespace pf
                     achievementManager.CheckCompletedLevelsWihtoutHitsAchievement();
                 }
             }
-            if(collision.gameObject.tag == "Trap")
+            else if(collision.gameObject.tag == "Checkpoint")
+            {
+                CheckPoint c = collision.gameObject.GetComponent<CheckPoint>();
+                if(c)
+                {
+                    c.PlayerTouch();
+                }
+            }
+            else if(collision.gameObject.tag == "Trap")
             {
                 Trap trap = collision.gameObject.GetComponent<Trap>();
                 if(trap && trap.type == Trap.Type.RockHead)
