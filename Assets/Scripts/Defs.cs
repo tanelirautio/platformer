@@ -40,5 +40,10 @@ namespace pf
         // Traps
         public const float TRAP_FALLING_PLATFORM_WAIT_TIME = 1.0f;
         public const float TRAP_FIRE_PIT_TURNON_TIME = 1.0f;
+
+        // Health
+        public const int HEALTH_DAMAGE = 1;
+        public const int HEALTH_MAX = 5;
+        public const int HEALTH_START = 3;
     }
 }

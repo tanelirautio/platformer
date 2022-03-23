@@ -3,6 +3,7 @@ using DG.Tweening;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.Assertions;
+using System.Collections;
 
 namespace pf
 {
@@ -41,12 +42,12 @@ namespace pf
         private Light2D light2D;
         private float light2DBaseIntensity;
         private AchievementManager achievementManager;
+        private CheckpointManager checkpointManager;
 
         private bool gracePeriod = false;
         private bool killZoneDamageTaken = false;
 
         private bool isDead = false;
-        private bool hasBeenHit = false;
 
         private Timer levelCompletionTimer = new Timer();
 
@@ -82,6 +83,7 @@ namespace pf
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
 
             achievementManager = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
+            checkpointManager = GameObject.Find("CheckpointManager").GetComponent<CheckpointManager>();
 
             PlayerStats.SceneIndex = LevelLoader.GetCurrentSceneIndex();
 
@@ -126,7 +128,6 @@ namespace pf
 
         private void Spawn(bool resetHealth = true, bool resetScore = true)
         {
-
             controllerDisabled = false;
             isDead = false;
             cameraFollow.Reset();
@@ -135,16 +136,36 @@ namespace pf
             {
                 health.Reset();
             }
-            score.Reset();
+            if (resetScore)
+            {
+                score.Reset();
+            }
             levelCompletionTimer.Reset();
             ResetMovement();
-            hasBeenHit = false;
             light2D.enabled = false;
 
             Assert.IsNotNull(spawnPoint);
             if (spawnPoint)
             {
                 transform.position = spawnPoint.transform.position;
+                print("Spawning at: " + transform.position);
+            }
+        }
+        public IEnumerator SpawnAtCheckpoint(float time, Checkpoint c)
+        {
+            yield return new WaitForSeconds(time);
+
+            controllerDisabled = false;
+            isDead = false;
+            cameraFollow.Reset();
+            anim.Reset();
+            ResetMovement();
+            light2D.enabled = false;
+
+            Assert.IsNotNull(c);
+            if (c)
+            {
+                transform.position = c.transform.position;
                 print("Spawning at: " + transform.position);
             }
         }
@@ -275,6 +296,24 @@ namespace pf
 
         private void HandleDamage(int currentHealth)
         {
+            anim.Die();
+            isDead = true;
+            controllerDisabled = true;
+            cameraFollow.StopFollowingPlayer();
+
+            if (currentHealth > 0)
+            {
+                print("player hurt!");
+                setGracePeriod();
+            }
+            else
+            {
+                print("player dead!");
+                levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
+            }
+
+
+            /*
             if (currentHealth > 0)
             {
                 anim.TakeDamage();
@@ -292,6 +331,7 @@ namespace pf
                 isDead = true;
                 levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
             }
+            */
         }
 
         public void CollectedPowerup(Powerup.Type type)
@@ -409,7 +449,23 @@ namespace pf
                     HandleDamage(currentHealth);
                     if (currentHealth > 0)
                     {
-                        DamageMove(collision.transform.position);
+                        Checkpoint currentCheckpoint = checkpointManager.GetLatest();
+
+                        DeathMove();
+                        FadeToBlack();
+
+                        if (currentCheckpoint != null)
+                        {
+                            StartCoroutine(SpawnAtCheckpoint(1.0f, currentCheckpoint));
+                        }
+                        else
+                        {
+                            Spawn(false, false);
+                        }
+                        Invoke("FadeFromBlack", 1.0f);
+
+
+                        //DamageMove(collision.transform.position);
                     }
                     else
                     {
@@ -429,11 +485,11 @@ namespace pf
                 controllerDisabled = true;
 
                 float timerMs = levelCompletionTimer.Elapsed * 1000.0f;
-                levelEnd.ShowLevelEnd(hasBeenHit, score.GetScore(), timerMs);
+                levelEnd.ShowLevelEnd(health.HasBeenHit(), score.GetScore(), timerMs);
 
                 StatisticsManager.SetCompletedLevel(PlayerStats.GetCurrentLevel());
                 achievementManager.CheckCompletedLevelsAchievement();
-                if(!hasBeenHit)
+                if(!health.HasBeenHit())
                 {
                     StatisticsManager.SetCompletedLevelWithoutHits(PlayerStats.GetCurrentLevel());
                     achievementManager.CheckCompletedLevelsWihtoutHitsAchievement();
@@ -441,7 +497,7 @@ namespace pf
             }
             else if(collision.gameObject.tag == "Checkpoint")
             {
-                CheckPoint c = collision.gameObject.GetComponent<CheckPoint>();
+                Checkpoint c = collision.gameObject.GetComponent<Checkpoint>();
                 if(c)
                 {
                     c.PlayerTouch();

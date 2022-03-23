@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace pf
 {
-    public class CheckPoint : MonoBehaviour
+    public class Checkpoint : MonoBehaviour
     {
         private Animator anim;
 

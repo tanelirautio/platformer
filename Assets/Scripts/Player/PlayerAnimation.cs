@@ -17,7 +17,7 @@ namespace pf
         const string PLAYER_IDLE = "idle";
         const string PLAYER_JUMP = "jump";
         const string PLAYER_RUN = "run";
-        const string PLAYER_HIT = "hit";
+        //const string PLAYER_HIT = "hit";
         const string PLAYER_FALL = "fall";
         const string PLAYER_DEAD = "double_jump";
 
@@ -165,11 +165,12 @@ namespace pf
 
         public void HandleAnimation(Controller2D controller, Vector2 velocity)
         {
+            /*
             if (isTakingDamage)
             {
                 ChangeAnimationState(PLAYER_HIT);
                 return;
-            }
+            }*/
             if (isDead)
             {
                 ChangeAnimationState(PLAYER_DEAD);

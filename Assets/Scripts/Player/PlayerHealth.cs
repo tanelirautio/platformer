@@ -5,9 +5,7 @@ namespace pf
 {
     public class PlayerHealth : MonoBehaviour
     {
-        const int DAMAGE = 1;
-        const int MAX_HEALTH = 5;
-        [SerializeField] private int startingHealth = 3;
+        private int startingHealth = Defs.HEALTH_START;
 
         //animation states
         const string HEALTH_ADD = "health_add";
@@ -16,9 +14,10 @@ namespace pf
         const string HEALTH_ZERO = "health_zero";
 
         private int currentHealth = 0;
+        private bool hasBeenHit = false;
 
-        private GameObject[] uiHealth = new GameObject[MAX_HEALTH];
-        private Animator[] uiHealthAnim = new Animator[MAX_HEALTH];
+        private GameObject[] uiHealth = new GameObject[Defs.HEALTH_MAX];
+        private Animator[] uiHealthAnim = new Animator[Defs.HEALTH_MAX];
 
         private LevelLoader levelLoader;
 
@@ -28,7 +27,7 @@ namespace pf
 
             GameObject health = GameObject.Find("UICanvas/Health");
             int children = health.transform.childCount;
-            Assert.AreEqual(children, MAX_HEALTH);
+            Assert.AreEqual(children, Defs.HEALTH_MAX);
             for (int i = 0; i < children; ++i)
             {
                 uiHealth[i] = health.transform.GetChild(i).gameObject;
@@ -52,8 +51,9 @@ namespace pf
             }
 
             currentHealth = startingHealth;
+            hasBeenHit = false;
 
-            for (int i = 0; i < MAX_HEALTH; i++)
+            for (int i = 0; i < Defs.HEALTH_MAX; i++)
             {
                 uiHealthAnim[i] = uiHealth[i].GetComponent<Animator>();
 
@@ -76,7 +76,7 @@ namespace pf
         public bool AddHealth()
         {
             print("Adding health to player");
-            if(currentHealth + 1 > MAX_HEALTH)
+            if(currentHealth + 1 > Defs.HEALTH_MAX)
             {
                 //give score instead of health
                 print("Should give extra score");
@@ -93,11 +93,18 @@ namespace pf
             return true;
         }
 
+        public bool HasBeenHit()
+        {
+            return hasBeenHit;
+        }
+
         public int TakeDamage(Trap.Type trapType)
         {
-            print("Trap type: " + trapType.ToString());
 
-            currentHealth = Mathf.Clamp(currentHealth - DAMAGE, 0, MAX_HEALTH);
+            print("Trap type: " + trapType.ToString());
+            hasBeenHit = true;
+
+            currentHealth = Mathf.Clamp(currentHealth - Defs.HEALTH_DAMAGE, 0, Defs.HEALTH_MAX);
             Animator anim = uiHealthAnim[currentHealth];
             anim.Play(HEALTH_REMOVE);
             PlayerStats.Health = currentHealth;
