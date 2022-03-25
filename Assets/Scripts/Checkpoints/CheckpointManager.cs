@@ -6,10 +6,15 @@ namespace pf
 {
     public class CheckpointManager : MonoBehaviour
     {
-        public SpawnPoint spawnPoint;
+        private SpawnPoint spawnPoint;
         public List<Checkpoint> checkPoints;
 
-        public Checkpoint GetLatest()
+        private void Start()
+        {
+            spawnPoint = GameObject.Find("SpawnPoint").GetComponent<SpawnPoint>();
+        }
+
+        public Transform GetLatest()
         {
             Checkpoint checkpoint = null;
             foreach(Checkpoint c in checkPoints)
@@ -19,12 +24,16 @@ namespace pf
                     checkpoint = c;
                 }
             }
-            return checkpoint;
-        }
 
-        public SpawnPoint GetSpawnPoint()
-        {
-            return spawnPoint;
+            if(checkpoint != null)
+            {
+                return checkpoint.transform;
+            }
+            else
+            {
+                return spawnPoint.transform;
+            }
+            
         }
     }
 }

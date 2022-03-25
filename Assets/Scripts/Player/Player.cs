@@ -43,6 +43,8 @@ namespace pf
         private float light2DBaseIntensity;
         private AchievementManager achievementManager;
         private CheckpointManager checkpointManager;
+        private AudioManager audioManager;
+        private Music music;
 
         private bool gracePeriod = false;
         private bool killZoneDamageTaken = false;
@@ -83,7 +85,17 @@ namespace pf
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
 
             achievementManager = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
-            checkpointManager = GameObject.Find("CheckpointManager").GetComponent<CheckpointManager>();
+            
+            if(GameObject.Find("CheckpointManager"))
+            {
+                checkpointManager = GameObject.Find("CheckpointManager").GetComponent<CheckpointManager>();
+            }
+
+            if (GameObject.Find("AudioSystem"))
+            {
+                music = GameObject.Find("AudioSystem").GetComponent<Music>();
+                audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
+            }
 
             PlayerStats.SceneIndex = LevelLoader.GetCurrentSceneIndex();
 
@@ -114,6 +126,10 @@ namespace pf
         {
             Spawn();
             SaveSystem.Save();
+            if(music)
+            {
+                music.Play(LevelLoader.GetCurrentSceneName());
+            }
         }
 
         private void ResetMovement()
@@ -151,7 +167,7 @@ namespace pf
                 print("Spawning at: " + transform.position);
             }
         }
-        public IEnumerator SpawnAtCheckpoint(float time, Checkpoint c)
+        public IEnumerator SpawnAtCheckpoint(float time, Transform checkpoint)
         {
             yield return new WaitForSeconds(time);
 
@@ -162,10 +178,10 @@ namespace pf
             ResetMovement();
             light2D.enabled = false;
 
-            Assert.IsNotNull(c);
-            if (c)
+            Assert.IsNotNull(checkpoint);
+            if (checkpoint)
             {
-                transform.position = c.transform.position;
+                transform.position = checkpoint.position;
                 print("Spawning at: " + transform.position);
             }
         }
@@ -194,6 +210,10 @@ namespace pf
             if (controller.collisions.below && jumpAction.WasPressedThisFrame())
             {
                 movement.Jump(transform.position.y);
+                if (audioManager != null)
+                {
+                    audioManager.PlaySound3D("PlayerJump", transform.position);
+                }
             }
 
             if (jumpAction.WasReleasedThisFrame())
@@ -393,7 +413,7 @@ namespace pf
         {
             // TODO: debug, if we reach the last scene, just go to main menu...
             // In the real game show end screen
-            if (LevelLoader.GetCurrentSceneIndex() == levelLoader.GetTotalSceneCount()-1)
+            if (PlayerStats.GetCurrentLevel() == Defs.LEVEL_AMOUNT-1)
             {
                 levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
             }
@@ -449,19 +469,13 @@ namespace pf
                     HandleDamage(currentHealth);
                     if (currentHealth > 0)
                     {
-                        Checkpoint currentCheckpoint = checkpointManager.GetLatest();
-
                         DeathMove();
                         FadeToBlack();
 
-                        if (currentCheckpoint != null)
-                        {
-                            StartCoroutine(SpawnAtCheckpoint(1.0f, currentCheckpoint));
-                        }
-                        else
-                        {
-                            Spawn(false, false);
-                        }
+                        Transform currentCheckpoint = null;
+                        currentCheckpoint = checkpointManager.GetLatest();
+                        StartCoroutine(SpawnAtCheckpoint(1.0f, currentCheckpoint));
+                       
                         Invoke("FadeFromBlack", 1.0f);
 
 

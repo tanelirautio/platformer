@@ -158,7 +158,7 @@ namespace pf
             audioManager.SetVolume(PlayerStats.SoundVolume, AudioManager.AudioChannel.fx);
             if (!music.IsPlaying)
             {
-                music.Play("Intro");
+                music.Play(LevelLoader.GetCurrentSceneName());
             }
         }
 

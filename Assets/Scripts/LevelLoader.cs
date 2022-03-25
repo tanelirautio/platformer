@@ -56,6 +56,11 @@ public class LevelLoader : MonoBehaviour
         return SceneManager.GetActiveScene().buildIndex;
     }
 
+    public static string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
     public int GetTotalSceneCount()
     {
         return SceneManager.sceneCountInBuildSettings;

@@ -44,7 +44,7 @@ namespace pf
 
         void Start()
         {
-            music.Play("Credits");
+            music.Play(LevelLoader.GetCurrentSceneName());
 
             string filename;
             switch (PlayerStats.Language)
