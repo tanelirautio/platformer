@@ -18,6 +18,7 @@ namespace pf {
         private Image image;
         private TextLocalizerUI titleLocalizer;
         private TextLocalizerUI descLocalizer;
+        private AudioManager audioManager;
 
         // Animation states
         const string ACHIEVEMENT_IDLE = "achievement_idle";
@@ -44,6 +45,7 @@ namespace pf {
             titleLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveTitle").GetComponent<TextLocalizerUI>();
             descLocalizer = GameObject.Find("UICanvas/AchievementPanel/AchieveDesc").GetComponent<TextLocalizerUI>();
             spriteManager = GetComponent<AchievementSpriteManager>();
+            audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
         }
 
         public void CheckCollectAchievement(Collectable.Type type)
@@ -119,6 +121,7 @@ namespace pf {
                 canShowAchievement = false;
                 print("AchievementsToShow: " + achievementsToShow.Count);
                 print("Showing achievement id: " + ach.id + " - " + ach.title);
+                audioManager.PlaySound2D("Achievement");
             }
         }
 

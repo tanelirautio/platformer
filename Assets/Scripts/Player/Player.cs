@@ -203,6 +203,7 @@ namespace pf
                 {
                     LoadNextScene();
                 }
+                return;
             }
 
             movement.CalculateVelocityX(input.x, controller.collisions.below ? accTimeGrounded : accTimeAirborne);
@@ -212,7 +213,7 @@ namespace pf
                 movement.Jump(transform.position.y);
                 if (audioManager != null)
                 {
-                    audioManager.PlaySound3D("PlayerJump", transform.position);
+                    audioManager.PlaySound2D("Jump");
                 }
             }
 
@@ -469,6 +470,7 @@ namespace pf
                     HandleDamage(currentHealth);
                     if (currentHealth > 0)
                     {
+                        audioManager.PlaySound2D("Hit");
                         DeathMove();
                         FadeToBlack();
 
@@ -489,11 +491,21 @@ namespace pf
             }
         }
 
+        private void PlayTrophySound()
+        {
+            audioManager.PlaySound2D("Trophy");
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.tag == "Finish")
             {
                 levelCompletionTimer.Stop();
+
+
+                music.StopFade(0.5f);
+                Invoke("PlayTrophySound", 0.5f);
+                //audioManager.PlaySound2D("Trophy");
 
                 print("finished level");
                 controllerDisabled = true;

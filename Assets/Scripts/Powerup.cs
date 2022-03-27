@@ -23,6 +23,7 @@ namespace pf
         private Animator collectedAnim = null;
 
         private Player player;
+        private AudioManager audioManager;
 
         private bool powerupCollected = false;
 
@@ -45,6 +46,7 @@ namespace pf
         void Awake()
         {
             player = GameObject.Find("Player").GetComponent<Player>();
+            audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
             
             obj = transform.Find("Object");
 
@@ -88,6 +90,7 @@ namespace pf
                     return;
                 }
                 powerupCollected = true;
+                audioManager.PlaySound2D("Powerup");
 
                 obj.gameObject.SetActive(false);
                 collected.gameObject.SetActive(true);

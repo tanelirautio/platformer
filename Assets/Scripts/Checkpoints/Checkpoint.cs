@@ -7,6 +7,7 @@ namespace pf
     public class Checkpoint : MonoBehaviour
     {
         private Animator anim;
+        private AudioManager audioManager;
 
         //animation states
         const string CHECKPOINT_IDLE = "checkpoint_idle";
@@ -26,6 +27,7 @@ namespace pf
         private void Awake()
         {
             anim = GetComponent<Animator>();
+            audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
             state = State.Idle;
         }
 
@@ -69,6 +71,7 @@ namespace pf
             if (state == State.Idle)
             {
                 state = State.PlayerTouch;
+                audioManager.PlaySound2D("Checkpoint");
             }
         }
 

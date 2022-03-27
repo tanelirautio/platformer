@@ -33,6 +33,7 @@ namespace pf
         private PlayerScore score;
         private PlayerHealth health;
         private AchievementManager achievements;
+        private AudioManager audioManager;
 
         // Animation states
         const string COLLECTED = "collected";
@@ -47,6 +48,7 @@ namespace pf
             score = GameObject.Find("Player").GetComponent<PlayerScore>();
             health = GameObject.Find("Player").GetComponent<PlayerHealth>();
             achievements = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
+            audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
 
             obj = transform.Find("Object");
             points = transform.Find("Points");
@@ -89,6 +91,7 @@ namespace pf
                     return;
                 }
                 playerHasCollectedThis = true;
+                audioManager.PlaySound2D("Pickup");
 
                 obj.gameObject.SetActive(false);           
                 collected.gameObject.SetActive(true);
