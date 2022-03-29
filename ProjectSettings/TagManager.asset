@@ -11,6 +11,7 @@ TagManager:
   - SpawnPoint
   - Powerup
   - Checkpoint
+  - Teleport
   layers:
   - Default
   - TransparentFX

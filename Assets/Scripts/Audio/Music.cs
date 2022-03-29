@@ -17,7 +17,8 @@ namespace pf
             { "Credits", "Credits" },
             { "Level_0", "Level_0" },
             { "Level_1", "Level_1" },
-            { "Level_2", "Level_2" }
+            { "Level_2", "Level_2" },
+            { "TestLevel", "Credits" }
         };
         
         public string CurrentMusic { get; private set; }
@@ -30,12 +31,12 @@ namespace pf
             if (musicDictionary.TryGetValue(scene, out song))
             {
                 if ((!IsPlaying) || (IsPlaying && CurrentMusic != song)) {
-                    Start(song);
+                    _Play(song);
                 }
             }
         }
 
-        private void Start(string song)
+        private void _Play(string song)
         {
             AudioManager.Instance.PlayMusic(song, 0);
             CurrentMusic = song;

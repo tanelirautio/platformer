@@ -541,6 +541,16 @@ namespace pf
                     }
                 }
             }
+            else if(collision.gameObject.tag == "Teleport")
+            {
+                Teleport teleport = collision.gameObject.GetComponent<Teleport>();
+                if(teleport && !teleport.Activated)
+                {
+
+                    //controllerDisabled = true;
+                    teleport.Activate(transform);
+                }
+            }
         }
 
         private void OnTriggerExit2D(Collider2D collision)

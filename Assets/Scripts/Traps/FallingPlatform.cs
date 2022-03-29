@@ -15,6 +15,8 @@ namespace pf
         public Vector3 localFallingWaypoint;
         private Vector3[] globalFallingWaypoints;
 
+        private AudioManager audioManager;
+
         Vector3 fallStartPosition;
 
         public float speed;
@@ -42,6 +44,12 @@ namespace pf
         }
         State state = State.Idle;
 
+        public override void Awake()
+        {
+            base.Awake();
+            audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();    
+        }
+
         public override void Start()
         {
             base.Start();
@@ -67,6 +75,7 @@ namespace pf
             if (state != State.Falling && state != State.Bottom && state != State.GoingUp && playerOnPlatform)
             {
                 ChangeState(State.Falling);
+                audioManager.PlaySound2D("FallingPlatform");
             }
             else if(state == State.Bottom && !playerOnPlatform)
             {
