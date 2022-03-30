@@ -8,6 +8,7 @@ namespace pf
     {
         public Vector3 teleportPoint;
 
+        private SpriteRenderer spriteRenderer;
         private AudioManager audioManager;
         private Animator anim;
 
@@ -19,23 +20,28 @@ namespace pf
 
         private void Awake()
         {
+            spriteRenderer = GetComponent<SpriteRenderer>();
             audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
             anim = GetComponent<Animator>();
         }
 
-        // Start is called before the first frame update
         void Start()
         {
             anim.Play(TELEPORT_IDLE);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
-         
+            if(Activated)
+            {
+                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0))
+                {
+                    spriteRenderer.enabled = false;
+                }
+            }
         }
 
-        public void Activate(Transform player)
+        public void Activate()
         {
             if(Activated)
             {
@@ -43,22 +49,22 @@ namespace pf
             }
 
             Activated = true;
-
             anim.Play(TELEPORT_HIT);
             audioManager.PlaySound2D("Teleport");
-
-            //TODO: player disable controller -> play disable effect & play sound -> play appear effect in teleport point -> show player -> enable controller
-
-            player.position = teleportPoint + transform.position;
-            StartCoroutine(WaitForDestroy(Defs.COLLECTABLE_FADE_TIME));
         }
 
+        public void ChangePosition(Transform player)
+        {
+            player.position = teleportPoint + transform.position;
+        }
+
+        /*
         private IEnumerator WaitForDestroy(float length)
         {
             yield return new WaitForSeconds(length);
             Destroy();
-        }
-        private void Destroy()
+        }*/
+        public void Destroy()
         {
             print("Destroying gameobject: " + gameObject.name);
             Destroy(gameObject);

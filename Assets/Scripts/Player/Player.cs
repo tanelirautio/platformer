@@ -49,6 +49,7 @@ namespace pf
         private bool gracePeriod = false;
         private bool killZoneDamageTaken = false;
 
+        private bool isTeleporting = false;
         private bool isDead = false;
 
         private Timer levelCompletionTimer = new Timer();
@@ -206,33 +207,43 @@ namespace pf
                 return;
             }
 
+            if(isTeleporting)
+            {
+                input.x = 0;
+                input.y = 0;
+            }
+
+
             movement.CalculateVelocityX(input.x, controller.collisions.below ? accTimeGrounded : accTimeAirborne);
 
-            if (controller.collisions.below && jumpAction.WasPressedThisFrame())
+            if (!isTeleporting)
             {
-                movement.Jump(transform.position.y);
-                if (audioManager != null)
+
+                if (controller.collisions.below && jumpAction.WasPressedThisFrame())
                 {
-                    audioManager.PlaySound2D("Jump");
+                    movement.Jump(transform.position.y);
+                    if (audioManager != null)
+                    {
+                        audioManager.PlaySound2D("Jump");
+                    }
+                }
+
+                if (jumpAction.WasReleasedThisFrame())
+                {
+                    movement.DoubleGravity();
+                }
+
+                controller.Move(movement.CalculateVelocity(Time.deltaTime, transform.position.y), input);
+
+                // Removes the accumulation of gravity
+                if (controller.collisions.above || controller.collisions.below)
+                {
+                    movement.ZeroVelocityY();
                 }
             }
-
-            if (jumpAction.WasReleasedThisFrame())
-            {
-                movement.DoubleGravity();
-            }
-
-            controller.Move(movement.CalculateVelocity(Time.deltaTime, transform.position.y), input);
-
-            // Removes the accumulation of gravity
-            if (controller.collisions.above || controller.collisions.below)
-            {
-                movement.ZeroVelocityY();
-            }
-
+            
             anim.HandleAnimation(controller, movement.Velocity);
 
-            // TODO: kill player if falling away from platform
             if (transform.position.y < stopFollowingPlayerY)
             {
                 cameraFollow.StopFollowingPlayer();
@@ -546,12 +557,31 @@ namespace pf
                 Teleport teleport = collision.gameObject.GetComponent<Teleport>();
                 if(teleport && !teleport.Activated)
                 {
-
                     //controllerDisabled = true;
-                    teleport.Activate(transform);
+                    anim.Disappear();
+                    teleport.Activate();
+                    StartCoroutine(Teleport(teleport));
+                    isTeleporting = true;
                 }
             }
         }
+
+
+        private IEnumerator Teleport(Teleport teleport)
+        {
+            yield return new WaitForSeconds(1f);
+            teleport.ChangePosition(transform);
+            teleport.Destroy();
+            Invoke("TeleportDone", 1f);
+        }
+
+        private void TeleportDone()
+        {
+            anim.Appear();
+            isTeleporting = false;
+            //controllerDisabled = false;
+        }
+
 
         private void OnTriggerExit2D(Collider2D collision)
         {

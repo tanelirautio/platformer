@@ -20,6 +20,9 @@ namespace pf
         //const string PLAYER_HIT = "hit";
         const string PLAYER_FALL = "fall";
         const string PLAYER_DEAD = "double_jump";
+        const string PLAYER_APPEAR = "appear";
+        const string PLAYER_DISAPPEAR = "disappear";
+        const string PLAYER_INVISIBLE = "invisible";
 
         private Animator animator;
         private string currentAnimState;
@@ -29,6 +32,9 @@ namespace pf
         private Player player;
         private SpriteRenderer spriteRenderer;
 
+        private bool isAppearing = false;
+        private bool isDisappearing = false;
+        private bool isInvisible = false;
         private bool isTakingDamage = false;
         private bool isDead = false;
 
@@ -136,6 +142,16 @@ namespace pf
             Invoke("DamageComplete", 0.5f); //cheesy way
         }
 
+        public void Disappear()
+        {
+            isDisappearing = true;
+        }
+
+        public void Appear()
+        {
+            isAppearing = true;
+        }
+
         private void DamageComplete()
         {
             isTakingDamage = false;
@@ -165,12 +181,47 @@ namespace pf
 
         public void HandleAnimation(Controller2D controller, Vector2 velocity)
         {
-            /*
-            if (isTakingDamage)
+            if(isDisappearing)
             {
-                ChangeAnimationState(PLAYER_HIT);
+                if (currentAnimState == PLAYER_DISAPPEAR)
+                {
+                    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
+                    {
+                        isDisappearing = false;
+                        ChangeAnimationState(PLAYER_INVISIBLE);
+                        isInvisible = true;
+                    }
+                }
+                else
+                {
+                    ChangeAnimationState(PLAYER_DISAPPEAR);
+                }
                 return;
-            }*/
+            }
+
+            if(isAppearing)
+            {
+                if (currentAnimState == PLAYER_APPEAR)
+                {
+                    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
+                    {
+                        isAppearing = false;
+                    }
+                }
+                else
+                {
+                    ChangeAnimationState(PLAYER_APPEAR);
+                    isInvisible = false;
+                }
+                return;
+            }
+
+            if(isInvisible)
+            {
+                //ChangeAnimationState(PLAYER_INVISIBLE);
+                return;
+            }
+
             if (isDead)
             {
                 ChangeAnimationState(PLAYER_DEAD);
