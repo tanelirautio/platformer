@@ -61,13 +61,13 @@ Ideas that need to be evaluated:
 - Menu coherence, is there need to make all to UI system (Canvas)
 - Boss fights
 - Push buttons to activate things in level
-- Teleports
 - Ladders
 - Jump pad
 - Simple dialogue system: Player encounters NPC, some text is shown in a dialog box and the dialog continues/exits with pressing fire button
 
 Done and/or fixed:
 -----------------
+- Teleports
 - Statistics menu (just reuse Achievement menu code...) [just add more stats there in the future!]
 - Settings menu (it's ugly but hey it works!) Maybe menus get more love after the actual game is playable
   - NOTE: scrollable menus are a bit broken if used with mouse/touch. In initial release controls are gamepad/keyboard and mouse/touch will be disabled so not an issue. Good keep in mind though if/when adding support for mouse/touch. 
