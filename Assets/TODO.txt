@@ -26,6 +26,15 @@ Game:
   -> Opens with esc (kb) or select (gamepad)
   -> Exit to level select or continue game
   -> Possibly some other options if needed
+- Better level end UI (that can be scrolled with user input OR shows all relevant info in one screen)
+  - Show clearly:
+    -> Trophies that you got / Trophies you haven't got / Trophies that you've got on earlier runs
+    -> Level par time, your time and overall best time
+    -> Level required score & your score
+  - If first time play, just advance here to next level
+  - If playing a level again, show possibility to continue to next level and possibility exit to level select screen
+- Use same menu for in-game pause and level end, with different variations
+- Better menus (graphically)
 - Implement more traps (Libs/Pixel Adventure 1/Assets/Traps)
   -> Implemented trap sprites are then moved to Assets/Sprites and traps are made as prefabs
 - Implement more powerups
@@ -34,13 +43,7 @@ Game:
   -> suggestions are welcome :D
 - Enemies (need to import Pixel Adventure 2 asset pack from Asset Store into the project)
   -> Some different simple behaviors that can be selected
-- Better level end UI (that can be scrolled with user input OR shows all relevant info in one screen)
-  - Show clearly:
-    -> Trophies that you got / Trophies you haven't got / Trophies that you've got on earlier runs
-    -> Level par time, your time and overall best time
-    -> Level required score & your score
-  - If first time play, just advance here to next level
-  - If playing a level again, show possibility to continue to next level and possibility exit to level select screen
+
 - Give extra points for remaining hearts at the end of the levels
 
 Levels:
@@ -52,13 +55,11 @@ Ideas that need to be evaluated:
 - Wall climb (code is in, just disabled atm.)
 - Double jump
 - Dash (Need to think if is this evading game only, or can the enemies stomped and/or dashed...)
-- Checkpoint system (Libs/Pixel Adventure 1/Assets/Checkpoints)
   Possibilities:
     -> When player gets hit always respawn at checkpoint?
     -> When player loses all hearts, respawn at checkpoint instead of level start?
 - Multiple save slots
 - 2 player co op mode
-- Menu coherence, is there need to make all to UI system (Canvas)
 - Boss fights
 - Push buttons to activate things in level
 - Ladders
@@ -67,6 +68,7 @@ Ideas that need to be evaluated:
 
 Done and/or fixed:
 -----------------
+- Checkpoint system (Libs/Pixel Adventure 1/Assets/Checkpoints)
 - Teleports
 - Statistics menu (just reuse Achievement menu code...) [just add more stats there in the future!]
 - Settings menu (it's ugly but hey it works!) Maybe menus get more love after the actual game is playable
