@@ -86,8 +86,8 @@ namespace pf
 
         void Start()
         {
-            titleText.outlineColor = Color.black;
-            titleText.outlineWidth = 0.2f;
+            //titleText.outlineColor = Color.black;
+            //titleText.outlineWidth = 0.2f;
 
             for (int i = 0; i < 4; i++)
             {

@@ -148,8 +148,8 @@ namespace pf
 
         void Start()
         {
-            titleText.outlineColor = Color.black;
-            titleText.outlineWidth = 0.2f;
+            //titleText.outlineColor = Color.black;
+            //titleText.outlineWidth = 0.2f;
 
             print("PlayerStats.MusicVolume: " + PlayerStats.MusicVolume);
             print("PlayerStats.SoundVolume: " + PlayerStats.SoundVolume);
@@ -185,7 +185,7 @@ namespace pf
                 else
                 {
                     menu[i].transform.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
-                    menu[i].color = Color.gray;
+                    menu[i].color = Color.black;
                 }
             }
         }
