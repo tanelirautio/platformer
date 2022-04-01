@@ -38,6 +38,8 @@ namespace pf
         private bool isTakingDamage = false;
         private bool isDead = false;
 
+        private int previousFaceDir = 1;
+
         private float flashTimer = 0;
         private float[] flashTimes = new float[Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT];
 
@@ -229,6 +231,11 @@ namespace pf
             }
 
             spriteRenderer.flipX = controller.collisions.faceDir == -1 ? true : false;
+            if(previousFaceDir != controller.collisions.faceDir)
+            {
+                player.CreateDust();
+                previousFaceDir = controller.collisions.faceDir;
+            }
 
             if (controller.collisions.below)
             {
@@ -259,6 +266,11 @@ namespace pf
             if (currentAnimState == newAnimState)
             {
                 return;
+            }
+
+            if(newAnimState == PLAYER_RUN)
+            {
+                player.CreateDust();
             }
 
             animator.Play(newAnimState);

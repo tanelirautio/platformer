@@ -802,7 +802,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RAUTIONAUTS
+  m_text: ' RAUTIONAUTS'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a76699431c170f245b66e8b3e0192b66, type: 2}
   m_sharedMaterial: {fileID: -758216018166684770, guid: a76699431c170f245b66e8b3e0192b66, type: 2}
