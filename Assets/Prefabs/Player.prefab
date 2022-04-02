@@ -5003,7 +5003,6 @@ MonoBehaviour:
   moveSpeed: 6
   stopFollowingPlayerY: -2
   killZoneY: -10
-  dust: {fileID: 2116735117}
 --- !u!114 &6490169411737579489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5040,6 +5039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ec22caeffef4e49ad25a4c9b6bda33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dust: {fileID: 2116735117}
   baseMaterial: {fileID: 2100000, guid: a9b3c2ba66abfa443ba766f17376f3ad, type: 2}
   animators:
   - {fileID: 9100000, guid: af5b58c74476c8440bb16a53465a64fa, type: 2}

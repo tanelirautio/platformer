@@ -56,8 +56,6 @@ namespace pf
 
         private bool controllerDisabled = false;
 
-        public ParticleSystem dust;
-
         struct Powerups
         {
             public bool jumpPowerEnabled;
@@ -223,7 +221,6 @@ namespace pf
 
                 if (controller.collisions.below && jumpAction.WasPressedThisFrame())
                 {
-                    CreateDust();
                     movement.Jump(transform.position.y);
                     if (audioManager != null)
                     {
@@ -592,11 +589,6 @@ namespace pf
             {
                 levelCompletionTimer.Start();
             }
-        }
-
-        public void CreateDust()
-        {
-            dust.Play();
         }
     }
 }

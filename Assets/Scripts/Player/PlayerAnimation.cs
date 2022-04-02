@@ -6,6 +6,8 @@ namespace pf
 {
     public class PlayerAnimation : MonoBehaviour
     {
+        public ParticleSystem dust;
+
         //const float PLAYER_VELOCITY_X_THRESHOLD = 0.5f;
         //const float PLAYER_GRACE_PERIOD_FLASH_TIME = 0.25f;
 
@@ -233,7 +235,7 @@ namespace pf
             spriteRenderer.flipX = controller.collisions.faceDir == -1 ? true : false;
             if(previousFaceDir != controller.collisions.faceDir)
             {
-                player.CreateDust();
+                CreateDust();
                 previousFaceDir = controller.collisions.faceDir;
             }
 
@@ -268,14 +270,19 @@ namespace pf
                 return;
             }
 
-            if(newAnimState == PLAYER_RUN)
+            if(newAnimState == PLAYER_RUN || newAnimState == PLAYER_JUMP)
             {
-                player.CreateDust();
+                CreateDust();
             }
 
             animator.Play(newAnimState);
             currentAnimState = newAnimState;
 
+        }
+
+        private void CreateDust()
+        {
+            dust.Play();
         }
     }
 }
