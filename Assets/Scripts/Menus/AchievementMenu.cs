@@ -16,6 +16,7 @@ namespace pf
         public GameObject container;
         public GameObject scrollArea;
         public GameObject back;
+        public Camera scrollCamera;
 
         private ScrollRect scrollrect;
         private RectTransform viewport;
@@ -78,7 +79,7 @@ namespace pf
         {
             DataLoader.ParseData();
 
-            float offset = 8f;
+            float offset = 5f;
 
             for (int i = 0; i < PlayerStats.Achievements.Count; i++)
             {
@@ -229,7 +230,7 @@ namespace pf
                         }
                     }
 
-                    if(!RendererExtensions.IsFullyVisibleFrom(achievements[index].GetComponent<RectTransform>(), Camera.main))
+                    if(!RendererExtensions.IsFullyVisibleFrom(achievements[index].GetComponent<RectTransform>(), scrollCamera))
                     {
                         Navigate(achievements[index].GetComponent<RectTransform>());                        
                     }
