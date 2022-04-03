@@ -39,6 +39,7 @@ namespace pf
         private LevelLoader levelLoader;
         private GameObject uiCanvas;
         private LevelEnd levelEnd;
+        private PauseGame pauseGame;
         private Light2D light2D;
         private float light2DBaseIntensity;
         private AchievementManager achievementManager;
@@ -55,6 +56,7 @@ namespace pf
         private Timer levelCompletionTimer = new Timer();
 
         private bool controllerDisabled = false;
+        private bool paused = false;
 
         struct Powerups
         {
@@ -84,6 +86,8 @@ namespace pf
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             uiCanvas = GameObject.Find("UICanvas");
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
+            pauseGame = GameObject.Find("UICanvas/PauseMenu").GetComponent<PauseGame>();
+
 
             achievementManager = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
             
@@ -189,6 +193,21 @@ namespace pf
 
         private void Update()
         {
+            if (Keyboard.current.f1Key.wasPressedThisFrame)
+            {
+                controllerDisabled = false;
+                Time.timeScale = 1;
+                return;
+            }
+
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                controllerDisabled = true;
+                Time.timeScale = 0;
+                return;
+            }
+
+
             levelCompletionTimer.Update(Time.deltaTime);
 
             if (!controllerDisabled)

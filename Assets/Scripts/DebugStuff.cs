@@ -28,6 +28,7 @@ namespace pf
             }
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
+                /*
                 print("should exit!");
                 if(levelLoader == null)
                 {
@@ -47,6 +48,7 @@ namespace pf
                 {
                     levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
                 }
+                */
             }
 
             if (Keyboard.current.sKey.wasPressedThisFrame)
