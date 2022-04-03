@@ -106,6 +106,13 @@ namespace pf
                 print("Save file reset!");
 
             }
+
+            if (Keyboard.current.tKey.wasPressedThisFrame)
+            {
+                levelLoader.LoadScene((int)LevelLoader.Scenes.TestLevel);
+                print("Load test level!");
+
+            }
         }
 
     }

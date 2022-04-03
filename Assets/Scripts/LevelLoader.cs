@@ -21,7 +21,8 @@ public class LevelLoader : MonoBehaviour
         Achievements = 5,
         Statistics = 6,
         Credits = 7,
-        StartLevel = 8
+        TestLevel = 8,
+        StartLevel = 9
     }
 
     public static int GetPreviousSceneIndex()

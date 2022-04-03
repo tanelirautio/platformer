@@ -99,7 +99,7 @@ namespace pf
                     LevelObjectives[] obj = JsonHelper.FromJson<LevelObjectives>(levelObjectivesText.text);
                     if (obj != null)
                     {
-                        Assert.AreEqual(obj.Length, Defs.LEVEL_AMOUNT);
+                        Assert.AreEqual(obj.Length, Defs.LEVEL_AMOUNT + 1); // <-- +1 for test level
                         for (int i = 0; i < obj.Length; i++)
                         {
                             PlayerStats.LevelObjectives.Add(obj[i]);

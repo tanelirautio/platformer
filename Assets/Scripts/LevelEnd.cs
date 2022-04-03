@@ -103,7 +103,7 @@ namespace pf
 
         private void FadeBackground()
         {
-            fadeImage.DOFade(1.0f, 1.0f); //.OnComplete(ShowTrophyBase);
+            fadeImage.DOFade(0.8f, 1.0f); //.OnComplete(ShowTrophyBase);
         }
         private void ShowTrophyBase()
         {
@@ -129,7 +129,13 @@ namespace pf
             // show the trophies that are granted to player
 
             // Check from the saved data if trophies have been given in previous plays
-            int level = PlayerStats.GetCurrentLevel();
+            int level = 0; 
+            // Debug hack to get the test level to show the tropies
+            if(LevelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.TestLevel)
+            {
+                level = PlayerStats.GetCurrentLevel();
+            }
+
             print("*** level is: " + level + " ***");
             float parTime = 0;
             float playerTime = time;

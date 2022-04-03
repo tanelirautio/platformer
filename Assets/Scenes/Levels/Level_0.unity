@@ -6325,6 +6325,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1946991763167503968, guid: 6560c5fe663752a42aa40151b4f6fa86, type: 3}
+      propertyPath: key
+      value: level_completed!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2265754755685882436, guid: 6560c5fe663752a42aa40151b4f6fa86, type: 3}
+      propertyPath: m_text
+      value: Level completed!
+      objectReference: {fileID: 0}
     - target: {fileID: 8476818361771749082, guid: 6560c5fe663752a42aa40151b4f6fa86, type: 3}
       propertyPath: m_Pivot.x
       value: 0

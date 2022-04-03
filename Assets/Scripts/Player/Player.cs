@@ -423,6 +423,16 @@ namespace pf
 
         private void LoadNextScene()
         {
+#if UNITY_EDITOR
+            // For easier debugging
+            if(LevelLoader.GetCurrentSceneIndex() == (int)LevelLoader.Scenes.TestLevel)
+            {
+                print("TEST LEVEL FOOBAR");
+                levelLoader.LoadScene((int)LevelLoader.Scenes.TestLevel);
+                return;
+            }
+#endif
+
             // TODO: debug, if we reach the last scene, just go to main menu...
             // In the real game show end screen
             if (PlayerStats.GetCurrentLevel() == Defs.LEVEL_AMOUNT-1)
