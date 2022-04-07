@@ -7,6 +7,7 @@ namespace pf
     public class Teleport : MonoBehaviour
     {
         public Vector3 teleportPoint;
+        public bool oneUseOnly = false;
 
         private SpriteRenderer spriteRenderer;
         private AudioManager audioManager;
@@ -58,16 +59,19 @@ namespace pf
             player.position = teleportPoint + transform.position;
         }
 
-        /*
-        private IEnumerator WaitForDestroy(float length)
+        public void DestroyOrReactivate()
         {
-            yield return new WaitForSeconds(length);
-            Destroy();
-        }*/
-        public void Destroy()
-        {
-            print("Destroying gameobject: " + gameObject.name);
-            Destroy(gameObject);
+            if (oneUseOnly)
+            {
+                print("Destroying gameobject: " + gameObject.name);
+                Destroy(gameObject);
+            }
+            else
+            {
+                spriteRenderer.enabled = true;
+                anim.Play(TELEPORT_IDLE);
+                Activated = false;
+            }
         }
 
         private void OnDrawGizmos()

@@ -18,6 +18,7 @@ namespace pf
             { "Level_0", "Level_0" },
             { "Level_1", "Level_1" },
             { "Level_2", "Level_2" },
+            { "Level_3", "Level_0" },
             { "TestLevel", "Credits" }
         };
         

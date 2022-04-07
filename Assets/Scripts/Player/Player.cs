@@ -149,6 +149,11 @@ namespace pf
 
         private void Spawn(bool resetHealth = true, bool resetScore = true)
         {
+            if (killZoneDamageTaken)
+            {
+                killZoneDamageTaken = false;
+            }
+
             controllerDisabled = false;
             isDead = false;
             cameraFollow.Reset();
@@ -172,9 +177,15 @@ namespace pf
                 print("Spawning at: " + transform.position);
             }
         }
+
         public IEnumerator SpawnAtCheckpoint(float time, Transform checkpoint)
         {
             yield return new WaitForSeconds(time);
+
+            if(killZoneDamageTaken)
+            {
+                killZoneDamageTaken = false;
+            } 
 
             controllerDisabled = false;
             isDead = false;
@@ -182,6 +193,7 @@ namespace pf
             anim.Reset();
             ResetMovement();
             light2D.enabled = false;
+            Powerup.Respawn();
 
             Assert.IsNotNull(checkpoint);
             if (checkpoint)
@@ -298,7 +310,29 @@ namespace pf
 
         public void TakeKillZoneDamage()
         {
+
             int currentHealth = health.TakeDamage(Trap.Type.KillZone);
+            HandleDamage(currentHealth);
+            if (currentHealth > 0)
+            {
+                audioManager.PlaySound2D("Hit");
+                //DeathMove();
+                FadeToBlack();
+
+                Transform currentCheckpoint = null;
+                currentCheckpoint = checkpointManager.GetLatest();
+                StartCoroutine(SpawnAtCheckpoint(1.0f, currentCheckpoint));
+
+                Invoke("FadeFromBlack", 1.0f);
+                //DamageMove(collision.transform.position);
+            }
+            else
+            {
+                print("player dead!");
+                levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
+            }
+
+            /*
             if (currentHealth > 0)
             {
                 FadeToBlack();
@@ -308,15 +342,22 @@ namespace pf
             else
             {
                 HandleDamage(0);
-            }
+            }*/
             killZoneDamageTaken = true;
         }
 
         private void SpawnAfterKillZoneDamage()
         {
+            Transform currentCheckpoint = null;
+            currentCheckpoint = checkpointManager.GetLatest();
+            StartCoroutine(SpawnAtCheckpoint(0.0f, currentCheckpoint));
+
+
+            /*
             Spawn(false);
             Powerup.Respawn();
             killZoneDamageTaken = false;
+            */
         }
 
         private void FadeToBlack()
@@ -600,7 +641,7 @@ namespace pf
         {
             yield return new WaitForSeconds(1f);
             teleport.ChangePosition(transform);
-            teleport.Destroy();
+            teleport.DestroyOrReactivate();
             Invoke("TeleportDone", 1f);
         }
 

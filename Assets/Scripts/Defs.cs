@@ -5,7 +5,7 @@ namespace pf
         public const int SAVEDATA_VERSION = 1;
 
         // Game
-        public const int LEVEL_AMOUNT = 3;
+        public const int LEVEL_AMOUNT = 4;
         public const int OBJECTIVES_PER_LEVEL = 3;
 
         // Collectables
