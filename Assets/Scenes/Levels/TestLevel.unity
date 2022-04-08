@@ -6586,52 +6586,6 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
---- !u!1 &1771753035 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6091684241405785104, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
-  m_PrefabInstance: {fileID: 6091684240230329400}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1771753036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771753035}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LightType: 3
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 0.8867924, g: 0.49296913, b: 0.11294055, a: 1}
-  m_Intensity: 0.4
-  m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 000000002db40454279930dca7363f59c360bc20215cff96b35b8977
-  m_LightCookieSprite: {fileID: 0}
-  m_UseNormalMap: 0
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0
-  m_ShadowVolumeIntensity: 0
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 3
-  m_PointLightDistance: 3
-  m_PointLightQuality: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
 --- !u!4 &1771753037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6091684241405785108, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
@@ -7640,10 +7594,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire
       objectReference: {fileID: 0}
-    - target: {fileID: 6091684241405785107, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6091684241405785108, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -7687,10 +7637,6 @@ PrefabInstance:
     - target: {fileID: 6091684241405785108, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091684241405785110, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b77b5b0013f6fb4cab20d238200ce30, type: 3}
