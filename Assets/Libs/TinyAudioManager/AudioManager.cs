@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 public class AudioManager : MonoBehaviour
 {
 	public static AudioManager Instance;
@@ -21,6 +22,8 @@ public class AudioManager : MonoBehaviour
 	public bool MusicIsLooping = true;
 	public bool AmbientIsLooping = true;
 	public bool CoroutineRun; // Used in demo.
+
+	private List<AudioSource> loopingFx = new List<AudioSource>();
 
 	//==============================================================
 	// Seperate audiosources
@@ -206,5 +209,28 @@ public class AudioManager : MonoBehaviour
 	public void PlaySound3D(string soundName, Vector3 soundPosition)
 	{
 		AudioSource.PlayClipAtPoint(soundLibrary.GetClipFromName(soundName), soundPosition, fxVolume * masterVolume);
+	}
+
+	public void PlaySoundLoop(string soundName, AudioSource audioSource)
+	{
+		AudioClip clip = soundLibrary.GetClipFromName(soundName);
+		audioSource.loop = true;
+		audioSource.clip = clip;
+		audioSource.volume = fxVolume * masterVolume;
+		audioSource.Play();
+
+		if (!loopingFx.Contains(audioSource))
+		{
+			loopingFx.Add(audioSource);
+		}
+	}
+
+	public void StopSoundLoop(AudioSource audioSource)
+	{
+		audioSource.Stop();
+		if (loopingFx.Contains(audioSource))
+		{
+			loopingFx.Remove(audioSource);
+		}
 	}
 }
