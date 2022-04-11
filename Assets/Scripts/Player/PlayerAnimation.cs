@@ -209,7 +209,9 @@ namespace pf
                 {
                     if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
                     {
+                        Debug.Log("Should call player.TeleportAnimationDone()");
                         isAppearing = false;
+                        player.TeleportAnimationDone();
                     }
                 }
                 else

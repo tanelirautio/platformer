@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace pf
 {
@@ -23,6 +24,9 @@ namespace pf
         bool lookAheadStopped;
         [SerializeField] private bool isFollowingPlayer = true;
 
+        bool teleported = false;
+        bool teleportInitialized = false;
+
         public void Awake()
         {
             target = GameObject.Find("Player").GetComponent<Controller2D>();
@@ -35,12 +39,19 @@ namespace pf
 
         public void Reset()
         {
+            StartFollowingPlayer(false);
+        }
+
+        public void StartFollowingPlayer(bool didTeleport)
+        {
+            teleported = didTeleport;
+            print("--- start following player!");
             isFollowingPlayer = true;
         }
 
         public void StopFollowingPlayer()
         {
-            print("stop following player!");
+            print("--- stop following player!");
             isFollowingPlayer = false;
         }
 
@@ -74,7 +85,25 @@ namespace pf
 
             focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
             focusPosition += Vector2.right * currentLookAheadX;
-            transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+
+            if (teleported && !teleportInitialized)
+            {
+                teleportInitialized = true;
+                Vector3 pos = (Vector3)focusPosition + Vector3.forward * -10;
+                Camera.main.transform.DOMove(pos, 1f).OnComplete(TeleportDone);
+            }
+            else if(!teleported)
+            {
+                transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+            }
+        }
+
+        private void TeleportDone()
+        {
+            Debug.Log("!!! tsuippa duippa !!!");
+            teleported = false;
+            teleportInitialized = false;
+
         }
 
         private void OnDrawGizmos()

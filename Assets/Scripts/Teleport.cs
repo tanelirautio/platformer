@@ -54,9 +54,15 @@ namespace pf
             audioManager.PlaySound2D("Teleport");
         }
 
+        public Vector3 GetTargetPosition()
+        {
+            return teleportPoint + transform.position;
+        }
+
         public void ChangePosition(Transform player)
         {
             player.position = teleportPoint + transform.position;
+            Debug.Log("*** Setting player position: " + player.position);
         }
 
         public void DestroyOrReactivate()

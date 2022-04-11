@@ -7129,6 +7129,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2036918262}
     m_Modifications:
+    - target: {fileID: 2511192046625428230, guid: d88b974bf9005ad44b9f6aa810491c41, type: 3}
+      propertyPath: teleportPoint.x
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2511192046625428231, guid: d88b974bf9005ad44b9f6aa810491c41, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -630,7 +630,13 @@ namespace pf
                     //controllerDisabled = true;
                     anim.Disappear();
                     teleport.Activate();
+
+                    Debug.Log("*** Moving camera to: " + teleport.GetTargetPosition());
+                    Camera.main.GetComponent<CameraFollow>().StopFollowingPlayer();
+                    Camera.main.transform.DOMove(new Vector3(teleport.GetTargetPosition().x, teleport.GetTargetPosition().y, Camera.main.transform.position.z), 1f);
+
                     StartCoroutine(Teleport(teleport));
+
                     isTeleporting = true;
                 }
             }
@@ -642,16 +648,21 @@ namespace pf
             yield return new WaitForSeconds(1f);
             teleport.ChangePosition(transform);
             teleport.DestroyOrReactivate();
-            Invoke("TeleportDone", 1f);
+            Invoke("TeleportAppear", 1f);
         }
 
-        private void TeleportDone()
+        private void TeleportAppear()
         {
             anim.Appear();
-            isTeleporting = false;
+            //isTeleporting = false;
             //controllerDisabled = false;
         }
 
+        public void TeleportAnimationDone()
+        {
+            isTeleporting = false;
+            Camera.main.GetComponent<CameraFollow>().StartFollowingPlayer(true);
+        }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
