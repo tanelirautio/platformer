@@ -14,65 +14,65 @@ Game overview:
 
 TODO:
 
-Menus:
-------
-- Menu selection can be scrolled when button is kept down
-- Level selection menu
-- Make them look more nicer (if time allows)
+High priority:
+--------------
+- Remove killzone completely (box the play area with borders in every level, not possible to die by falling)
+- Menus to work with 5:4 resolution (inside brick frame - maybe get rid of scroll lists or just hardcode the lists...)
+- Redesign level selection menu to work nicely with 5:4 aspect ratio as well - use brick frames and smaller level sprites
+- Level end menu to work correctly (also design what happens when playing another time? Easy way: just continue normally... :)
+  -> Show clearly:
+    * Trophies that you got / Trophies you haven't got / Trophies that you've got on earlier runs
+    * Level par time, your time and overall best time
+    * Level required score & your score
+  -> If first time play, just advance here to next level
+  -> If playing a level again, show possibility to continue to next level and possibility exit to level select screen
+  -> Give extra points for remaining hearts at the end of the level
+- Death animation for all players
+- ~10 levels sort-of-semi-finished playable state (at the end of May if possible?)
 
-Game:
------
-- In-game menu/pause
+Medium priority:
+----------------
+- Spike ball trap
+- Make jump pad to work correctly
+- Pause menu
   -> Opens with esc (kb) or select (gamepad)
   -> Exit to level select or continue game
   -> Possibly some other options if needed
-- Better level end UI (that can be scrolled with user input OR shows all relevant info in one screen)
-  - Show clearly:
-    -> Trophies that you got / Trophies you haven't got / Trophies that you've got on earlier runs
-    -> Level par time, your time and overall best time
-    -> Level required score & your score
-  - If first time play, just advance here to next level
-  - If playing a level again, show possibility to continue to next level and possibility exit to level select screen
-- Use same menu for in-game pause and level end, with different variations
-- Better menus (graphically)
-- Implement more traps (Libs/Pixel Adventure 1/Assets/Traps)
+- Circular Saw sound
+
+Low priority:
+-------------
+- Menu selection can be scrolled when button is kept down
+- More traps (Libs/Pixel Adventure 1/Assets/Traps)
   -> Implemented trap sprites are then moved to Assets/Sprites and traps are made as prefabs
-- Implement more powerups
+- More powerups
   -> invulnerability, more speed, ability to wall climb etc.
-  -> can be also power downs, for example temporary darkness, some sinewave distortion effect etc.
-  -> suggestions are welcome :D
-- Enemies (need to import Pixel Adventure 2 asset pack from Asset Store into the project)
-  -> Some different simple behaviors that can be selected
+  -> can be also power downs, for example temporary darkness, some sinewave distortion pixel shader effect etc.
+- Visualize health removal better -> black/broken heart tweens to health bar or similar...?
+- Animated enemies (need to import Pixel Adventure 2 asset pack from Asset Store into the project)
+	-> Static
+	-> Path moving
+	-> Charging when player near
 
-- Give extra points for remaining hearts at the end of the levels
-
-Levels:
--------
-- Need to design some levels, probably after more traps & enemies :D
-
-Ideas that need to be evaluated:
---------------------------------
+Nice to haves:
+--------------
+- 2-player co-op mode
+- Intermediate scenes between levels
+- Simple dialog system and friendly NPC interaction
 - Wall climb (code is in, just disabled atm.)
 - Double jump
-- Dash (Need to think if is this evading game only, or can the enemies stomped and/or dashed...)
-  Possibilities:
-    -> When player gets hit always respawn at checkpoint?
-    -> When player loses all hearts, respawn at checkpoint instead of level start?
-- Multiple save slots
-- 2 player co op mode
-- Boss fights
 - Push buttons to activate things in level
+
+Probably never happen:
+----------------------
+- Boss fights
+- Multiple save slots
 - Ladders
-- Jump pad
-- Simple dialogue system: Player encounters NPC, some text is shown in a dialog box and the dialog continues/exits with pressing fire button
 
 Done and/or fixed:
 -----------------
 - Checkpoint system (Libs/Pixel Adventure 1/Assets/Checkpoints)
 - Teleports
-- Statistics menu (just reuse Achievement menu code...) [just add more stats there in the future!]
-- Settings menu (it's ugly but hey it works!) Maybe menus get more love after the actual game is playable
-  - NOTE: scrollable menus are a bit broken if used with mouse/touch. In initial release controls are gamepad/keyboard and mouse/touch will be disabled so not an issue. Good keep in mind though if/when adding support for mouse/touch. 
 - Keep the menu music playing continuously when returning to main menu from submenu
 - Allow player to fall from jump through platform (tag: "through") when pressing down
   - NOTE: 'press' vs 'is pressed' - currently 'is pressed' triggers fallthrough

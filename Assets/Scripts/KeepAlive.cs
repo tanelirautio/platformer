@@ -17,7 +17,7 @@ namespace pf
         // since Awake() callback preceded OnSceneLoaded(), place initialization code in Start()
         private void Start()
         {
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(transform.root.gameObject);
 
             // subscribe to the scene load callback
             SceneManager.sceneLoaded += OnSceneLoaded;

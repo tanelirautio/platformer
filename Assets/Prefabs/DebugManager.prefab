@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneNames: []
-  instanceName: GameManager
+  instanceName: DebugManager
 --- !u!114 &2741060287115186571
 MonoBehaviour:
   m_ObjectHideFlags: 0

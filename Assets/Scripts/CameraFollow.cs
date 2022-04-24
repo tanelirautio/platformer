@@ -24,9 +24,6 @@ namespace pf
         bool lookAheadStopped;
         [SerializeField] private bool isFollowingPlayer = true;
 
-        bool teleported = false;
-        bool teleportInitialized = false;
-
         public void Awake()
         {
             target = GameObject.Find("Player").GetComponent<Controller2D>();
@@ -39,12 +36,11 @@ namespace pf
 
         public void Reset()
         {
-            StartFollowingPlayer(false);
+            StartFollowingPlayer();
         }
 
-        public void StartFollowingPlayer(bool didTeleport)
+        public void StartFollowingPlayer()
         {
-            teleported = didTeleport;
             print("--- start following player!");
             isFollowingPlayer = true;
         }
@@ -54,11 +50,13 @@ namespace pf
             print("--- stop following player!");
             isFollowingPlayer = false;
         }
+        
 
         private void LateUpdate()
         {
             if (!isFollowingPlayer)
             {
+                //Debug.Log("Camera not following player");
                 return;
             }
 
@@ -85,25 +83,7 @@ namespace pf
 
             focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
             focusPosition += Vector2.right * currentLookAheadX;
-
-            if (teleported && !teleportInitialized)
-            {
-                teleportInitialized = true;
-                Vector3 pos = (Vector3)focusPosition + Vector3.forward * -10;
-                Camera.main.transform.DOMove(pos, 1f).OnComplete(TeleportDone);
-            }
-            else if(!teleported)
-            {
-                transform.position = (Vector3)focusPosition + Vector3.forward * -10;
-            }
-        }
-
-        private void TeleportDone()
-        {
-            Debug.Log("!!! tsuippa duippa !!!");
-            teleported = false;
-            teleportInitialized = false;
-
+            transform.position = (Vector3)focusPosition + Vector3.forward * -10;
         }
 
         private void OnDrawGizmos()

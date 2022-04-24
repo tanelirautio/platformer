@@ -31,6 +31,7 @@ namespace pf
             anim.Play(TELEPORT_IDLE);
         }
 
+        
         private void Update()
         {
             if(Activated)
@@ -41,7 +42,7 @@ namespace pf
                 }
             }
         }
-
+       
         public void Activate()
         {
             if(Activated)
@@ -59,11 +60,13 @@ namespace pf
             return teleportPoint + transform.position;
         }
 
+        /*
         public void ChangePosition(Transform player)
         {
             player.position = teleportPoint + transform.position;
             Debug.Log("*** Setting player position: " + player.position);
         }
+        */
 
         public void DestroyOrReactivate()
         {

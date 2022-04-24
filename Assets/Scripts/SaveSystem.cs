@@ -45,13 +45,16 @@ namespace pf
             }
 
             // Shouldn't never trigger but let's put it in just in case...
-            Assert.IsTrue(newData.currentLevel == -1 || newData.currentLevel >= (int)LevelLoader.Scenes.StartLevel);
+            Assert.IsTrue(newData.currentLevel == -1 || newData.currentLevel >= (int)LevelLoader.Scenes.TestLevel);
 
             return newData;
         }
 
         public static SaveData Load()
         {
+            //for debugging
+            //return null;
+
             string path = Application.persistentDataPath + "/" + SAVEFILE;
             if (File.Exists(path))
             {

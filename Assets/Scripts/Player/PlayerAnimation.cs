@@ -34,16 +34,28 @@ namespace pf
         private Player player;
         private SpriteRenderer spriteRenderer;
 
-        private bool isAppearing = false;
-        private bool isDisappearing = false;
-        private bool isInvisible = false;
-        private bool isTakingDamage = false;
-        private bool isDead = false;
+        //private bool isAppearing = false;
+        //private bool isDisappearing = false;
+        //private bool isInvisible = false;
+        
+        //private bool isTakingDamage = false;
+        //private bool isDead = false;
+
+        public enum State
+        {
+            Visible,
+            Appearing,
+            Disappearing,
+            Invisible,
+            Dead
+        }
+        private State currentState = State.Visible;
+        private State oldState = State.Visible;
 
         private int previousFaceDir = 1;
 
-        private float flashTimer = 0;
-        private float[] flashTimes = new float[Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT];
+        //private float flashTimer = 0;
+        //private float[] flashTimes = new float[Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT];
 
         private Color defaultColor = Color.white;
         [ColorUsage(true, true)] public Color jumpColor;
@@ -62,12 +74,14 @@ namespace pf
                 { Powerup.Type.Speed, speedColor }
             };
 
+            /*
             float flashTimeOffset = (Defs.PLAYER_GRACE_PERIOD_LENGTH - Defs.PLAYER_GRACE_PERIOD_OFFSET) / (float)Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT;
             for(int i=0; i < Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT; i++)
             {
                 flashTimes[i] = Defs.PLAYER_GRACE_PERIOD_OFFSET + flashTimeOffset * i;
                 Debug.Log(flashTimes[i]);
             }
+            */
         }
     
         void Start()
@@ -82,8 +96,9 @@ namespace pf
         public void Reset()
         {
             ResetBaseMaterial();
-            isTakingDamage = false;
-            isDead = false;
+            //isTakingDamage = false;
+            //isDead = false;
+            currentState = State.Visible;
         }
 
         private void ResetBaseMaterial()
@@ -93,6 +108,7 @@ namespace pf
 
         void Update()
         {
+            /*
             if(player.isGracePeriod())
             {
                 flashTimer += Time.deltaTime;
@@ -132,33 +148,29 @@ namespace pf
                 flashTimer = 0f;
                 spriteRenderer.enabled = true;
             }
+            */
         }
 
         public void Die()
         {
-            isDead = true;
+            currentState = State.Dead;
         }
 
+        /*
         public void TakeDamage()
         {
-            isTakingDamage = true;
-            //changeMaterial = true;
             Invoke("DamageComplete", 0.5f); //cheesy way
         }
+        */
 
         public void Disappear()
         {
-            isDisappearing = true;
+            currentState = State.Disappearing;
         }
 
         public void Appear()
         {
-            isAppearing = true;
-        }
-
-        private void DamageComplete()
-        {
-            isTakingDamage = false;
+            currentState = State.Appearing;
         }
 
         public void CollectPowerup(Powerup.Type type)
@@ -185,15 +197,22 @@ namespace pf
 
         public void HandleAnimation(Controller2D controller, Vector2 velocity)
         {
-            if(isDisappearing)
+            if(currentState != oldState)
+            {
+                Debug.Log("Current state: " + currentState);
+                oldState = currentState;
+            }
+
+            if(currentState == State.Disappearing)
             {
                 if (currentAnimState == PLAYER_DISAPPEAR)
                 {
                     if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
                     {
-                        isDisappearing = false;
-                        ChangeAnimationState(PLAYER_INVISIBLE);
-                        isInvisible = true;
+                        Debug.Log("### Player is INVISIBLE ###");
+                        Debug.Log("### DISABLE SPRITERENDERER ###");
+                        //spriteRenderer.enabled = false;
+                        currentState = State.Invisible;
                     }
                 }
                 else
@@ -203,32 +222,34 @@ namespace pf
                 return;
             }
 
-            if(isAppearing)
-            {
+            if(currentState == State.Appearing)
+            {             
                 if (currentAnimState == PLAYER_APPEAR)
                 {
                     if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
-                    {
-                        Debug.Log("Should call player.TeleportAnimationDone()");
-                        isAppearing = false;
+                    {             
+                        Debug.Log("### Player is VISIBLE ###");
                         player.TeleportAnimationDone();
+                        currentState = State.Visible;
                     }
                 }
                 else
                 {
                     ChangeAnimationState(PLAYER_APPEAR);
-                    isInvisible = false;
+                    Debug.Log("### ENABLE SPRITERENDERER ###");
+                    Debug.Log("### Player starts to APPEAR ###");
+                    //spriteRenderer.enabled = true;   
                 }
                 return;
             }
 
-            if(isInvisible)
+            if(currentState == State.Invisible)
             {
-                //ChangeAnimationState(PLAYER_INVISIBLE);
+                ChangeAnimationState(PLAYER_INVISIBLE);
                 return;
             }
 
-            if (isDead)
+            if (currentState == State.Dead)
             {
                 ChangeAnimationState(PLAYER_DEAD);
                 return;
@@ -267,6 +288,7 @@ namespace pf
 
         private void ChangeAnimationState(string newAnimState)
         {
+
             if (currentAnimState == newAnimState)
             {
                 return;
@@ -285,6 +307,11 @@ namespace pf
         private void CreateDust()
         {
             dust.Play();
+        }
+
+        public State GetCurrentState()
+        {
+            return currentState;
         }
     }
 }

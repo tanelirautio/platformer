@@ -19,9 +19,6 @@ namespace pf
         [SerializeField] private float accTimeGrounded = 0.1f;
         [SerializeField] private float moveSpeed = 6;
 
-        [SerializeField] private float stopFollowingPlayerY = -2f;
-        [SerializeField] private float killZoneY = -10f;
-
         private PlayerInputActions playerInputActions;
         private InputAction jumpAction;
         private InputAction movementAction;
@@ -48,8 +45,8 @@ namespace pf
         private Music music;
 
         private bool gracePeriod = false;
-        private bool killZoneDamageTaken = false;
 
+        private bool isInvulnerable = false;
         private bool isTeleporting = false;
         private bool isDead = false;
 
@@ -149,11 +146,6 @@ namespace pf
 
         private void Spawn(bool resetHealth = true, bool resetScore = true)
         {
-            if (killZoneDamageTaken)
-            {
-                killZoneDamageTaken = false;
-            }
-
             controllerDisabled = false;
             isDead = false;
             cameraFollow.Reset();
@@ -181,11 +173,6 @@ namespace pf
         public IEnumerator SpawnAtCheckpoint(float time, Transform checkpoint)
         {
             yield return new WaitForSeconds(time);
-
-            if(killZoneDamageTaken)
-            {
-                killZoneDamageTaken = false;
-            } 
 
             controllerDisabled = false;
             isDead = false;
@@ -274,18 +261,6 @@ namespace pf
             }
             
             anim.HandleAnimation(controller, movement.Velocity);
-
-            if (transform.position.y < stopFollowingPlayerY)
-            {
-                cameraFollow.StopFollowingPlayer();
-            }
-            if (transform.position.y < killZoneY)
-            {
-                if (!killZoneDamageTaken)
-                {
-                    TakeKillZoneDamage();
-                }
-            }
         }
 
         public void DamageMove(Vector2 hitPosition)
@@ -300,64 +275,12 @@ namespace pf
 
         public void DeathMove()
         {
-            // TODO: tween movement should arc
+            // TODO: tween movement should arc?
             transform.DOMove(transform.position + (-Vector3.up * 3), 1.0f);
 
 
             //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
             //myTransform.DOMoveY(3, 2).SetEase(Ease.InQuad);
-        }
-
-        public void TakeKillZoneDamage()
-        {
-
-            int currentHealth = health.TakeDamage(Trap.Type.KillZone);
-            HandleDamage(currentHealth);
-            if (currentHealth > 0)
-            {
-                audioManager.PlaySound2D("Hit");
-                //DeathMove();
-                FadeToBlack();
-
-                Transform currentCheckpoint = null;
-                currentCheckpoint = checkpointManager.GetLatest();
-                StartCoroutine(SpawnAtCheckpoint(1.0f, currentCheckpoint));
-
-                Invoke("FadeFromBlack", 1.0f);
-                //DamageMove(collision.transform.position);
-            }
-            else
-            {
-                print("player dead!");
-                levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
-            }
-
-            /*
-            if (currentHealth > 0)
-            {
-                FadeToBlack();
-                Invoke("SpawnAfterKillZoneDamage", 1.0f);
-                Invoke("FadeFromBlack", 1.0f);
-            }
-            else
-            {
-                HandleDamage(0);
-            }*/
-            killZoneDamageTaken = true;
-        }
-
-        private void SpawnAfterKillZoneDamage()
-        {
-            Transform currentCheckpoint = null;
-            currentCheckpoint = checkpointManager.GetLatest();
-            StartCoroutine(SpawnAtCheckpoint(0.0f, currentCheckpoint));
-
-
-            /*
-            Spawn(false);
-            Powerup.Respawn();
-            killZoneDamageTaken = false;
-            */
         }
 
         private void FadeToBlack()
@@ -391,7 +314,7 @@ namespace pf
             anim.Die();
             isDead = true;
             controllerDisabled = true;
-            cameraFollow.StopFollowingPlayer();
+            //cameraFollow.StopFollowingPlayer();
 
             if (currentHealth > 0)
             {
@@ -533,19 +456,22 @@ namespace pf
                     type = trap.type;
                 }
 
-                if (!isGracePeriod())
+                if(isInvulnerable)
                 {
-                    if (type == Trap.Type.SpikeHead)
-                    {
-                        SpikeHead spikeHead = collision.gameObject.GetComponent<SpikeHead>();
-                        if (spikeHead)
-                        {
-                            spikeHead.Collide(collision);
-                        }
-                    }
+                    return;
                 }
 
-                if (!isGracePeriod() && !isDead && type != Trap.Type.FallingPlatform && type != Trap.Type.RockHead)
+                if (type == Trap.Type.SpikeHead)
+                {
+                    Debug.Log("--- Collision with spike head! ---");
+                    SpikeHead spikeHead = collision.gameObject.GetComponent<SpikeHead>();
+                    if (spikeHead)
+                    {
+                        spikeHead.Collide(collision);
+                    }
+                }
+                
+                if (!isDead && type != Trap.Type.FallingPlatform && type != Trap.Type.RockHead)
                 {
                     int currentHealth = health.TakeDamage(type);
                     HandleDamage(currentHealth);
@@ -560,9 +486,6 @@ namespace pf
                         StartCoroutine(SpawnAtCheckpoint(1.0f, currentCheckpoint));
                        
                         Invoke("FadeFromBlack", 1.0f);
-
-
-                        //DamageMove(collision.transform.position);
                     }
                     else
                     {
@@ -627,17 +550,12 @@ namespace pf
                 Teleport teleport = collision.gameObject.GetComponent<Teleport>();
                 if(teleport && !teleport.Activated)
                 {
-                    //controllerDisabled = true;
+                    isInvulnerable = true;
+                    isTeleporting = true;
                     anim.Disappear();
                     teleport.Activate();
-
-                    Debug.Log("*** Moving camera to: " + teleport.GetTargetPosition());
-                    Camera.main.GetComponent<CameraFollow>().StopFollowingPlayer();
-                    Camera.main.transform.DOMove(new Vector3(teleport.GetTargetPosition().x, teleport.GetTargetPosition().y, Camera.main.transform.position.z), 1f);
-
+                    //Debug.Log("*** Moving player to: " + teleport.GetTargetPosition());        
                     StartCoroutine(Teleport(teleport));
-
-                    isTeleporting = true;
                 }
             }
         }
@@ -645,23 +563,25 @@ namespace pf
 
         private IEnumerator Teleport(Teleport teleport)
         {
+            //Debug.Log("*** Teleport() ***");
             yield return new WaitForSeconds(1f);
-            teleport.ChangePosition(transform);
+
+            transform.DOMove(new Vector3(teleport.GetTargetPosition().x, teleport.GetTargetPosition().y, 0), Defs.TELEPORT_TIME); 
             teleport.DestroyOrReactivate();
-            Invoke("TeleportAppear", 1f);
+            Invoke("TeleportAppear", Defs.TELEPORT_TIME);
         }
 
         private void TeleportAppear()
         {
+            //Debug.Log("*** TeleportAppear() ***");
             anim.Appear();
-            //isTeleporting = false;
-            //controllerDisabled = false;
         }
 
         public void TeleportAnimationDone()
         {
+            //Debug.Log("*** TeleportAnimationDone() ***");
             isTeleporting = false;
-            Camera.main.GetComponent<CameraFollow>().StartFollowingPlayer(true);
+            isInvulnerable = false;
         }
 
         private void OnTriggerExit2D(Collider2D collision)

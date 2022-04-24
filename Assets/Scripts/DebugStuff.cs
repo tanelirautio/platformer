@@ -28,7 +28,7 @@ namespace pf
             }
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
-                /*
+                
                 print("should exit!");
                 if(levelLoader == null)
                 {
@@ -40,21 +40,15 @@ namespace pf
                     print("levelloader is still null!");
                 }
 
-                if (LevelLoader.GetCurrentSceneIndex() == (int)LevelLoader.Scenes.MainMenu)
-                {
+                
                     print("quit application!");
 #if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;
 #else
                     Application.Quit();
 #endif
-                }
-                else
-                {
-                    print("load main menu scene!");
-                    levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
-                }
-                */
+                
+                
             }
 
             if (Keyboard.current.sKey.wasPressedThisFrame)

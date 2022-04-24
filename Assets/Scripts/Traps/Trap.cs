@@ -11,14 +11,13 @@ namespace pf
 
         public enum Type
         {
-            Unknown,
-            Spike,
-            Saw,
-            Fire,
-            KillZone,
-            SpikeHead,
-            FallingPlatform,
-            RockHead
+            Unknown = 0,
+            Spike = 1,
+            Saw = 2,
+            Fire = 3,
+            SpikeHead = 4,
+            FallingPlatform = 5,
+            RockHead = 6
         }
 
         public Type type;
