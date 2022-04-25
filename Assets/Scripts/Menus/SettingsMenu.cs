@@ -61,36 +61,41 @@ namespace pf
 
         void Start()
         {
-            float offset = 8f;
-            int i = 0;
+            float startingOffset = 4.5f;
+            float offset = 0.5f;
+            float sliderHeight = 60f;
 
-            GameObject musicVolumeSlider = Instantiate(musicVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            musicVolumeSlider.transform.SetParent(container.transform, false);
-            Vector3 pos = musicVolumeSlider.transform.position;
-            pos.y = offset;
-            musicVolumeSlider.transform.position = pos;
+            //GameObject musicVolumeSlider = Instantiate(musicVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject musicVolumeSlider = musicVolumeSliderPrefab;
+            //musicVolumeSlider.transform.SetParent(container.transform, false);
+            //Vector3 pos = musicVolumeSlider.transform.position;
+            //pos.y = startingOffset;
+            //musicVolumeSlider.transform.position = pos;
             musicVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.MusicVolume;
             settings.Add(musicVolumeSlider.transform);
-            i++;
-
-            GameObject soundVolumeSlider = Instantiate(soundVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            soundVolumeSlider.transform.SetParent(container.transform, false);
-            pos = soundVolumeSlider.transform.position;
-            pos.y = offset - 4f;
-            soundVolumeSlider.transform.position = pos;
-            soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.SoundVolume;
-            settings.Add(soundVolumeSlider.transform);
-            i++;
 
             //GameObject soundVolumeSlider = Instantiate(soundVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject soundVolumeSlider = soundVolumeSliderPrefab;
+            //soundVolumeSlider.transform.SetParent(container.transform, false);
+            //pos = soundVolumeSlider.transform.position;
+            //pos.y = offset - 4f;
+            //soundVolumeSlider.transform.position = pos;
+            soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.SoundVolume;
+            settings.Add(soundVolumeSlider.transform);
+
+            //GameObject languageSelect = Instantiate(languageSelectPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             GameObject languageSelect = languageSelectPrefab;
-            languageSelect.transform.SetParent(container.transform, false);
-            pos = languageSelect.transform.position;
-            pos.y = offset - 8.5f;
-            languageSelect.transform.position = pos;
+            //languageSelect.transform.SetParent(container.transform, false);
+            //pos = languageSelect.transform.position;
+            //pos.y = offset - 8.5f;
+            //languageSelect.transform.position = pos;
             settings.Add(languageSelect.transform);
-            
-            settings[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
+
+            settings[0].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
+            //settings[0].DOScale(Defs.MENU_NORMAL_SCALE, 0f);
+            settings[1].DOScale(Defs.MENU_NORMAL_SCALE, 0f);
+            settings[2].DOScale(Defs.MENU_NORMAL_SCALE, 0f);
+
             back.GetComponent<SpriteRenderer>().color = Color.gray;
             language = languageSelect.GetComponent<LanguageSelect>();
         }
