@@ -13,6 +13,7 @@ namespace pf {
         public GameObject container;
         public GameObject scrollArea;
         public GameObject back;
+        public Camera scrollCamera;
 
         private ScrollRect scrollrect;
         private RectTransform viewport;
@@ -43,7 +44,7 @@ namespace pf {
         {
             DataLoader.ParseData();
 
-            float offset = 8f;
+            float offset = 5f;
             int i = 0;
 
             foreach (Collectable.Type type in Enum.GetValues(typeof(Collectable.Type)))
@@ -52,7 +53,7 @@ namespace pf {
                 go.transform.SetParent(container.transform, false);
                 go.name = stat.name + "_" + i;
                 Vector3 pos = go.transform.position;
-                pos.y = offset - i * 2f;
+                pos.y = offset - i * 3f;
                 go.transform.position = pos;
 
                 TextLocalizerUI titleLocalizer = go.transform.Find("Title").GetComponent<TextLocalizerUI>();
@@ -71,7 +72,7 @@ namespace pf {
                 }
             }
 
-            stats[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
+            //stats[0].localScale = new Vector3(1.1f, 1.1f, 1.1f);
             back.GetComponent<SpriteRenderer>().color = Color.gray;
         }
 
@@ -179,7 +180,7 @@ namespace pf {
                         ColorizePanel(stats[index], Color.white);
                     }
 
-                    if (!RendererExtensions.IsFullyVisibleFrom(stats[index].GetComponent<RectTransform>(), Camera.main))
+                    if (!RendererExtensions.IsFullyVisibleFrom(stats[index].GetComponent<RectTransform>(), scrollCamera))
                     {
                         Navigate(stats[index].GetComponent<RectTransform>());
                     }
