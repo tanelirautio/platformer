@@ -103,12 +103,16 @@ namespace pf
             scrollrect = scrollArea.GetComponent<ScrollRect>();
             viewport = scrollArea.GetComponent<RectTransform>();
             music = GameObject.Find("AudioSystem").GetComponent<Music>();
+
+#if UNITY_EDITOR
+            // Try to load level objectives and achievements when played in Unity editor
+            // This way independently played levels can still show them
+            DataLoader.ParseData();
+#endif
         }
 
         void Start()
         {
-            DataLoader.ParseData();
-
             for(int i=0; i < levelPackTitles.Count; i++)
             {
                 levelPackTitles[i].text = levelPackNames[i];
