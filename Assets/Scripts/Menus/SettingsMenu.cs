@@ -30,6 +30,8 @@ namespace pf
         private int index = 0;
         private int lockedIndex = -1;
 
+        private Sequence selectionSequence = null;
+
         public enum Selection
         {
             Scroll,
@@ -57,44 +59,26 @@ namespace pf
 
             scrollrect = scrollArea.GetComponent<ScrollRect>();
             viewport = scrollArea.GetComponent<RectTransform>();
+
+            selectionSequence = DOTween.Sequence();
         }
 
         void Start()
         {
-            float startingOffset = 4.5f;
-            float offset = 0.5f;
-            float sliderHeight = 60f;
-
-            //GameObject musicVolumeSlider = Instantiate(musicVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            GameObject musicVolumeSlider = musicVolumeSliderPrefab;
-            //musicVolumeSlider.transform.SetParent(container.transform, false);
-            //Vector3 pos = musicVolumeSlider.transform.position;
-            //pos.y = startingOffset;
-            //musicVolumeSlider.transform.position = pos;
+           GameObject musicVolumeSlider = musicVolumeSliderPrefab;
             musicVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.MusicVolume;
             settings.Add(musicVolumeSlider.transform);
 
-            //GameObject soundVolumeSlider = Instantiate(soundVolumeSliderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             GameObject soundVolumeSlider = soundVolumeSliderPrefab;
-            //soundVolumeSlider.transform.SetParent(container.transform, false);
-            //pos = soundVolumeSlider.transform.position;
-            //pos.y = offset - 4f;
-            //soundVolumeSlider.transform.position = pos;
             soundVolumeSlider.transform.Find("Slider").GetComponent<Slider>().value = PlayerStats.SoundVolume;
             settings.Add(soundVolumeSlider.transform);
 
-            //GameObject languageSelect = Instantiate(languageSelectPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             GameObject languageSelect = languageSelectPrefab;
-            //languageSelect.transform.SetParent(container.transform, false);
-            //pos = languageSelect.transform.position;
-            //pos.y = offset - 8.5f;
-            //languageSelect.transform.position = pos;
             settings.Add(languageSelect.transform);
 
-            settings[0].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
-            //settings[0].DOScale(Defs.MENU_NORMAL_SCALE, 0f);
-            settings[1].DOScale(Defs.MENU_NORMAL_SCALE, 0f);
-            settings[2].DOScale(Defs.MENU_NORMAL_SCALE, 0f);
+            SetSelectionActive(settings[0]);
+            SetSelectionInactive(settings[1]);
+            SetSelectionInactive(settings[2]);
 
             back.GetComponent<SpriteRenderer>().color = Color.gray;
             language = languageSelect.GetComponent<LanguageSelect>();
@@ -164,7 +148,8 @@ namespace pf
                 {
                     selection = Selection.Back;
                     back.GetComponent<SpriteRenderer>().color = Color.white;
-                    settings[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
+                    SetSelectionInactive(settings[index]);
+                    //settings[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
                 }
                 else if (deltaY != 0 && lockedIndex == (int)LockedSettings.NotLocked)
                 {
@@ -187,8 +172,10 @@ namespace pf
 
                     if (prevIndex != index)
                     {
-                        settings[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
-                        settings[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
+                        //settings[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
+                        //settings[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
+                        SetSelectionInactive(settings[prevIndex]);
+                        SetSelectionActive(settings[index]);
                     }
 
                     if (!RendererExtensions.IsFullyVisibleFrom(settings[index].GetComponent<RectTransform>(), Camera.main))
@@ -218,7 +205,8 @@ namespace pf
                 {
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
-                    settings[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
+                    //settings[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
+                    SetSelectionActive(settings[index]);
                 }
             }
         }
@@ -294,6 +282,7 @@ namespace pf
                         settings[0].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[0].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
+                        SetSelectionSelected(settings[0]);
                     }
                     else
                     {
@@ -303,6 +292,7 @@ namespace pf
                         settings[0].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[0].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
                         SaveSystem.Save();
+                        settings[0].transform.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED).OnComplete(()=>SetSelectionActive(settings[0]));
                     }
                 }
                 else if (index == 1)
@@ -314,6 +304,7 @@ namespace pf
                         settings[1].transform.Find("Icons/SoundOn").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[1].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(0, 0, 0);
                         settings[1].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0);
+                        SetSelectionSelected(settings[1]);
                     }
                     else
                     {
@@ -323,6 +314,7 @@ namespace pf
                         settings[1].transform.Find("Icons/SoundOff").GetComponent<Image>().color = new Color(1, 1, 1);
                         settings[1].transform.Find("Title").GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1);
                         SaveSystem.Save();
+                        settings[1].transform.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED).OnComplete(() => SetSelectionActive(settings[1]));
                     }
                 }
                 else if (index == 2)
@@ -332,6 +324,7 @@ namespace pf
                         lockedIndex = (int)LockedSettings.Language;
                         language.SelectionMode(true);
                         settings[2].gameObject.GetComponent<Image>().color = Color.white;
+                        SetSelectionSelected(settings[2]);
                     }
                     else
                     {
@@ -346,9 +339,42 @@ namespace pf
                         {
                             text.Localize();
                         }
+                        settings[2].transform.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED).OnComplete(() => SetSelectionActive(settings[2]));
                     }
                 }
             }
+        }
+
+        private void SetSelectionActive(Transform t)
+        {
+            if (selectionSequence != null)
+            {
+                selectionSequence.Kill();
+                selectionSequence = null;
+            }
+            selectionSequence = DOTween.Sequence()
+                .Append(t.DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED))
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        private void SetSelectionInactive(Transform t)
+        {
+            t.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
+        }
+
+        private void SetSelectionSelected(Transform t)
+        {
+            if (selectionSequence != null)
+            {
+                selectionSequence.Kill();
+                selectionSequence = null;
+            }
+            t.DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
+        }
+
+        private void OnDestroy()
+        {
+            DOTween.KillAll();
         }
     }
 }

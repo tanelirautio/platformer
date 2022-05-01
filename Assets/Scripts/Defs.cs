@@ -28,7 +28,7 @@ namespace pf
         // Menu
         public const float MENU_NORMAL_SCALE = 1.0f;
         public const float MENU_SELECTED_SCALE = 1.05f;
-        public const float MENU_SCALE_SPEED = 1f;
+        public const float MENU_SCALE_SPEED = 0.5f;
         public const float MENU_LEVELSELECT_SCALE_SPEED = 0.5f;
 
         // Player

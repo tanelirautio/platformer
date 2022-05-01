@@ -35,6 +35,8 @@ namespace pf
 
         private PlayerInputActions playerInputActions;
 
+        private Sequence selectionSequence = null;
+
         private void OnNavigate(InputAction.CallbackContext context)
         {
             var value = context.ReadValue<Vector2>();
@@ -126,6 +128,7 @@ namespace pf
             music = GameObject.Find("AudioSystem").GetComponent<Music>();
             playerInputActions = new PlayerInputActions();
             audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
+            selectionSequence = DOTween.Sequence();
         }
 
         private void OnEnable()
@@ -179,15 +182,37 @@ namespace pf
             {
                 if (i == (int)selection)
                 {
-                    menu[i].transform.DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED);
+                    SetSelectionActive(menu[i].transform);
                     menu[i].color = Color.white;
                 }
                 else
                 {
-                    menu[i].transform.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
+                    SetSelectionInactive(menu[i].transform);
                     menu[i].color = Color.black;
                 }
             }
+        }
+
+        private void SetSelectionActive(Transform t)
+        {
+            if (selectionSequence != null)
+            {
+                selectionSequence.Kill();
+                selectionSequence = null;
+            }
+            selectionSequence = DOTween.Sequence()
+                .Append(t.DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_SCALE_SPEED))
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        private void SetSelectionInactive(Transform t)
+        {
+            t.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED);
+        }
+
+        private void OnDestroy()
+        {
+            DOTween.KillAll();
         }
     }
 }

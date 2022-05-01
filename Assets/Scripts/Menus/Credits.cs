@@ -82,7 +82,6 @@ namespace pf
         private void OnDestroy()
         {
             DOTween.KillAll();
-
         }
 
         void CreditsDone()

@@ -31,7 +31,9 @@ namespace pf
         private Music music;
 
         private int index = 0;
-        private bool isBottomRow = false; 
+        private bool isBottomRow = false;
+
+        private Sequence selectionSequence = null; 
 
         public enum Selection
         {
@@ -109,6 +111,8 @@ namespace pf
             // This way independently played levels can still show them
             DataLoader.ParseData();
 #endif
+
+            selectionSequence = DOTween.Sequence();
         }
 
         void Start()
@@ -189,15 +193,17 @@ namespace pf
                     TextMeshProUGUI name = go.transform.Find("Name").GetComponent<TextMeshProUGUI>();
                     SetLevelOpen(go, i, trophy0, trophy1, trophy2, name);
 
-                    levelSelectionObjects[i].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
-                    levelSelectionObjects[i].Find("Selection").gameObject.SetActive(true);
+                    //levelSelectionObjects[i].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
+                    //levelSelectionObjects[i].Find("Selection").gameObject.SetActive(true);
+                    SetSelectionActive(levelSelectionObjects[i]);
                 }
             }
             else
             {
                 print("ALL LEVELS OPEN - just select the last one");
-                levelSelectionObjects[Defs.LEVEL_AMOUNT - 1].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
-                levelSelectionObjects[Defs.LEVEL_AMOUNT - 1].Find("Selection").gameObject.SetActive(true);
+                //levelSelectionObjects[Defs.LEVEL_AMOUNT - 1].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
+                //levelSelectionObjects[Defs.LEVEL_AMOUNT - 1].Find("Selection").gameObject.SetActive(true);
+                SetSelectionActive(levelSelectionObjects[Defs.LEVEL_AMOUNT-1]);
                 index = Defs.LEVEL_AMOUNT - 1;
             }
 
@@ -317,8 +323,9 @@ namespace pf
                         {
                             selection = Selection.Back;
                             back.GetComponent<SpriteRenderer>().color = Color.white;
-                            levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                            levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
+                            //levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
+                            //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
+                            SetSelectionInactive(levelSelectionObjects[index]);
                         }
                         else
                         {
@@ -368,8 +375,9 @@ namespace pf
                         {
                             selection = Selection.Back;
                             back.GetComponent<SpriteRenderer>().color = Color.white;
-                            levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                            levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
+                            //levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
+                            //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
+                            SetSelectionInactive(levelSelectionObjects[index]);
                         }
                     }
                 }
@@ -379,11 +387,13 @@ namespace pf
                     index = Mathf.Clamp(index, 0, levelSelectionObjects.Count - 1);
                     print("ALRIGHTY THEN: index is: " + index);
 
-                    levelSelectionObjects[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                    levelSelectionObjects[prevIndex].Find("Selection").gameObject.SetActive(false);
+                    //levelSelectionObjects[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
+                    //levelSelectionObjects[prevIndex].Find("Selection").gameObject.SetActive(false);
+                    SetSelectionInactive(levelSelectionObjects[prevIndex]);
 
-                    levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                    levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
+                    //levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
+                    //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
+                    SetSelectionActive(levelSelectionObjects[index]);
                 }
 
                 if (!RendererExtensions.IsFullyVisibleFrom(levelSelectionObjects[index].GetComponent<RectTransform>(), Camera.main))
@@ -399,9 +409,35 @@ namespace pf
                     selection = Selection.Scroll;
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
                     levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                    levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
+                    SetSelectionActive(levelSelectionObjects[index]);
+                    //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
                 }
             }
+        }
+
+        private void SetSelectionActive(Transform t)
+        {
+            if (selectionSequence != null)
+            {
+                selectionSequence.Kill();
+                selectionSequence = null;
+            }
+            selectionSequence = DOTween.Sequence()
+                .Append(t.DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED))
+                //.SetDelay(0.3f))
+                //.Append(t.DOScale(Vector2.one, 0.3f))
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        private void SetSelectionInactive(Transform t)
+        {
+            if (selectionSequence != null)
+            {
+                selectionSequence.Kill();
+                selectionSequence = null;
+            }
+
+            t.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
         }
 
         private void OnSubmit(InputAction.CallbackContext context)
