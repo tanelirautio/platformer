@@ -26,6 +26,7 @@ namespace pf
                 }
                 levelLoader.LoadScene((int)LevelLoader.Scenes.LevelSelect);
             }
+            /*
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 
@@ -50,6 +51,7 @@ namespace pf
                 
                 
             }
+            */
 
             if (Keyboard.current.sKey.wasPressedThisFrame)
             {

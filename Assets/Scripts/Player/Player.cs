@@ -192,20 +192,23 @@ namespace pf
 
         private void Update()
         {
-            if (Keyboard.current.f1Key.wasPressedThisFrame)
-            {
-                controllerDisabled = false;
-                Time.timeScale = 1;
-                return;
-            }
-
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            if (Keyboard.current.escapeKey.wasPressedThisFrame && !pauseGame.Paused)
             {
                 controllerDisabled = true;
                 Time.timeScale = 0;
+                pauseGame.ShowPause();
                 return;
             }
 
+            if(pauseGame.Paused)
+            {
+                return;
+            }
+            else if(pauseGame.ContinuedFromPause)
+            {
+                controllerDisabled = false;
+                pauseGame.ContinuedFromPause = false;
+            }
 
             levelCompletionTimer.Update(Time.deltaTime);
 
