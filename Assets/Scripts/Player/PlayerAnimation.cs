@@ -34,13 +34,6 @@ namespace pf
         private Player player;
         private SpriteRenderer spriteRenderer;
 
-        //private bool isAppearing = false;
-        //private bool isDisappearing = false;
-        //private bool isInvisible = false;
-        
-        //private bool isTakingDamage = false;
-        //private bool isDead = false;
-
         public enum State
         {
             Visible,
@@ -53,9 +46,6 @@ namespace pf
         private State oldState = State.Visible;
 
         private int previousFaceDir = 1;
-
-        //private float flashTimer = 0;
-        //private float[] flashTimes = new float[Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT];
 
         private Color defaultColor = Color.white;
         [ColorUsage(true, true)] public Color jumpColor;
@@ -73,15 +63,6 @@ namespace pf
                 { Powerup.Type.Jump, jumpColor },
                 { Powerup.Type.Speed, speedColor }
             };
-
-            /*
-            float flashTimeOffset = (Defs.PLAYER_GRACE_PERIOD_LENGTH - Defs.PLAYER_GRACE_PERIOD_OFFSET) / (float)Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT;
-            for(int i=0; i < Defs.PLAYER_GRACE_PERIOD_FLASH_AMOUNT; i++)
-            {
-                flashTimes[i] = Defs.PLAYER_GRACE_PERIOD_OFFSET + flashTimeOffset * i;
-                Debug.Log(flashTimes[i]);
-            }
-            */
         }
     
         void Start()
@@ -96,8 +77,6 @@ namespace pf
         public void Reset()
         {
             ResetBaseMaterial();
-            //isTakingDamage = false;
-            //isDead = false;
             currentState = State.Visible;
         }
 
@@ -108,60 +87,14 @@ namespace pf
 
         void Update()
         {
-            /*
-            if(player.isGracePeriod())
-            {
-                flashTimer += Time.deltaTime;
-
-                int f = 0;
-                for(int i=0; i < flashTimes.Length-1; i++)
-                {
-                    if(flashTimer < flashTimes[0] || flashTimer > flashTimes[i] && flashTimer < flashTimes[i+1])
-                    {
-                        break;
-                    }
-                    f++;
-                }
-
-                if(f % 2 == 0)
-                {
-                    if (!spriteRenderer.enabled)
-                    {
-                        //Debug.Log("BlinkTimer: " + flashTimer);
-                        //Debug.Log("f: " + f + " - show player");
-                        spriteRenderer.enabled = true;
-                    }
-                }
-                else
-                {
-                    if (spriteRenderer.enabled)
-                    {
-                        //Debug.Log("BlinkTimer: " + flashTimer);
-                        //Debug.Log("f: " + f + " - hide player");
-                        spriteRenderer.enabled = false;
-                    }
-                }
-            }
-            else
-            {
-                //Debug.Log("*** Grace period over ***");
-                flashTimer = 0f;
-                spriteRenderer.enabled = true;
-            }
-            */
         }
 
         public void Die()
         {
+            print("******** PlayerAnimation: DIE ***********");
             currentState = State.Dead;
+            ChangeAnimationState(PLAYER_DEAD);
         }
-
-        /*
-        public void TakeDamage()
-        {
-            Invoke("DamageComplete", 0.5f); //cheesy way
-        }
-        */
 
         public void Disappear()
         {
@@ -249,12 +182,6 @@ namespace pf
                 return;
             }
 
-            if (currentState == State.Dead)
-            {
-                ChangeAnimationState(PLAYER_DEAD);
-                return;
-            }
-
             spriteRenderer.flipX = controller.collisions.faceDir == -1 ? true : false;
             if(previousFaceDir != controller.collisions.faceDir)
             {
@@ -293,6 +220,8 @@ namespace pf
             {
                 return;
             }
+
+            print("Changing animation state to: " + newAnimState);
 
             if(newAnimState == PLAYER_RUN || newAnimState == PLAYER_JUMP)
             {

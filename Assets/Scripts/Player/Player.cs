@@ -124,6 +124,11 @@ namespace pf
             movementAction.Disable();
         }
 
+        private void OnDestroy()
+        {
+            DOTween.KillAll();
+        }
+
         private void Start()
         {
             Spawn();
@@ -266,6 +271,7 @@ namespace pf
             anim.HandleAnimation(controller, movement.Velocity);
         }
 
+        /*
         public void DamageMove(Vector2 hitPosition)
         {
             Vector3 dir = transform.position - (Vector3)hitPosition;
@@ -274,12 +280,12 @@ namespace pf
 
             //TODO: disable controller when tween is playing(?)
             //Check if it is needed
-        }
+        }*/
 
         public void DeathMove()
         {
             // TODO: tween movement should arc?
-            transform.DOMove(transform.position + (-Vector3.up * 3), 1.0f);
+            transform.DOMove(transform.position + (-Vector3.up * 5), 1.0f);
 
 
             //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
@@ -310,46 +316,6 @@ namespace pf
         private void EndGracePeriod()
         {
             gracePeriod = false;
-        }
-
-        private void HandleDamage(int currentHealth)
-        {
-            anim.Die();
-            isDead = true;
-            controllerDisabled = true;
-            //cameraFollow.StopFollowingPlayer();
-
-            if (currentHealth > 0)
-            {
-                print("player hurt!");
-                setGracePeriod();
-            }
-            else
-            {
-                print("player dead!");
-                levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
-            }
-
-
-            /*
-            if (currentHealth > 0)
-            {
-                anim.TakeDamage();
-                setGracePeriod();
-                print("player hurt!");
-                hasBeenHit = true;
-            }
-            else
-            {
-                controllerDisabled = true;
-                cameraFollow.StopFollowingPlayer();
-                anim.Die();
-                print("player dead!");
-
-                isDead = true;
-                levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
-            }
-            */
         }
 
         public void CollectedPowerup(Powerup.Type type)
@@ -477,22 +443,27 @@ namespace pf
                 if (!isDead && type != Trap.Type.FallingPlatform && type != Trap.Type.RockHead)
                 {
                     int currentHealth = health.TakeDamage(type);
-                    HandleDamage(currentHealth);
+                    anim.Die();
+                    isDead = true;
+                    controllerDisabled = true;
+
                     if (currentHealth > 0)
                     {
+                        setGracePeriod();
                         audioManager.PlaySound2D("Hit");
                         DeathMove();
                         FadeToBlack();
 
                         Transform currentCheckpoint = null;
                         currentCheckpoint = checkpointManager.GetLatest();
-                        StartCoroutine(SpawnAtCheckpoint(1.0f, currentCheckpoint));
-                       
-                        Invoke("FadeFromBlack", 1.0f);
+                        
+                        StartCoroutine(SpawnAtCheckpoint(Defs.PLAYER_RESPAWN_TIME, currentCheckpoint));
+                        Invoke("FadeFromBlack", Defs.PLAYER_RESPAWN_TIME);
                     }
                     else
                     {
                         DeathMove();
+                        levelLoader.LoadScene((int)LevelLoader.Scenes.Continue);
                     }
                 }
             }

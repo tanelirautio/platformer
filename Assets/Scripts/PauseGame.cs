@@ -29,6 +29,7 @@ namespace pf
 
         private Sequence selectionSequence = null;
         private LevelLoader levelLoader;
+        private Music music;
 
         public bool Paused { get; private set; }
         public bool ContinuedFromPause { get; set; }
@@ -45,6 +46,11 @@ namespace pf
             exit = pauseBase.transform.Find("Exit").GetComponent<TextMeshProUGUI>();
 
             selectionSequence = DOTween.Sequence();
+
+            if (GameObject.Find("AudioSystem"))
+            {
+                music = GameObject.Find("AudioSystem").GetComponent<Music>();
+            }
         }
 
         void Start()
@@ -103,6 +109,8 @@ namespace pf
                     break;
                 case Selection.Exit:
                     Time.timeScale = 1;
+                    ContinuedFromPause = false;
+                    music.Stop();
                     levelLoader.LoadScene((int)LevelLoader.Scenes.LevelSelect);
                     break;
             }
@@ -134,6 +142,7 @@ namespace pf
 
         private void Reset()
         {
+            ContinuedFromPause = false;
             fadeImage.DOFade(0, 0);
             pauseBase.transform.localScale = Vector3.zero;
             pauseBase.SetActive(false);

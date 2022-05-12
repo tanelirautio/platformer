@@ -36,6 +36,7 @@ namespace pf
         public const int PLAYER_GRACE_PERIOD_FLASH_AMOUNT = 8;
         public const float PLAYER_GRACE_PERIOD_LENGTH = 2.0f;
         public const float PLAYER_GRACE_PERIOD_OFFSET = 0.3f;
+        public const float PLAYER_RESPAWN_TIME = 1.0f;
 
         // Traps
         public const float TRAP_FALLING_PLATFORM_WAIT_TIME = 1.0f;

@@ -208,6 +208,11 @@ namespace pf
             }
 
             back.GetComponent<SpriteRenderer>().color = Color.gray;
+
+            if (!music.IsPlaying)
+            {
+                music.Play(LevelLoader.GetCurrentSceneName());
+            }
         }
 
         private void SetLevelOpen(GameObject go, int i, Image trophy0, Image trophy1, Image trophy2, TextMeshProUGUI name)
