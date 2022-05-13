@@ -13,14 +13,18 @@ namespace pf
         private Image fadeImage;
         private GameObject trophyBase;
         private Image[] trophies = new Image[3];
-        private TextMeshProUGUI levelCompleteText;
+        //private TextMeshProUGUI levelCompleteText;
+        private TextLocalizerUI titleLocalizer;
         private TextLocalizerUI descriptionLocalizer;
-        private TextLocalizerUI parTimeLocalizer;
-        private TextLocalizerUI ownTimeLocalizer;
+        private TextLocalizerUI helper1Localizer;
+        private TextLocalizerUI helper2Localizer;
 
         private PlayerScore score;
 
         private bool levelEndReady = false;
+
+        private Color SUCCESS_COLOR = Color.white;
+        private Color FAILURE_COLOR = Color.red;
 
         private void Awake()
         {
@@ -29,9 +33,11 @@ namespace pf
             trophies[0] = transform.Find("TrophyBase/Trophy0").GetComponent<Image>();
             trophies[1] = transform.Find("TrophyBase/Trophy1").GetComponent<Image>();
             trophies[2] = transform.Find("TrophyBase/Trophy2").GetComponent<Image>();
+
+            titleLocalizer = transform.Find("TrophyBase/TitleText").GetComponent<TextLocalizerUI>();
             descriptionLocalizer = transform.Find("TrophyBase/DescriptionText").GetComponent<TextLocalizerUI>();
-            parTimeLocalizer = transform.Find("TrophyBase/ParTimeText").GetComponent<TextLocalizerUI>();
-            ownTimeLocalizer = transform.Find("TrophyBase/OwnTimeText").GetComponent<TextLocalizerUI>();
+            helper1Localizer = transform.Find("TrophyBase/HelperText1").GetComponent<TextLocalizerUI>();
+            helper2Localizer = transform.Find("TrophyBase/HelperText2").GetComponent<TextLocalizerUI>();
         }
 
         void Start()
@@ -47,46 +53,25 @@ namespace pf
 
         public void Reset()
         {
-            print("reset fadeImage");
-            /*Color c1 = fadeImage.color;
-            c1.a = 0;
-            fadeImage.color = c1;*/
             fadeImage.DOFade(0, 0);
 
             trophyBase.transform.localScale = Vector3.zero;
             trophyBase.SetActive(false);
             for (int i = 0; i < trophies.Length; i++)
             {
-                trophies[i].color = new Color(0.2f, 0.2f, 0.2f, 1.0f);
+                trophies[i].color = new Color(0.1f, 0.1f, 0.1f, 1.0f);
             }
 
             descriptionLocalizer.key = "empty";
             descriptionLocalizer.Localize();
 
-            parTimeLocalizer.key = "empty";
-            parTimeLocalizer.Localize();
+            helper1Localizer.key = "empty";
+            helper1Localizer.Localize();
 
-            ownTimeLocalizer.key = "empty";
-            ownTimeLocalizer.Localize();
+            helper2Localizer.key = "empty";
+            helper2Localizer.Localize();
 
             levelEndReady = false;
-        }
-
-        void Update()
-        {
-            /*
-            if (Input.GetKeyDown(KeyCode.F)) // @NOTE: Keyboard.current.fKey.wasPressedThisFrame
-            {
-                FadeBackground();
-                ShowTrophyBase();
-                ShowLevelCompleteText();
-                CheckTrophies(false, 0, 0);
-            }
-            if(Input.GetKeyDown(KeyCode.G)) // @NOTE: Keyboard.current.gKey.wasPressedThisFrame
-            {
-                Reset();
-            }
-            */
         }
 
         public void ShowLevelEnd(bool hit, int score, float timer)
@@ -139,106 +124,119 @@ namespace pf
             print("*** level is: " + level + " ***");
             float parTime = 0;
             float playerTime = time;
+
+            LevelObjectives o = PlayerStats.LevelObjectives[level];
             if (level >= 0 && level < PlayerStats.CompletedObjectives.Length)
             {
-                LevelObjectives o = PlayerStats.LevelObjectives[level];
-                CompletedObjectives c = PlayerStats.CompletedObjectives[level];
                 parTime = o.GetRequiredTime();
                 PlayerStats.LevelsCompleted[level] = true;
 
-                if (c.CompletedNoHits || !hit)
+                if (!hit)
                 {
                     showFirst = true;
-                    if (!c.CompletedNoHits)
-                    {
-                        c.CompletedNoHits = true;
-                        PlayerStats.LevelsCompletedWithoutHits[level] = true;
-                    }
                 }
-                if (c.CompletedPoints || score >= o.GetRequiredScore())
+                if (score >= o.GetRequiredScore())
                 {
                     showSecond = true;
-                    if (!c.CompletedPoints)
-                    {
-                        c.CompletedPoints = true;
-                    }
                 }
-                if (c.CompletedTime || time <= parTime)
+                if (time <= parTime)
                 {
-
-                    showThird = true;
-                    if (!c.CompletedTime)
-                    {
-                        c.CompletedTime = true;
-                    }
-                    if(time <= parTime)
-                    {
-                        if(c.BestTime == 0 || time < c.BestTime)
-                        {
-                            c.BestTime = time;
-                        }
-                    }
+                    showThird = true;     
                 }
             }
 
-            StartCoroutine(ShowTrophies(showFirst, showSecond, showThird, parTime, playerTime));
+            StartCoroutine(ShowTrophies(showFirst, showSecond, showThird, o.GetRequiredScore(), score, parTime, playerTime));
         }
 
-        private IEnumerator ShowTrophies(bool first, bool second, bool third, float parTime, float playerTime)
+        private IEnumerator ShowTrophies(bool first, bool second, bool third, int requiredScore, int score, float parTime, float playerTime)
         {
             yield return new WaitForSeconds(1.0f);
-
-            if (first)
-            {
-                trophies[0].DOColor(Color.white, 1.0f);
-                descriptionLocalizer.key = "no_hits";
-                descriptionLocalizer.Localize();
-                yield return new WaitForSeconds(1.0f);
-            }
-            else
-            {
-                yield return null;
-            }
-
-            if (second)
-            {
-                trophies[1].DOColor(Color.white, 1.0f);
-                descriptionLocalizer.key = "got_required_score";
-                descriptionLocalizer.Localize();
-                yield return new WaitForSeconds(1.0f);
-            }
-            else
-            {
-                yield return null;
-            }
-
-            if (third)
-            {
-                trophies[2].DOColor(Color.white, 1.0f);
-                descriptionLocalizer.key = "time_under_par";
-                descriptionLocalizer.Localize();
-                yield return new WaitForSeconds(1.0f);
-            }
-            else
-            {
-                yield return null;
-            }
-
-            // TODO: some nice animation for timer(?)
-            TimeSpan ts = TimeSpan.FromMilliseconds(parTime);
-            parTimeLocalizer.key = "par_time";
-            parTimeLocalizer.Localize();
-            string parTimeStr = parTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
-            parTimeLocalizer.SetText(parTimeStr);
-
-            ts = TimeSpan.FromMilliseconds(playerTime);
-            ownTimeLocalizer.key = "your_time";
-            ownTimeLocalizer.Localize();
-            string ownTimeStr = ownTimeLocalizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
-            ownTimeLocalizer.SetText(ownTimeStr);
-
+            LocalizeFirst(first, true);
+            yield return new WaitForSeconds(2.0f);
+            LocalizeSecond(second, true, requiredScore, score);
+            yield return new WaitForSeconds(2.0f);
+            LocalizeThird(third, true, parTime, playerTime);
             levelEndReady = true;
             yield return null;
+        }
+
+        void LocalizeFirst(bool show, bool firstRun)
+        {
+            if (show)
+            {
+                trophies[0].DOColor(SUCCESS_COLOR, 1.0f);
+                descriptionLocalizer.key = "success";
+                descriptionLocalizer.Color = SUCCESS_COLOR;
+            }
+            else
+            {
+                //trophies[0].DOColor(FAILURE_COLOR, 1.0f);
+                descriptionLocalizer.key = "failed";
+                descriptionLocalizer.Color = FAILURE_COLOR;
+            }
+            descriptionLocalizer.Localize();
+            titleLocalizer.key = "no_hits";
+            titleLocalizer.Localize();
+        }
+
+        void LocalizeSecond(bool show, bool firstRun, int requiredScore, int playerScore)
+        {
+            if (show)
+            {
+                trophies[1].DOColor(SUCCESS_COLOR, 1.0f);
+                descriptionLocalizer.key = "success";
+                descriptionLocalizer.Color = SUCCESS_COLOR;
+            }
+            else
+            {
+                //trophies[1].DOColor(FAILURE_COLOR, 1.0f);
+                descriptionLocalizer.key = "failed";
+                descriptionLocalizer.Color = FAILURE_COLOR;
+            }
+            descriptionLocalizer.Localize();
+            titleLocalizer.key = "got_required_score";
+            titleLocalizer.Localize();
+
+            helper1Localizer.key = "required_score";
+            helper1Localizer.Localize();
+            string reqScoreStr = helper1Localizer.GetText() + " " + requiredScore;
+            helper1Localizer.SetText(reqScoreStr);
+
+            helper2Localizer.key = "your_score";
+            helper2Localizer.Localize();
+            string yourScoreStr = helper2Localizer.GetText() + " " + playerScore;
+            helper2Localizer.SetText(yourScoreStr);
+        }
+
+        void LocalizeThird(bool show, bool firstRun, float parTime, float playerTime)
+        {
+            if (show)
+            {
+                trophies[2].DOColor(SUCCESS_COLOR, 1.0f);
+                descriptionLocalizer.key = "success";
+                descriptionLocalizer.Color = SUCCESS_COLOR;
+            }
+            else
+            {
+                //trophies[2].DOColor(FAILURE_COLOR, 1.0f);
+                descriptionLocalizer.key = "failed";
+                descriptionLocalizer.Color = FAILURE_COLOR;
+            }
+            descriptionLocalizer.Localize();
+            titleLocalizer.key = "time_under_par";
+            titleLocalizer.Localize();
+
+            TimeSpan ts = TimeSpan.FromMilliseconds(parTime);
+            helper1Localizer.key = "par_time";
+            helper1Localizer.Localize();
+            string parTimeStr = helper1Localizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
+            helper1Localizer.SetText(parTimeStr);
+
+            ts = TimeSpan.FromMilliseconds(playerTime);
+            helper2Localizer.key = "your_time";
+            helper2Localizer.Localize();
+            string ownTimeStr = helper2Localizer.GetText() + " " + string.Format("{0:D2}:{1:D2}:{2:D3}", ts.Minutes, ts.Seconds, ts.Milliseconds);
+            helper2Localizer.SetText(ownTimeStr);
         }
     }
 }

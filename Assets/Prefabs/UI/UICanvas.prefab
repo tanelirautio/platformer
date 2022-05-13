@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 784712300}
   - component: {fileID: 784712299}
   m_Layer: 5
-  m_Name: OwnTimeText
+  m_Name: HelperText2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -724,7 +724,7 @@ GameObject:
   - component: {fileID: 1910252037}
   - component: {fileID: 1910252036}
   m_Layer: 5
-  m_Name: ParTimeText
+  m_Name: HelperText1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,7 +890,7 @@ RectTransform:
   - {fileID: 1462729977}
   - {fileID: 8934576623808881828}
   m_Father: {fileID: 8476818361771749082}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1966,7 +1966,7 @@ RectTransform:
   - {fileID: 3323301750226929308}
   - {fileID: 2401192652962444751}
   m_Father: {fileID: 8476818361771749082}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2844,8 +2844,8 @@ RectTransform:
   - {fileID: 8476818360658889284}
   - {fileID: 8476818362138973529}
   - {fileID: 8476818361663908153}
-  - {fileID: 2106301143}
   - {fileID: 1925674872499729820}
+  - {fileID: 2106301143}
   - {fileID: 1327010866823311060}
   m_Father: {fileID: 0}
   m_RootOrder: 0
