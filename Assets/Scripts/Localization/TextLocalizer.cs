@@ -13,7 +13,6 @@ namespace pf
 
         public string key;
         private bool localizationMissing = false;
-        public Color Color { set { textField.color = value; } }
 
         void Start()
         {

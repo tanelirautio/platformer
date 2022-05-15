@@ -56,6 +56,7 @@ namespace pf
         void Start()
         {
             Reset();
+            ContinuedFromPause = false;
             CheckSelection();
         }
 
@@ -111,6 +112,7 @@ namespace pf
                     Time.timeScale = 1;
                     ContinuedFromPause = false;
                     music.Stop();
+                    print("*** pause game, load level select");
                     levelLoader.LoadScene((int)LevelLoader.Scenes.LevelSelect);
                     break;
             }
@@ -142,7 +144,7 @@ namespace pf
 
         private void Reset()
         {
-            ContinuedFromPause = false;
+            //ContinuedFromPause = false;
             fadeImage.DOFade(0, 0);
             pauseBase.transform.localScale = Vector3.zero;
             pauseBase.SetActive(false);

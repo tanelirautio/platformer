@@ -151,10 +151,7 @@ namespace pf
 
         private void Spawn(bool resetHealth = true, bool resetScore = true)
         {
-            controllerDisabled = false;
-            isDead = false;
-            cameraFollow.Reset();
-            anim.Reset();
+            SpawnCommon();
             if (resetHealth)
             {
                 health.Reset();
@@ -164,9 +161,6 @@ namespace pf
                 score.Reset();
             }
             levelCompletionTimer.Reset();
-            ResetMovement();
-            light2D.enabled = false;
-
             Assert.IsNotNull(spawnPoint);
             if (spawnPoint)
             {
@@ -178,15 +172,8 @@ namespace pf
         public IEnumerator SpawnAtCheckpoint(float time, Transform checkpoint)
         {
             yield return new WaitForSeconds(time);
-
-            controllerDisabled = false;
-            isDead = false;
-            cameraFollow.Reset();
-            anim.Reset();
-            ResetMovement();
-            light2D.enabled = false;
+            SpawnCommon();
             Powerup.Respawn();
-
             Assert.IsNotNull(checkpoint);
             if (checkpoint)
             {
@@ -195,25 +182,46 @@ namespace pf
             }
         }
 
-        private void Update()
+        private void SpawnCommon()
+        {
+            controllerDisabled = false;
+            isDead = false;
+            cameraFollow.Reset();
+            anim.Reset();
+
+            ResetMovement();
+            light2D.enabled = false;
+
+            pauseGame.gameObject.SetActive(false);
+        }
+
+        private void CheckPause()
         {
             if (Keyboard.current.escapeKey.wasPressedThisFrame && !pauseGame.Paused)
             {
                 controllerDisabled = true;
                 Time.timeScale = 0;
+                pauseGame.gameObject.SetActive(true);
                 pauseGame.ShowPause();
                 return;
             }
 
-            if(pauseGame.Paused)
+            if (pauseGame.Paused)
             {
                 return;
             }
-            else if(pauseGame.ContinuedFromPause)
+            else if (pauseGame.ContinuedFromPause)
             {
+                print("Continuing from pause game");
                 controllerDisabled = false;
                 pauseGame.ContinuedFromPause = false;
+                pauseGame.gameObject.SetActive(false);
             }
+        }
+
+        private void Update()
+        {
+            CheckPause();
 
             levelCompletionTimer.Update(Time.deltaTime);
 
@@ -228,6 +236,8 @@ namespace pf
 
                 if (jumpAction.WasPerformedThisFrame() && levelEnd.LevelEndReady())
                 {
+                    print("*** level end load next scene ***");
+                    levelEnd.gameObject.SetActive(false);
                     LoadNextScene();
                 }
                 return;
@@ -480,20 +490,21 @@ namespace pf
             {
                 levelCompletionTimer.Stop();
 
-
                 music.StopFade(0.5f);
                 Invoke("PlayTrophySound", 0.5f);
                 //audioManager.PlaySound2D("Trophy");
 
                 print("finished level");
+
                 controllerDisabled = true;
+                anim.Stop();
 
                 float timerMs = levelCompletionTimer.Elapsed * 1000.0f;
-                levelEnd.ShowLevelEnd(health.HasBeenHit(), score.GetScore(), timerMs);
+                levelEnd.ShowLevelEnd(health.Hits(), score.GetScore(), timerMs);
 
                 StatisticsManager.SetCompletedLevel(PlayerStats.GetCurrentLevel());
                 achievementManager.CheckCompletedLevelsAchievement();
-                if(!health.HasBeenHit())
+                if(health.Hits() == 0)
                 {
                     StatisticsManager.SetCompletedLevelWithoutHits(PlayerStats.GetCurrentLevel());
                     achievementManager.CheckCompletedLevelsWihtoutHitsAchievement();

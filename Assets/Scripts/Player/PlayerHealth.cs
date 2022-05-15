@@ -14,7 +14,8 @@ namespace pf
         const string HEALTH_ZERO = "health_zero";
 
         private int currentHealth = 0;
-        private bool hasBeenHit = false;
+        //private bool hasBeenHit = false;
+        private int hits = 0;
 
         private GameObject[] uiHealth = new GameObject[Defs.HEALTH_MAX];
         private Animator[] uiHealthAnim = new Animator[Defs.HEALTH_MAX];
@@ -51,7 +52,8 @@ namespace pf
             }
 
             currentHealth = startingHealth;
-            hasBeenHit = false;
+            //hasBeenHit = false;
+            hits = 0;
 
             for (int i = 0; i < Defs.HEALTH_MAX; i++)
             {
@@ -93,16 +95,24 @@ namespace pf
             return true;
         }
 
+        /*
         public bool HasBeenHit()
         {
             return hasBeenHit;
+        }
+        */
+
+        public int Hits()
+        {
+            return hits;
         }
 
         public int TakeDamage(Trap.Type trapType)
         {
 
             print("Trap type: " + trapType.ToString());
-            hasBeenHit = true;
+            //hasBeenHit = true;
+            hits++;
 
             currentHealth = Mathf.Clamp(currentHealth - Defs.HEALTH_DAMAGE, 0, Defs.HEALTH_MAX);
             Animator anim = uiHealthAnim[currentHealth];

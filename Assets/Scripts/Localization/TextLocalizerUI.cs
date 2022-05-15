@@ -13,7 +13,6 @@ namespace pf
 
         public string key;
         private bool localizationMissing = false;
-        public Color Color { set { textField.color = value; } }
 
         void Start()
         {
@@ -35,6 +34,7 @@ namespace pf
             if (String.IsNullOrEmpty(value) && key != "empty")
             {
                 localizationMissing = true;
+                textField.text = "*LOCALIZATION MISSING*";
             }
             else
             {
@@ -53,6 +53,7 @@ namespace pf
             textField.text = text;
         }
 
+        /*
         private void LateUpdate()
         {     
             if (localizationMissing)
@@ -61,6 +62,7 @@ namespace pf
                 textField.text = "*LOCALIZATION MISSING*";
             }
         }
+        */
     }
 }
 

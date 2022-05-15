@@ -91,7 +91,6 @@ namespace pf
 
         public void Die()
         {
-            print("******** PlayerAnimation: DIE ***********");
             currentState = State.Dead;
             ChangeAnimationState(PLAYER_DEAD);
         }
@@ -104,6 +103,11 @@ namespace pf
         public void Appear()
         {
             currentState = State.Appearing;
+        }
+
+        public void Stop()
+        {
+            ChangeAnimationState(PLAYER_IDLE);
         }
 
         public void CollectPowerup(Powerup.Type type)
