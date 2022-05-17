@@ -28,12 +28,17 @@ namespace pf
         public float easeAmount;
 
         int fromWaypointIndex;
-        float percentBetweenWaypoints;
-        float nextMoveTime;
+        float percentBetweenWaypoints = 0;
+        float nextMoveTime = 0;
         bool playerOnPlatform;
 
         List<PassengerMovement> passengerMovement;
         Dictionary<Transform, Controller2D> passengerDictionary = new Dictionary<Transform, Controller2D>();
+
+        private PauseGame pauseGame;
+        
+        private float fTime = 0;
+        private bool paused = false;
 
         enum State
         {
@@ -48,6 +53,7 @@ namespace pf
         {
             base.Awake();
             audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();    
+            pauseGame = GameObject.Find("UICanvas/PauseMenu").GetComponent<PauseGame>();
         }
 
         public override void Start()
@@ -67,6 +73,17 @@ namespace pf
 
         void Update()
         {
+            if (pauseGame.Paused)
+            {
+                return;
+            }
+            else if (pauseGame.ContinuedFromPause)
+            {
+                fTime = 0;
+            }
+
+            fTime += Time.deltaTime;
+
             UpdateRaycastOrigins();
             Vector3 velocity = Vector3.zero;
 
@@ -94,11 +111,22 @@ namespace pf
             {
                 velocity = CalculatePlatformIdleMovement();                 
             }
-            
+
+            if (velocity.x == float.NaN || velocity.y == float.NaN || velocity.z == float.NaN)
+            {
+                return;
+            }
+            else
+            {
+                print("Velocity: " + velocity);
+            }
+                   
+
             CalculatePassengerMovement(velocity);
             MovePassengers(true);
             transform.Translate(velocity);
             MovePassengers(false);
+            
         }
 
         private void ChangeState(State newState)
@@ -139,7 +167,7 @@ namespace pf
 
         Vector3 CalculatePlatformIdleMovement()
         {
-            if (Time.time < nextMoveTime)
+            if (fTime < nextMoveTime)
             {
                 return Vector3.zero;
             }
@@ -157,7 +185,7 @@ namespace pf
             {
                 percentBetweenWaypoints = 0;
                 fromWaypointIndex++;
-                nextMoveTime = Time.time + waitTime;
+                nextMoveTime = fTime + waitTime;
             }
 
             return newPos - transform.position;

@@ -507,12 +507,18 @@ namespace pf
                 float timerMs = levelCompletionTimer.Elapsed * 1000.0f;
                 levelEnd.ShowLevelEnd(health.Hits(), score.GetScore(), timerMs);
 
-                StatisticsManager.SetCompletedLevel(PlayerStats.GetCurrentLevel());
-                achievementManager.CheckCompletedLevelsAchievement();
-                if(health.Hits() == 0)
+                if (LevelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.TestLevel)
                 {
-                    StatisticsManager.SetCompletedLevelWithoutHits(PlayerStats.GetCurrentLevel());
-                    achievementManager.CheckCompletedLevelsWihtoutHitsAchievement();
+                    if (LevelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.TestLevel)
+                    {
+                        StatisticsManager.SetCompletedLevel(PlayerStats.GetCurrentLevel());
+                    }
+                    achievementManager.CheckCompletedLevelsAchievement();
+                    if (health.Hits() == 0)
+                    {
+                        StatisticsManager.SetCompletedLevelWithoutHits(PlayerStats.GetCurrentLevel());
+                        achievementManager.CheckCompletedLevelsWihtoutHitsAchievement();
+                    }
                 }
             }
             else if(collision.gameObject.tag == "Checkpoint")
