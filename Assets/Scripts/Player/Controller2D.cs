@@ -93,7 +93,7 @@ namespace pf
             // chose to fallthrough.
             if (collisions.fallingThroughCollider != null)
             {
-                Debug.Log("COLLISION");
+                //Debug.Log("COLLISION");
                 if (!m_collider.bounds.Intersects(collisions.fallingThroughCollider.bounds))
                 {
                     collisions.fallingThroughCollider = null;

@@ -195,20 +195,20 @@ namespace pf
             pauseGame.gameObject.SetActive(false);
         }
 
-        private void CheckPause()
+        private bool CheckPause()
         {
-            if (Keyboard.current.escapeKey.wasPressedThisFrame && !pauseGame.Paused)
+            if ((Gamepad.current.selectButton.wasPressedThisFrame || Keyboard.current.escapeKey.wasPressedThisFrame) && !pauseGame.Paused)
             {
                 controllerDisabled = true;
                 Time.timeScale = 0;
                 pauseGame.gameObject.SetActive(true);
                 pauseGame.ShowPause();
-                return;
+                return true;
             }
 
             if (pauseGame.Paused)
             {
-                return;
+                return true;
             }
             else if (pauseGame.ContinuedFromPause)
             {
@@ -216,12 +216,17 @@ namespace pf
                 controllerDisabled = false;
                 pauseGame.ContinuedFromPause = false;
                 pauseGame.gameObject.SetActive(false);
+                return true;
             }
+            return false;
         }
 
         private void Update()
         {
-            CheckPause();
+            if(CheckPause())
+            {
+                return;
+            }
 
             levelCompletionTimer.Update(Time.deltaTime);
 
