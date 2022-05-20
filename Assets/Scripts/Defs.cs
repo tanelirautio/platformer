@@ -46,6 +46,7 @@ namespace pf
         public const int HEALTH_DAMAGE = 1;
         public const int HEALTH_MAX = 5;
         public const int HEALTH_START = 3;
+        public const int HEALTH_BONUS_MULTIPLIER = 1000;
 
         // TELEPORT
         public const float TELEPORT_TIME = 1f;

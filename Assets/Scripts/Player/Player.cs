@@ -197,7 +197,9 @@ namespace pf
 
         private bool CheckPause()
         {
-            if ((Gamepad.current.selectButton.wasPressedThisFrame || Keyboard.current.escapeKey.wasPressedThisFrame) && !pauseGame.Paused)
+            if ((Gamepad.current != null && Gamepad.current.selectButton.wasPressedThisFrame) || 
+                (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) && 
+                !pauseGame.Paused)
             {
                 controllerDisabled = true;
                 Time.timeScale = 0;
@@ -505,7 +507,7 @@ namespace pf
                 anim.Stop();
 
                 float timerMs = levelCompletionTimer.Elapsed * 1000.0f;
-                levelEnd.ShowLevelEnd(health.Hits(), score.GetScore(), timerMs);
+                levelEnd.ShowLevelEnd(health.Hits(), score.GetScore(), timerMs, health.Health());
 
                 if (LevelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.TestLevel)
                 {

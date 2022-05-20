@@ -20,6 +20,7 @@ namespace pf
         private GameObject failureText;
         private TextLocalizerUI helper1Localizer;
         private TextLocalizerUI helper2Localizer;
+        private TextLocalizerUI helper3Localizer;
 
         private PlayerScore score;
 
@@ -27,6 +28,31 @@ namespace pf
 
         private Color SUCCESS_COLOR = Color.white;
         private Color FAILURE_COLOR = new Color(0.3f, 0.3f, 0.3f, 1);
+
+        private class LevelEndVariables
+        {
+            public bool[] success;
+            public int hits;
+            public int requiredScore;
+            public int score;
+            public int hearts;
+            public float parTime;
+            public float playerTime;
+            
+            public LevelEndVariables(bool _first, bool _second, bool _third, int _hits, int _requiredScore, int _score, int _hearts, float _parTime, float _playerTime)
+            {
+                success = new bool[3];
+                success[0] = _first;
+                success[1] = _second;
+                success[2] = _third;
+                hits = _hits;
+                requiredScore = _requiredScore;
+                score = _score;
+                hearts = _hearts;
+                parTime = _parTime;
+                playerTime = _playerTime;
+            }
+        };
 
         private void Awake()
         {
@@ -41,6 +67,7 @@ namespace pf
             failureText = transform.Find("TrophyBase/FailureText").gameObject;
             helper1Localizer = transform.Find("TrophyBase/HelperText1").GetComponent<TextLocalizerUI>();
             helper2Localizer = transform.Find("TrophyBase/HelperText2").GetComponent<TextLocalizerUI>();
+            helper3Localizer = transform.Find("TrophyBase/HelperText3").GetComponent<TextLocalizerUI>();
         }
 
         void Start()
@@ -74,17 +101,19 @@ namespace pf
             helper1Localizer.Localize();
 
             helper2Localizer.key = "empty";
-            helper2Localizer.Localize();
+            helper2Localizer.Localize();            
+            
+            helper3Localizer.key = "empty";
+            helper3Localizer.Localize();
 
-            print("*** set level end ready to false ***");
             levelEndReady = false;
         }
 
-        public void ShowLevelEnd(int hits, int score, float timer)
+        public void ShowLevelEnd(int hits, int score, float timer, int hearts)
         {
             FadeBackground();
             ShowTrophyBase();
-            CheckTrophies(hits, score, timer);
+            CheckTrophies(hits, score, timer, hearts);
         }
 
         public bool LevelEndReady()
@@ -102,7 +131,7 @@ namespace pf
             trophyBase.transform.DOScale(Defs.MENU_NORMAL_SCALE, 1.0f);
         }
 
-        private void CheckTrophies(int hits, int score, float time)
+        private void CheckTrophies(int hits, int score, float time, int hearts)
         {
 
 #if UNITY_EDITOR
@@ -137,11 +166,13 @@ namespace pf
                 parTime = o.GetRequiredTime();
                 PlayerStats.LevelsCompleted[level] = true;
 
+                int fullScore = score + (hearts * Defs.HEALTH_BONUS_MULTIPLIER);
+
                 if (hits == 0)
                 {
                     showFirst = true;
                 }
-                if (score >= o.GetRequiredScore())
+                if (fullScore >= o.GetRequiredScore())
                 {
                     showSecond = true;
                 }
@@ -151,25 +182,33 @@ namespace pf
                 }
             }
 
-            RunLevelEnd(showFirst, showSecond, showThird, hits, o.GetRequiredScore(), score, parTime, playerTime);
+            LevelEndVariables l = new LevelEndVariables(showFirst, showSecond, showThird, hits, o.GetRequiredScore(), score, hearts, parTime, playerTime);
+
+            RunLevelEnd(l);
         }
 
-        private IEnumerator ShowTrophies(bool first, bool second, bool third, int hits, int requiredScore, int score, float parTime, float playerTime)
+        private IEnumerator ShowTrophies(LevelEndVariables l)
         {
+            //TODO:
+            // -- create update states, check the state and render stuff in update, not in coroutine!
+            // 1) Advance to next trophy if player presses jump button
+            // 2) Animate values 
+            // 3) Finally if not firstRun (check!), animate trophies/values if saved progress better than latest run
+
             yield return new WaitForSeconds(1.0f);
-            LocalizeFirst(first, true, hits);
-            yield return new WaitForSeconds(2.0f);
-            LocalizeSecond(second, true, requiredScore, score);
-            yield return new WaitForSeconds(2.0f);
-            LocalizeThird(third, true, parTime, playerTime);
+            LocalizeFirst(l.success[0], true, l.hits);
+            yield return new WaitForSeconds(3.0f);
+            LocalizeSecond(l.success[1], true, l.requiredScore, l.score, l.hearts);
+            yield return new WaitForSeconds(3.0f);
+            LocalizeThird(l.success[2], true, l.parTime, l.playerTime);
             levelEndReady = true;
-            yield return new WaitForSeconds(1.0f);
-            RunLevelEnd(first, second, third, hits, requiredScore, score, parTime, playerTime);
+            yield return new WaitForSeconds(2.0f);
+            RunLevelEnd(l);
         }
 
-        private void RunLevelEnd(bool first, bool second, bool third, int hits, int requiredScore, int score, float parTime, float playerTime)
+        private void RunLevelEnd(LevelEndVariables levelEndVariables)
         {
-            StartCoroutine(ShowTrophies(first, second, third, hits, requiredScore, score, parTime, playerTime));
+            StartCoroutine(ShowTrophies(levelEndVariables));
         }
 
         void AnimateTrophy(int t)
@@ -241,9 +280,12 @@ namespace pf
 
             helper2Localizer.key = "empty";
             helper2Localizer.Localize();
+
+            helper3Localizer.key = "empty";
+            helper3Localizer.Localize();
         }
 
-        void LocalizeSecond(bool show, bool firstRun, int requiredScore, int playerScore)
+        void LocalizeSecond(bool show, bool firstRun, int requiredScore, int playerScore, int hearts)
         {
             AnimateTrophy(1);
             if (show)
@@ -270,6 +312,8 @@ namespace pf
             helper2Localizer.Localize();
             string yourScoreStr = helper2Localizer.GetText() + " " + playerScore;
             helper2Localizer.SetText(yourScoreStr);
+
+            
         }
 
         void LocalizeThird(bool show, bool firstRun, float parTime, float playerTime)

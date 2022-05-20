@@ -107,6 +107,11 @@ namespace pf
             return hits;
         }
 
+        public int Health()
+        {
+            return currentHealth;
+        }
+
         public int TakeDamage(Trap.Type trapType)
         {
 
