@@ -11,6 +11,7 @@ namespace pf
     public class ContinueMenu : MonoBehaviour
     {
         private LevelLoader levelLoader;
+        private Music music;
 
         enum Selection
         {
@@ -26,6 +27,7 @@ namespace pf
         private void Awake()
         {
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+            music = GameObject.Find("AudioSystem").GetComponent<Music>();
             playerInputActions = new PlayerInputActions();
         }
 
@@ -60,6 +62,7 @@ namespace pf
             }
             else
             {
+                music.Stop();
                 levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
             }
         }

@@ -106,6 +106,18 @@ namespace pf
             velocity.y = 0;
         }
 
+        public void TrampolineJump(float startHeight)
+        {
+            deltaTime = 0;
+            velocity.y = jumpForce * 1.3f;
+
+            // Used for faster falling
+            gravity = -2 * maxJumpHeight / Mathf.Pow(timeToJumpApex, 2);
+            reachedApex = false;
+            maxHeightReached = Mathf.NegativeInfinity;
+            this.startHeight = startHeight;
+        }
+
         public void Jump(float startHeight)
         {
             deltaTime = 0;

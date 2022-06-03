@@ -13,9 +13,7 @@ namespace pf
         private Image fadeImage;
         private GameObject trophyBase;
         private Image[] trophies = new Image[3];
-        //private TextMeshProUGUI levelCompleteText;
         private TextLocalizerUI titleLocalizer;
-        //private TextLocalizerUI descriptionLocalizer;
         private GameObject successText;
         private GameObject failureText;
         private TextLocalizerUI helper1Localizer;
@@ -25,6 +23,19 @@ namespace pf
         private PlayerScore score;
 
         private bool levelEndReady = false;
+        private bool advanceTrophies = false;
+
+        enum State
+        {
+            Init,
+            Start,
+            Trophy1,
+            Trophy2,
+            Trophy3
+        };
+
+        private State state = State.Init;
+        private bool runStateUpdate = false;
 
         private Color SUCCESS_COLOR = Color.white;
         private Color FAILURE_COLOR = new Color(0.3f, 0.3f, 0.3f, 1);
@@ -53,6 +64,8 @@ namespace pf
                 playerTime = _playerTime;
             }
         };
+
+        LevelEndVariables lv;
 
         private void Awake()
         {
@@ -107,10 +120,12 @@ namespace pf
             helper3Localizer.Localize();
 
             levelEndReady = false;
+            state = State.Init;
         }
 
         public void ShowLevelEnd(int hits, int score, float timer, int hearts)
         {
+            Debug.Log("Show Level End");
             FadeBackground();
             ShowTrophyBase();
             CheckTrophies(hits, score, timer, hearts);
@@ -182,11 +197,97 @@ namespace pf
                 }
             }
 
-            LevelEndVariables l = new LevelEndVariables(showFirst, showSecond, showThird, hits, o.GetRequiredScore(), score, hearts, parTime, playerTime);
+            lv = new LevelEndVariables(showFirst, showSecond, showThird, hits, o.GetRequiredScore(), score, hearts, parTime, playerTime);
 
-            RunLevelEnd(l);
+            Debug.Log("Change from State.Init to State.Start");
+            ChangeState(State.Start);
+
         }
 
+        private void ChangeState(State s)
+        {
+            Debug.Log("Changing state to: " + s);
+            state = s;
+            runStateUpdate = true;
+        }
+
+        private void Update()
+        {
+            if (!runStateUpdate)
+            {
+                return;
+            }
+
+            Debug.Log("*** huu ***");
+
+            switch (state)
+            {
+                case State.Start:
+                {
+                    Debug.Log("State.Start");
+                    StartCoroutine(WaitBeforeStateChange(1.0f));           
+                    break;
+                }
+                case State.Trophy1:
+                {
+                    Debug.Log("State.T1");
+                    LocalizeFirst(lv.success[0], true, lv.hits);
+                    StartCoroutine(WaitBeforeStateChange(2.0f));
+                    break;
+                }
+                case State.Trophy2:
+                {
+                    Debug.Log("State.T2");
+                    LocalizeSecond(lv.success[1], true, lv.requiredScore, lv.score, lv.hearts);
+                    StartCoroutine(WaitBeforeStateChange(2.0f));
+                    break;
+                }
+                case State.Trophy3:
+                {
+                    Debug.Log("State.T3");
+                    LocalizeThird(lv.success[2], true, lv.parTime, lv.playerTime);
+                    StartCoroutine(WaitBeforeStateChange(1.0f));
+                    break;
+                }
+            }
+
+            runStateUpdate = false;
+        }
+
+        private IEnumerator WaitBeforeStateChange(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+
+            switch(state)
+            {
+                case State.Start:
+                {
+                    ChangeState(State.Trophy1);
+                    break;
+                }
+                case State.Trophy1:
+                {
+                    ChangeState(State.Trophy2);
+                    break;
+                }
+                case State.Trophy2:
+                {
+                    ChangeState(State.Trophy3);
+                    break;
+                }
+                case State.Trophy3:
+                {
+                    if(!levelEndReady)
+                    {
+                        levelEndReady = true;
+                    }
+                    ChangeState(State.Start);
+                    break;
+                }
+            }
+        }
+
+        /*
         private IEnumerator ShowTrophies(LevelEndVariables l)
         {
             //TODO:
@@ -203,13 +304,16 @@ namespace pf
             LocalizeThird(l.success[2], true, l.parTime, l.playerTime);
             levelEndReady = true;
             yield return new WaitForSeconds(2.0f);
-            RunLevelEnd(l);
+            RunLevelEnd(l, false);
         }
+        */
 
-        private void RunLevelEnd(LevelEndVariables levelEndVariables)
+        /*
+        private void RunLevelEnd(LevelEndVariables levelEndVariables, bool isFirstRun)
         {
             StartCoroutine(ShowTrophies(levelEndVariables));
         }
+        */
 
         void AnimateTrophy(int t)
         {
@@ -217,7 +321,6 @@ namespace pf
             {
                 case 0:
                 {
-
                     trophies[0].transform.DOScale(0.6f, 0.1f);
                     trophies[1].transform.DOScale(0.5f, 0.1f);
                     trophies[2].transform.DOScale(0.5f, 0.1f);

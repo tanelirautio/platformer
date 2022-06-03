@@ -12,6 +12,7 @@ TagManager:
   - Powerup
   - Checkpoint
   - Teleport
+  - Trampoline
   layers:
   - Default
   - TransparentFX

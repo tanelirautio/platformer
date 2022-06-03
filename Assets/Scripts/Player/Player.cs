@@ -49,6 +49,7 @@ namespace pf
         private bool isInvulnerable = false;
         private bool isTeleporting = false;
         private bool isDead = false;
+        private bool trampolineJump = false;
 
         private Timer levelCompletionTimer = new Timer();
 
@@ -69,22 +70,18 @@ namespace pf
             spawnPoint = GameObject.Find("SpawnPoint");
             controller = GetComponent<Controller2D>();
 
-            //ResetMovement();
-
             score = GetComponent<PlayerScore>();
             health = GetComponent<PlayerHealth>();
             anim = GetComponent<PlayerAnimation>();
             wallSliding = GetComponent<PlayerWallSliding>();
             light2D = GetComponent<Light2D>();
             light2DBaseIntensity = light2D.intensity;
-            //cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
             cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             uiCanvas = GameObject.Find("UICanvas");
             levelEnd = GameObject.Find("UICanvas/LevelEnd").GetComponent<LevelEnd>();
             pauseGame = GameObject.Find("UICanvas/PauseMenu").GetComponent<PauseGame>();
-
 
             achievementManager = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
             
@@ -165,7 +162,7 @@ namespace pf
             if (spawnPoint)
             {
                 transform.position = spawnPoint.transform.position;
-                print("Spawning at: " + transform.position);
+                //print("Spawning at: " + transform.position);
             }
         }
 
@@ -178,7 +175,7 @@ namespace pf
             if (checkpoint)
             {
                 transform.position = checkpoint.position;
-                print("Spawning at: " + transform.position);
+                //print("Spawning at: " + transform.position);
             }
         }
 
@@ -214,7 +211,7 @@ namespace pf
             }
             else if (pauseGame.ContinuedFromPause)
             {
-                print("Continuing from pause game");
+                //print("Continuing from pause game");
                 controllerDisabled = false;
                 pauseGame.ContinuedFromPause = false;
                 pauseGame.gameObject.SetActive(false);
@@ -241,12 +238,16 @@ namespace pf
                 input.x = 0;
                 input.y = 0;
 
-                if (jumpAction.WasPerformedThisFrame() && levelEnd.LevelEndReady())
+                if(jumpAction.WasPerformedThisFrame())
                 {
-                    print("*** level end load next scene ***");
-                    levelEnd.gameObject.SetActive(false);
-                    LoadNextScene();
+                    if(levelEnd.LevelEndReady())
+                    {
+                        print("*** level end - load next scene ***");
+                        levelEnd.gameObject.SetActive(false);
+                        LoadNextScene();
+                    }
                 }
+
                 return;
             }
 
@@ -256,8 +257,18 @@ namespace pf
                 input.y = 0;
             }
 
-
             movement.CalculateVelocityX(input.x, controller.collisions.below ? accTimeGrounded : accTimeAirborne);
+
+            if(trampolineJump)
+            {
+                movement.TrampolineJump(transform.position.y);
+                trampolineJump = false;
+                if (audioManager != null)
+                {
+                    audioManager.PlaySound2D("Jump");
+                }
+                return;
+            }
 
             if (!isTeleporting)
             {
@@ -384,7 +395,7 @@ namespace pf
                 }
                 case Powerup.Type.Speed:
                 {
-                    print("expire speed powerup");
+                    //print("expire speed powerup");
                     break;
                 }
             }
@@ -396,7 +407,6 @@ namespace pf
             // For easier debugging
             if(LevelLoader.GetCurrentSceneIndex() == (int)LevelLoader.Scenes.TestLevel)
             {
-                print("TEST LEVEL FOOBAR");
                 levelLoader.LoadScene((int)LevelLoader.Scenes.TestLevel);
                 return;
             }
@@ -411,9 +421,9 @@ namespace pf
             else
             {
                 // save player score only when transitioning to next level
-                print("***** Transition to next level *****");
-                print("level score: " + score.GetScore());
-                print("current level: " + PlayerStats.GetCurrentLevel());
+                //print("***** Transition to next level *****");
+                //print("level score: " + score.GetScore());
+                //print("current level: " + PlayerStats.GetCurrentLevel());
                 if(PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] < score.GetScore())
                 {
                     PlayerStats.BestScores[PlayerStats.GetCurrentLevel()] = score.GetScore();
@@ -449,7 +459,7 @@ namespace pf
 
                 if (type == Trap.Type.SpikeHead)
                 {
-                    Debug.Log("--- Collision with spike head! ---");
+                    //Debug.Log("--- Collision with spike head! ---");
                     SpikeHead spikeHead = collision.gameObject.GetComponent<SpikeHead>();
                     if (spikeHead)
                     {
@@ -500,8 +510,6 @@ namespace pf
                 music.StopFade(0.5f);
                 Invoke("PlayTrophySound", 0.5f);
                 //audioManager.PlaySound2D("Trophy");
-
-                print("finished level");
 
                 controllerDisabled = true;
                 anim.Stop();
@@ -555,6 +563,12 @@ namespace pf
                     //Debug.Log("*** Moving player to: " + teleport.GetTargetPosition());        
                     StartCoroutine(Teleport(teleport));
                 }
+            }
+            else if(collision.gameObject.tag == "Trampoline")
+            {
+                print("**** TRAMPOLINE! *******");
+                trampolineJump = true;
+
             }
         }
 

@@ -67,7 +67,7 @@ namespace pf
     
         void Start()
         {
-            print("Selected character: " + PlayerStats.SelectedCharacter);
+            //print("Selected character: " + PlayerStats.SelectedCharacter);
             animator.runtimeAnimatorController = animators[PlayerStats.SelectedCharacter];
             spriteRenderer.sprite = characters[PlayerStats.SelectedCharacter];
 
@@ -136,7 +136,7 @@ namespace pf
         {
             if(currentState != oldState)
             {
-                Debug.Log("Current state: " + currentState);
+                //Debug.Log("Current state: " + currentState);
                 oldState = currentState;
             }
 
@@ -146,9 +146,7 @@ namespace pf
                 {
                     if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
                     {
-                        Debug.Log("### Player is INVISIBLE ###");
-                        Debug.Log("### DISABLE SPRITERENDERER ###");
-                        //spriteRenderer.enabled = false;
+                        //Debug.Log("### Player is INVISIBLE ###");
                         currentState = State.Invisible;
                     }
                 }
@@ -165,7 +163,7 @@ namespace pf
                 {
                     if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
                     {             
-                        Debug.Log("### Player is VISIBLE ###");
+                        //Debug.Log("### Player is VISIBLE ###");
                         player.TeleportAnimationDone();
                         currentState = State.Visible;
                     }
@@ -173,9 +171,7 @@ namespace pf
                 else
                 {
                     ChangeAnimationState(PLAYER_APPEAR);
-                    Debug.Log("### ENABLE SPRITERENDERER ###");
-                    Debug.Log("### Player starts to APPEAR ###");
-                    //spriteRenderer.enabled = true;   
+                    //Debug.Log("### Player starts to APPEAR ###");
                 }
                 return;
             }
@@ -225,7 +221,7 @@ namespace pf
                 return;
             }
 
-            print("Changing animation state to: " + newAnimState);
+            //print("Changing animation state to: " + newAnimState);
 
             if(newAnimState == PLAYER_RUN || newAnimState == PLAYER_JUMP)
             {
