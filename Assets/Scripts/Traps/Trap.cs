@@ -17,7 +17,8 @@ namespace pf
             Fire = 3,
             SpikeHead = 4,
             FallingPlatform = 5,
-            RockHead = 6
+            RockHead = 6,
+            SpikedBall = 7,
         }
 
         public Type type;

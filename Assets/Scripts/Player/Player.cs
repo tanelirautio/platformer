@@ -313,7 +313,7 @@ namespace pf
         public void DeathMove()
         {
             // TODO: tween movement should arc?
-            transform.DOMove(transform.position + (-Vector3.up * 5), 1.0f);
+            transform.DOMove(transform.position + (-Vector3.up * 10), 2.0f);
 
 
             //myTransform.DOMoveX(3, 2).SetEase(Ease.OutQuad);
@@ -479,7 +479,7 @@ namespace pf
                         setGracePeriod();
                         audioManager.PlaySound2D("Hit");
                         DeathMove();
-                        FadeToBlack();
+                        Invoke("FadeToBlack", 1.0f);
 
                         Transform currentCheckpoint = null;
                         currentCheckpoint = checkpointManager.GetLatest();
