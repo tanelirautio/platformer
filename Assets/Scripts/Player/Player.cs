@@ -442,7 +442,8 @@ namespace pf
             {
                 Trap trap = collision.gameObject.GetComponent<Trap>();
                 Trap.Type type;
-                if(trap != null)
+
+                if (trap != null)
                 {
                     type = trap.type;
                 }
@@ -451,15 +452,15 @@ namespace pf
                     trap = collision.gameObject.GetComponentInParent<Trap>();
                     type = trap.type;
                 }
+                Debug.Log("Collision with " + trap.type);
 
-                if(isInvulnerable)
+                if (isInvulnerable)
                 {
                     return;
                 }
 
                 if (type == Trap.Type.SpikeHead)
                 {
-                    //Debug.Log("--- Collision with spike head! ---");
                     SpikeHead spikeHead = collision.gameObject.GetComponent<SpikeHead>();
                     if (spikeHead)
                     {
