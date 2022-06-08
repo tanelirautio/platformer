@@ -6524,7 +6524,7 @@ GameObject:
   - component: {fileID: 1439118180}
   - component: {fileID: 1439118182}
   m_Layer: 0
-  m_Name: Spiked Ball Static 8pcs
+  m_Name: Spiked Ball Kinematic 8pcs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6608,6 +6608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bf9538d5445ad4a83ac3135aa78160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 100
+  angleLimit: 0
 --- !u!1 &1460680643
 GameObject:
   m_ObjectHideFlags: 0
