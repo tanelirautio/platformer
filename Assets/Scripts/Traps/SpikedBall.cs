@@ -15,7 +15,7 @@ namespace pf
 
         private Direction dir = Direction.Right;
 
-        public float speed = 100f;
+        public float duration = 1.5f;
         public int angleLimit = 0;
      
         void Start()
@@ -30,18 +30,18 @@ namespace pf
         void RotateRight()
         {
             dir = Direction.Right;
-            transform.DORotate(new Vector3(0, 0, angleLimit), speed / 60f).OnComplete(RotateStart).SetEase(Ease.Linear);
+            transform.DORotate(new Vector3(0, 0, angleLimit), duration).OnComplete(RotateStart).SetEase(Ease.Linear);
         }
 
         void RotateStart()
         {
             if (dir == Direction.Right)
             {
-                transform.DORotate(new Vector3(0, 0, 0), speed / 60f).OnComplete(RotateLeft).SetEase(Ease.Linear);
+                transform.DORotate(new Vector3(0, 0, 0), duration).OnComplete(RotateLeft).SetEase(Ease.Linear);
             }
             else
             {
-                transform.DORotate(new Vector3(0, 0, 0), speed / 60f).OnComplete(RotateRight).SetEase(Ease.Linear);
+                transform.DORotate(new Vector3(0, 0, 0), duration).OnComplete(RotateRight).SetEase(Ease.Linear);
             }
 
         }
@@ -49,14 +49,14 @@ namespace pf
         void RotateLeft()
         {
             dir = Direction.Left;
-            transform.DORotate(new Vector3(0,0,-angleLimit), speed/60f).OnComplete(RotateStart).SetEase(Ease.Linear);
+            transform.DORotate(new Vector3(0,0,-angleLimit), duration).OnComplete(RotateStart).SetEase(Ease.Linear);
         }
 
         public void Update()
         {
             if(angleLimit == 0)
             {
-                transform.Rotate(new Vector3(0, 0, Time.deltaTime * speed));
+                transform.Rotate(new Vector3(0, 0, Time.deltaTime * duration*60f));
             }
         }
         private void OnDestroy()
