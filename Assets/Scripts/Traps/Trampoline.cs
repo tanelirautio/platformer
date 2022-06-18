@@ -9,17 +9,17 @@ namespace pf
 
         private Animator animator;
 
+        [SerializeField]
+        private float jumpForceMultiplier = 1.3f;
+
         private void Awake()
         {
             animator = GetComponent<Animator>();
         }
 
-        void Start()
+        public float GetForceMultiplier()
         {
-        }
-
-        void Update()
-        {
+            return jumpForceMultiplier;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

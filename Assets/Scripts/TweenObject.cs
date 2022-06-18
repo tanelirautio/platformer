@@ -18,13 +18,7 @@ namespace pf
             transform.DOMove(transform.position + end, time).SetLoops(-1, LoopType.Yoyo).SetEase(ease);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-         private void OnDrawGizmos()
+        private void OnDrawGizmos()
          {
                 Gizmos.color = Color.blue;
                 float size = 0.3f;

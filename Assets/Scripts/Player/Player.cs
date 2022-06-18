@@ -49,7 +49,14 @@ namespace pf
         private bool isInvulnerable = false;
         private bool isTeleporting = false;
         private bool isDead = false;
-        private bool trampolineJump = false;
+        //private bool trampolineJump = false;
+
+        private struct TrampolineJump
+        {
+            public bool IsJumping { get; set; }
+            public float Multiplier { get; set; }
+        }
+        private TrampolineJump trampolineJump;
 
         private Timer levelCompletionTimer = new Timer();
 
@@ -103,7 +110,10 @@ namespace pf
             // This way independently played levels can still show them
             DataLoader.ParseData();
 #endif
-            playerInputActions = new PlayerInputActions();      
+            playerInputActions = new PlayerInputActions();
+
+            trampolineJump.IsJumping = false;
+            trampolineJump.Multiplier = 0;
         }
 
         private void OnEnable()
@@ -259,10 +269,11 @@ namespace pf
 
             movement.CalculateVelocityX(input.x, controller.collisions.below ? accTimeGrounded : accTimeAirborne);
 
-            if(trampolineJump)
+            if(trampolineJump.IsJumping)
             {
-                movement.TrampolineJump(transform.position.y);
-                trampolineJump = false;
+                movement.TrampolineJump(transform.position.y, trampolineJump.Multiplier);
+                trampolineJump.IsJumping = false;
+                trampolineJump.Multiplier = 0;
                 if (audioManager != null)
                 {
                     audioManager.PlaySound2D("Jump");
@@ -568,7 +579,13 @@ namespace pf
             else if(collision.gameObject.tag == "Trampoline")
             {
                 print("**** TRAMPOLINE! *******");
-                trampolineJump = true;
+               
+
+                Trampoline t = collision.gameObject.GetComponent<Trampoline>();
+                if (t != null) {
+                    trampolineJump.IsJumping = true;
+                    trampolineJump.Multiplier = t.GetForceMultiplier();
+                }
 
             }
         }
