@@ -47,8 +47,9 @@ namespace pf
         private bool gracePeriod = false;
 
         private bool isInvulnerable = false;
-        private bool isTeleporting = false;
-        private bool isDead = false;
+        public bool IsTeleporting { get; internal set; }
+        public bool IsDead { get; internal set; }
+        //private bool isDead = false;
         //private bool trampolineJump = false;
 
         private struct TrampolineJump
@@ -192,7 +193,7 @@ namespace pf
         private void SpawnCommon()
         {
             controllerDisabled = false;
-            isDead = false;
+            IsDead = false;
             cameraFollow.Reset();
             anim.Reset();
 
@@ -261,7 +262,7 @@ namespace pf
                 return;
             }
 
-            if(isTeleporting)
+            if(IsTeleporting == true)
             {
                 input.x = 0;
                 input.y = 0;
@@ -281,7 +282,7 @@ namespace pf
                 return;
             }
 
-            if (!isTeleporting)
+            if (IsTeleporting == false)
             {
 
                 if (controller.collisions.below && jumpAction.WasPressedThisFrame())
@@ -449,6 +450,11 @@ namespace pf
 
         private void OnTriggerStay2D(Collider2D collision)
         {
+            if(IsDead)
+            {
+                return;
+            }
+
             if (collision.gameObject.tag == "Trap")
             {
                 Trap trap = collision.gameObject.GetComponent<Trap>();
@@ -479,11 +485,11 @@ namespace pf
                     }
                 }
                 
-                if (!isDead && type != Trap.Type.FallingPlatform && type != Trap.Type.RockHead)
+                if (!IsDead && type != Trap.Type.FallingPlatform && type != Trap.Type.RockHead)
                 {
                     int currentHealth = health.TakeDamage(type);
                     anim.Die();
-                    isDead = true;
+                    IsDead = true;
                     controllerDisabled = true;
 
                     if (currentHealth > 0)
@@ -515,6 +521,11 @@ namespace pf
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            if(IsDead)
+            {
+                return;
+            }
+
             if (collision.gameObject.tag == "Finish")
             {
                 levelCompletionTimer.Stop();
@@ -569,7 +580,7 @@ namespace pf
                 if(teleport && !teleport.Activated)
                 {
                     isInvulnerable = true;
-                    isTeleporting = true;
+                    IsTeleporting = true;
                     anim.Disappear();
                     teleport.Activate();
                     //Debug.Log("*** Moving player to: " + teleport.GetTargetPosition());        
@@ -610,7 +621,7 @@ namespace pf
         public void TeleportAnimationDone()
         {
             //Debug.Log("*** TeleportAnimationDone() ***");
-            isTeleporting = false;
+            IsTeleporting = false;
             isInvulnerable = false;
         }
 

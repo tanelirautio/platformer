@@ -30,6 +30,7 @@ namespace pf
         private Transform collected;
         private Animator collectedAnim = null;
 
+        private Player player;
         private PlayerScore score;
         private PlayerHealth health;
         private AchievementManager achievements;
@@ -45,6 +46,7 @@ namespace pf
 
         private void Awake()
         {
+            player = GameObject.Find("Player").GetComponent<Player>();
             score = GameObject.Find("Player").GetComponent<PlayerScore>();
             health = GameObject.Find("Player").GetComponent<PlayerHealth>();
             achievements = GameObject.Find("AchievementManager").GetComponent<AchievementManager>();
@@ -86,7 +88,7 @@ namespace pf
         {
             if (collision.gameObject.tag == "Player")
             {
-                if(playerHasCollectedThis)
+                if(playerHasCollectedThis || player.IsDead == true || player.IsTeleporting == true)
                 {
                     return;
                 }
