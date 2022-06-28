@@ -118,7 +118,7 @@ namespace pf
             }
             else
             {
-                print("Velocity: " + velocity);
+                //print("Velocity: " + velocity);
             }
                    
 
