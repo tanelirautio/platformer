@@ -55,6 +55,15 @@ namespace pf
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f49b056f-4402-46e1-ad30-0293fc261e57"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -341,6 +350,39 @@ namespace pf
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Debug"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00ebda41-a723-4f22-9970-fc8e1295da97"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""258613f4-d06c-4961-99d5-47ec56aee589"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20d46497-0609-455e-a663-df02d451f4aa"",
+                    ""path"": ""<HID::DragonRise Inc.   Generic   USB  Joystick  >/button8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -719,6 +761,7 @@ namespace pf
             m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
             m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
             m_PlayerControls_Debug = m_PlayerControls.FindAction("Debug", throwIfNotFound: true);
+            m_PlayerControls_Pause = m_PlayerControls.FindAction("Pause", throwIfNotFound: true);
             // MenuControls
             m_MenuControls = asset.FindActionMap("MenuControls", throwIfNotFound: true);
             m_MenuControls_Navigate = m_MenuControls.FindAction("Navigate", throwIfNotFound: true);
@@ -786,6 +829,7 @@ namespace pf
         private readonly InputAction m_PlayerControls_Movement;
         private readonly InputAction m_PlayerControls_Jump;
         private readonly InputAction m_PlayerControls_Debug;
+        private readonly InputAction m_PlayerControls_Pause;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -793,6 +837,7 @@ namespace pf
             public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
             public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
             public InputAction @Debug => m_Wrapper.m_PlayerControls_Debug;
+            public InputAction @Pause => m_Wrapper.m_PlayerControls_Pause;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -811,6 +856,9 @@ namespace pf
                     @Debug.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDebug;
                     @Debug.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDebug;
                     @Debug.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDebug;
+                    @Pause.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
+                    @Pause.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
+                    @Pause.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
                 if (instance != null)
@@ -824,6 +872,9 @@ namespace pf
                     @Debug.started += instance.OnDebug;
                     @Debug.performed += instance.OnDebug;
                     @Debug.canceled += instance.OnDebug;
+                    @Pause.started += instance.OnPause;
+                    @Pause.performed += instance.OnPause;
+                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -882,6 +933,7 @@ namespace pf
             void OnMovement(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnDebug(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface IMenuControlsActions
         {

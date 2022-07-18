@@ -22,6 +22,7 @@ namespace pf
         private PlayerInputActions playerInputActions;
         private InputAction jumpAction;
         private InputAction movementAction;
+        private InputAction pauseAction;
 
         private Controller2D controller;
         private Movement movement;
@@ -124,12 +125,16 @@ namespace pf
 
             movementAction = playerInputActions.PlayerControls.Movement;
             movementAction.Enable();
+
+            pauseAction = playerInputActions.PlayerControls.Pause;
+            pauseAction.Enable();
         }
 
         private void OnDisable()
         {
             jumpAction.Disable();
             movementAction.Disable();
+            pauseAction.Disable();
         }
 
         private void OnDestroy()
@@ -205,9 +210,11 @@ namespace pf
 
         private bool CheckPause()
         {
-            if ((Gamepad.current != null && Gamepad.current.selectButton.wasPressedThisFrame) || 
-                (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) && 
-                !pauseGame.Paused)
+
+            //if ((Gamepad.current != null && Gamepad.current.selectButton.wasPressedThisFrame) || 
+            //    (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) && 
+            //    !pauseGame.Paused)
+            if (pauseAction.WasPerformedThisFrame() && !pauseGame.Paused)
             {
                 controllerDisabled = true;
                 Time.timeScale = 0;
