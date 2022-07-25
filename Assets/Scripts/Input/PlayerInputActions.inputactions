@@ -444,7 +444,18 @@
                 {
                     "name": "",
                     "id": "c6a51a3f-c241-4cf4-9ef6-b8d6d509e0c0",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85e5fc8a-b282-4f87-a91b-7ccdaa8d041e",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/button8",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

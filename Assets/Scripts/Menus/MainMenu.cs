@@ -58,6 +58,15 @@ namespace pf
             CheckSelection();
         }
 
+        private void OnCancel(InputAction.CallbackContext context)
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
         private void OnSubmit(InputAction.CallbackContext context)
         {
             switch (selection)
@@ -138,6 +147,9 @@ namespace pf
 
             playerInputActions.MenuControls.Submit.performed += OnSubmit;
             playerInputActions.MenuControls.Submit.Enable();
+
+            playerInputActions.MenuControls.Cancel.performed += OnCancel;
+            playerInputActions.MenuControls.Cancel.Enable();
         }
 
         private void OnDisable()
@@ -147,6 +159,9 @@ namespace pf
 
             playerInputActions.MenuControls.Submit.Disable();
             playerInputActions.MenuControls.Submit.performed -= OnSubmit;
+
+            playerInputActions.MenuControls.Cancel.Disable();
+            playerInputActions.MenuControls.Cancel.performed -= OnCancel;
         }
 
         void Start()

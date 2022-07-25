@@ -124,6 +124,9 @@ namespace pf
 
             playerInputActions.MenuControls.Submit.performed += OnSubmit;
             playerInputActions.MenuControls.Submit.Enable();
+
+            playerInputActions.MenuControls.Cancel.performed += OnCancel;
+            playerInputActions.MenuControls.Cancel.Enable();
         }
 
         private void OnDisable()
@@ -133,6 +136,9 @@ namespace pf
 
             playerInputActions.MenuControls.Submit.Disable();
             playerInputActions.MenuControls.Submit.performed -= OnSubmit;
+
+            playerInputActions.MenuControls.Cancel.Disable();
+            playerInputActions.MenuControls.Cancel.performed -= OnCancel;
         }
 
         private void OnNavigate(InputAction.CallbackContext context)
@@ -375,6 +381,11 @@ namespace pf
         private void OnDestroy()
         {
             DOTween.KillAll();
+        }
+
+        private void OnCancel(InputAction.CallbackContext context)
+        {
+            levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
         }
     }
 }

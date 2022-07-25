@@ -23,6 +23,7 @@ namespace pf
 
         private PlayerInputActions playerInputActions;
         private InputAction submitAction;
+        private InputAction cancelAction;
 
         private void Awake()
         {
@@ -34,12 +35,16 @@ namespace pf
         private void OnEnable()
         {
             submitAction = playerInputActions.MenuControls.Submit;
-            submitAction.Enable();
+            submitAction.Enable();            
+            
+            cancelAction = playerInputActions.MenuControls.Cancel;
+            cancelAction.Enable();
         }
 
         private void OnDisable()
         {
             submitAction.Disable();
+            cancelAction.Disable();
         }
 
         void Start()
@@ -91,7 +96,7 @@ namespace pf
 
         void Update()
         {
-            if (submitAction.WasPerformedThisFrame())
+            if (submitAction.WasPerformedThisFrame() || cancelAction.WasPerformedThisFrame())
             {
                 LoadNextScene();
             }

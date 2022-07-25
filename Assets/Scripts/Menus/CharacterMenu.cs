@@ -66,6 +66,11 @@ namespace pf
             }
         }
 
+        private void OnCancel(InputAction.CallbackContext context)
+        {
+            levelLoader.LoadScene((int)LevelLoader.Scenes.MainMenu);
+        }
+
         private void OnEnable()
         {
             playerInputActions.MenuControls.Navigate.performed += OnNavigate;
@@ -73,6 +78,9 @@ namespace pf
 
             playerInputActions.MenuControls.Submit.performed += OnSubmit;
             playerInputActions.MenuControls.Submit.Enable();
+
+            playerInputActions.MenuControls.Cancel.performed += OnCancel;
+            playerInputActions.MenuControls.Cancel.Enable();
         }
 
         private void OnDisable()
@@ -82,6 +90,9 @@ namespace pf
 
             playerInputActions.MenuControls.Submit.Disable();
             playerInputActions.MenuControls.Submit.performed -= OnSubmit;
+
+            playerInputActions.MenuControls.Cancel.Disable();
+            playerInputActions.MenuControls.Cancel.performed -= OnCancel;
         }
 
         void Start()
