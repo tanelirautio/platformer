@@ -476,7 +476,7 @@ namespace pf
                     trap = collision.gameObject.GetComponentInParent<Trap>();
                     type = trap.type;
                 }
-                Debug.Log("Collision with " + trap.type);
+                Debug.Log("Collision with " + trap.type + " Object name: " + trap.gameObject.name);
 
                 if (isInvulnerable)
                 {

@@ -41,14 +41,22 @@ namespace pf
             Back
         }
 
+
+        private string levelPackNameBase = "level_pack_title_";
+        private string levelNameBase = "level_title_";
+
+        /*
         private List<string> levelPackNames = new List<string>()
         {
-            "Emergency on Planet Earth",
-            "The Return of the Space Cowboy",
-            "Travelling Without Moving",
-            "Synkronized"
+            "level_pack_1_title",
+            "TODO",
+            "TODO",
+            "TODO"
+            
         };
+        */
 
+        /*
         private List<string> levelNames = new List<string>()
         {
             "When You Gonna Learn?",
@@ -72,6 +80,7 @@ namespace pf
             "Morning Glory",
             "Space Cowboy"
         };
+        */
 
         private enum ColorInfoKey
         {
@@ -117,12 +126,16 @@ namespace pf
 
         void Start()
         {
-            for(int i=0; i < levelPackTitles.Count; i++)
+
+            for(int i=0; i < Defs.LEVEL_PACKS; i++)
             {
-                levelPackTitles[i].text = levelPackNames[i];
+                TextLocalizerUI loc = levelPackTitles[i].GetComponent<TextLocalizerUI>();
+                loc.key = levelPackNameBase + i.ToString();
+                loc.Localize();
+                levelPackTitles[i].text = loc.GetText();
             }
 
-            for (int i = 0; i < levelIconPositions.Count; i++)
+            for (int i = 0; i < Defs.LEVEL_AMOUNT; i++)
             {
                 GameObject go = Instantiate(levelPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 go.transform.SetParent(container.transform, false);
@@ -146,9 +159,12 @@ namespace pf
                 }
 
                 TextMeshProUGUI name = go.transform.Find("Name").GetComponent<TextMeshProUGUI>();
-                if (i < levelNames.Count)
+                TextLocalizerUI loc = go.transform.Find("Name").GetComponent<TextLocalizerUI>();
+                if (i < Defs.LEVEL_AMOUNT)
                 {
-                    name.text = levelNames[i];
+                    loc.key = levelNameBase + i.ToString();
+                    loc.Localize();
+                    name.text = loc.GetText();
                 }
 
                 Image trophy0 = go.transform.Find("TrophyBg/Trophy0").GetComponent<Image>();
@@ -177,6 +193,8 @@ namespace pf
 
             print("LevelSelectionObjects.Count: " + levelSelectionObjects.Count);
 
+            
+
             // Open the first not completed level to be played
             if (lastCompletedLevel < Defs.LEVEL_AMOUNT)
             {
@@ -192,20 +210,16 @@ namespace pf
                     Image trophy2 = go.transform.Find("TrophyBg/Trophy2").GetComponent<Image>();
                     TextMeshProUGUI name = go.transform.Find("Name").GetComponent<TextMeshProUGUI>();
                     SetLevelOpen(go, i, trophy0, trophy1, trophy2, name);
-
-                    //levelSelectionObjects[i].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
-                    //levelSelectionObjects[i].Find("Selection").gameObject.SetActive(true);
                     SetSelectionActive(levelSelectionObjects[i]);
                 }
             }
             else
             {
                 print("ALL LEVELS OPEN - just select the last one");
-                //levelSelectionObjects[Defs.LEVEL_AMOUNT - 1].DOScale(Defs.MENU_SELECTED_SCALE, 0f);
-                //levelSelectionObjects[Defs.LEVEL_AMOUNT - 1].Find("Selection").gameObject.SetActive(true);
                 SetSelectionActive(levelSelectionObjects[Defs.LEVEL_AMOUNT-1]);
                 index = Defs.LEVEL_AMOUNT - 1;
             }
+            
 
             back.GetComponent<SpriteRenderer>().color = Color.gray;
 
@@ -322,6 +336,7 @@ namespace pf
             var deltaY = -(int)value.y; // -1 or 1, invert...
             if (deltaX == 0 && deltaY == 0) return;
 
+            // TODO: Hack, this is made for 10 levels only. Tweak the values and if-elses when new level packs are added
             if (selection == Selection.Scroll)
             {
                 int prevIndex = index;
@@ -330,29 +345,34 @@ namespace pf
                 {
                     if (deltaX == 1)
                     {
-                        if (index == 0 || index == 5)
+                        if (index == 0 /*|| index == 5*/)
                         {
                             selection = Selection.Back;
                             back.GetComponent<SpriteRenderer>().color = Color.white;
-                            //levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                            //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
                             SetSelectionInactive(levelSelectionObjects[index]);
                         }
                         else
                         {
-                            if (index == 10 || index == 15)
+                            /*
+                            if (Defs.LEVEL_AMOUNT > 10 && (index == 10 || index == 15))
                             {
                                 index = index - 6;
                             }
                             else
+                            */
                             {
                                 index = index - 1;
+                                if(index == 4)
+                                {
+                                    isBottomRow = false;
+                                }
                             }
                         }
                     }
                     else
                     {
-                        if (index == 4 || index == 9)
+                        /*
+                        if (Defs.LEVEL_AMOUNT > 10 && (index == 4 || index == 9))
                         {
                             index = index + 6;
                         }
@@ -360,8 +380,13 @@ namespace pf
                             //do nothing...
                         }
                         else
+                        */
                         {
                             index = index + 1;
+                            if(index == 5)
+                            {
+                                isBottomRow = true;
+                            }
                         }
                     }
                 }
@@ -386,8 +411,6 @@ namespace pf
                         {
                             selection = Selection.Back;
                             back.GetComponent<SpriteRenderer>().color = Color.white;
-                            //levelSelectionObjects[index].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                            //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(false);
                             SetSelectionInactive(levelSelectionObjects[index]);
                         }
                     }
@@ -397,13 +420,7 @@ namespace pf
                 {
                     index = Mathf.Clamp(index, 0, levelSelectionObjects.Count - 1);
                     print("ALRIGHTY THEN: index is: " + index);
-
-                    //levelSelectionObjects[prevIndex].DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                    //levelSelectionObjects[prevIndex].Find("Selection").gameObject.SetActive(false);
                     SetSelectionInactive(levelSelectionObjects[prevIndex]);
-
-                    //levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
-                    //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
                     SetSelectionActive(levelSelectionObjects[index]);
                 }
 
@@ -421,7 +438,6 @@ namespace pf
                     back.GetComponent<SpriteRenderer>().color = Color.gray;
                     levelSelectionObjects[index].DOScale(Defs.MENU_SELECTED_SCALE, Defs.MENU_LEVELSELECT_SCALE_SPEED);
                     SetSelectionActive(levelSelectionObjects[index]);
-                    //levelSelectionObjects[index].Find("Selection").gameObject.SetActive(true);
                 }
             }
         }

@@ -53,10 +53,12 @@ namespace pf
                 }
             }
 
+            /*
             for(int i = 0; i<time.Length; i++)
             {
                 print("Time " + i + ": " + time[i]);
             }
+            */
 
             sequence = DOTween.Sequence();
             for (int i = 0; i < globalWaypoints.Length; i++)

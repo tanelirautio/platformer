@@ -377,7 +377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &359798983
 RectTransform:
   m_ObjectHideFlags: 0
@@ -506,6 +506,7 @@ GameObject:
   - component: {fileID: 461893731}
   - component: {fileID: 461893733}
   - component: {fileID: 461893732}
+  - component: {fileID: 461893734}
   m_Layer: 5
   m_Name: LevelPack1_Title
   m_TagString: Untagged
@@ -529,7 +530,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -319.99997, y: 150}
+  m_AnchoredPosition: {x: -319.99997, y: 130}
   m_SizeDelta: {x: 500, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &461893732
@@ -629,6 +630,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461893730}
   m_CullTransparentMesh: 1
+--- !u!114 &461893734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461893730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe7fe632f61fe647a9b70aff9aa2f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
 --- !u!1 &527420380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,6 +1340,7 @@ GameObject:
   - component: {fileID: 1419339436}
   - component: {fileID: 1419339438}
   - component: {fileID: 1419339437}
+  - component: {fileID: 1419339439}
   m_Layer: 5
   m_Name: LevelPack2_Title
   m_TagString: Untagged
@@ -1449,6 +1464,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419339435}
   m_CullTransparentMesh: 1
+--- !u!114 &1419339439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419339435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe7fe632f61fe647a9b70aff9aa2f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
 --- !u!1 &1466277279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,16 +1739,6 @@ MonoBehaviour:
   - {fileID: 73014649}
   - {fileID: 1751241220}
   - {fileID: 969342449}
-  - {fileID: 1466277280}
-  - {fileID: 908278886}
-  - {fileID: 1106023709}
-  - {fileID: 603202010}
-  - {fileID: 527420381}
-  - {fileID: 1511236181}
-  - {fileID: 2131387892}
-  - {fileID: 37842912}
-  - {fileID: 415050572}
-  - {fileID: 1096982307}
   levelImages:
   - {fileID: 21300000, guid: 071f091dac6c9bd458c4f533685847f1, type: 3}
   - {fileID: 21300000, guid: e6f94ac26982f324a9cd459a2ec7b7fd, type: 3}
@@ -1728,7 +1746,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4173077e641f81f409836dcbe96c8356, type: 3}
   levelPackTitles:
   - {fileID: 461893732}
-  - {fileID: 1419339437}
 --- !u!1 &1722313860
 GameObject:
   m_ObjectHideFlags: 0
