@@ -2,8 +2,8 @@
 	"Items": [
 		{
 			"level": "0",
-			"points": "100",
-			"time": "3000"
+			"points": "2000",
+			"time": "25000"
 		},
 		{
 			"level": "1",

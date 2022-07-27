@@ -17,10 +17,11 @@ namespace pf
 
         public float duration = 1.5f;
         public int angleLimit = 0;
+        public bool isStatic = false;
      
         void Start()
         {
-            if (angleLimit != 0)
+            if (!isStatic && angleLimit != 0)
             {
                 RotateRight();
             }
@@ -54,7 +55,7 @@ namespace pf
 
         public void Update()
         {
-            if(angleLimit == 0)
+            if(!isStatic && angleLimit == 0)
             {
                 transform.Rotate(new Vector3(0, 0, Time.deltaTime * duration*60f));
             }
