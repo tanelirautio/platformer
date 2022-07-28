@@ -211,17 +211,17 @@ namespace pf
 
         private bool CheckPause()
         {
-
-            //if ((Gamepad.current != null && Gamepad.current.selectButton.wasPressedThisFrame) || 
-            //    (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) && 
-            //    !pauseGame.Paused)
-            if (pauseAction.WasPerformedThisFrame() && !pauseGame.Paused)
+            if (pauseAction.WasPressedThisFrame() && !pauseGame.Paused)
             {
+                print("*** show pause ***");
                 controllerDisabled = true;
                 Time.timeScale = 0;
-                //pauseGame.gameObject.SetActive(true);
                 pauseGame.ShowPause();
                 return true;
+            }
+            else if (pauseAction.WasPressedThisFrame() && pauseGame.Paused)
+            {
+                print("*** game already paused ***");
             }
 
             if (pauseGame.Paused)
@@ -230,19 +230,42 @@ namespace pf
             }
             else if (pauseGame.ContinuedFromPause)
             {
-                //print("Continuing from pause game");
                 controllerDisabled = false;
                 pauseGame.ContinuedFromPause = false;
-                //pauseGame.gameObject.SetActive(false);
                 return true;
             }
             return false;
+        }
+
+        private void PauseMenuInput()
+        {
+            if (movementAction.WasPressedThisFrame())
+            {
+                print(input);
+                input = movementAction.ReadValue<Vector2>();
+                if (input.y > 0)
+                {
+                    pauseGame.MovementUp();
+                }
+                else if (input.y < 0)
+                {
+                    pauseGame.MovementDown();
+                }
+            }
+            else
+            {
+                if (jumpAction.WasPressedThisFrame())
+                {
+                    pauseGame.SelectionDone();
+                }
+            }
         }
 
         private void Update()
         {
             if(CheckPause())
             {
+                PauseMenuInput();
                 return;
             }
 

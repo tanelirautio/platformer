@@ -9,7 +9,14 @@ namespace pf
     {
         public DG.Tweening.Ease ease = Ease.Linear;
         public float speed = 1f;
-        public LoopType loopType = LoopType.Restart;
+
+        public enum Type
+        {
+            Restart,
+            Yoyo
+        }
+
+        public Type type = Type.Restart;
 
         //[SerializeField] private float waitTime;
         public Vector3[] localWaypoints;
@@ -26,6 +33,21 @@ namespace pf
 
         private void CreateSequence() 
         {
+            
+            if (type == Type.Yoyo)
+            {
+                List<Vector3> waypoints = new List<Vector3>(localWaypoints);
+                List<Vector3> waypointsReversed = new List<Vector3>(localWaypoints);
+                waypointsReversed.RemoveAt(0); 
+                waypointsReversed.RemoveAt(waypointsReversed.Count - 1);
+                waypointsReversed.Reverse();
+
+                waypoints.AddRange(waypointsReversed);
+
+                localWaypoints = waypoints.ToArray();
+            }
+           
+
             globalWaypoints = new Vector3[localWaypoints.Length];
             for (int i = 0; i < localWaypoints.Length; i++)
             {

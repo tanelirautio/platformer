@@ -23009,7 +23009,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3845647814893690409, guid: ec1c5ff76414f43489be5bd0506758d7, type: 3}
       propertyPath: localWaypoints.Array.data[1].y
-      value: -6.5
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 3845647814893690410, guid: ec1c5ff76414f43489be5bd0506758d7, type: 3}
       propertyPath: m_Name
@@ -37158,6 +37158,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 236796022}
     m_Modifications:
+    - target: {fileID: 2106301142, guid: 6560c5fe663752a42aa40151b4f6fa86, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8476818361771749082, guid: 6560c5fe663752a42aa40151b4f6fa86, type: 3}
       propertyPath: m_Pivot.x
       value: 0

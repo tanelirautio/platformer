@@ -36,6 +36,9 @@ namespace pf
 
         private void Awake()
         {
+            Paused = false;
+            selection = Selection.Continue;
+
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
             playerInputActions = new PlayerInputActions();
 
@@ -60,8 +63,10 @@ namespace pf
             CheckSelection();
         }
 
+        /*
         private void OnEnable()
         {
+
             playerInputActions.MenuControls.Navigate.performed += OnNavigate;
             playerInputActions.MenuControls.Navigate.Enable();
 
@@ -117,6 +122,7 @@ namespace pf
                     break;
             }
         }
+        */
 
         private void CheckSelection()
         {
@@ -175,7 +181,7 @@ namespace pf
         }
 
         private void SetSelectionActive(Transform t)
-        {
+        {         
             if (selectionSequence != null)
             {
                 selectionSequence.Kill();
@@ -189,6 +195,51 @@ namespace pf
         private void SetSelectionInactive(Transform t)
         {
             t.DOScale(Defs.MENU_NORMAL_SCALE, Defs.MENU_SCALE_SPEED).SetUpdate(true);
+        }
+
+        internal void MovementUp()
+        {
+            selection = selection - 1;
+            ChangeSelection();
+        }
+
+        internal void MovementDown()
+        {
+            selection = selection + 1;
+            ChangeSelection();
+        }
+
+        private void ChangeSelection()
+        {
+            // handle wrap
+            if (selection < Selection.Continue)
+            {
+                selection = Selection.Exit;
+            }
+            else if (selection > Selection.Exit)
+            {
+                selection = Selection.Continue;
+            }
+            CheckSelection();
+        }
+
+        internal void SelectionDone()
+        {
+            switch (selection)
+            {
+                case Selection.Continue:
+                    Time.timeScale = 1;
+                    ContinuedFromPause = true;
+                    HidePause();
+                    break;
+                case Selection.Exit:
+                    Time.timeScale = 1;
+                    ContinuedFromPause = false;
+                    music.Stop();
+                    print("*** pause game, load level select");
+                    levelLoader.LoadScene((int)LevelLoader.Scenes.LevelSelect);
+                    break;
+            }
         }
     }
 }
