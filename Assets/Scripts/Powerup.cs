@@ -102,8 +102,15 @@ namespace pf
             }
         }
 
+        public static void Uninit()
+        {
+            activePowerups.Clear();
+            respawnablePowerupsInScene.Clear();
+        }
+
         public static void Respawn()
         {
+            Debug.Log("Trying to respawn powerups in the scene...");
             foreach(GameObject obj in respawnablePowerupsInScene)
             {
                 if(obj.GetComponent<Powerup>().respawn == true)

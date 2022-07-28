@@ -186,6 +186,7 @@ namespace pf
         {
             yield return new WaitForSeconds(time);
             SpawnCommon();
+
             Powerup.Respawn();
             Assert.IsNotNull(checkpoint);
             if (checkpoint)
@@ -205,7 +206,7 @@ namespace pf
             ResetMovement();
             light2D.enabled = false;
 
-            pauseGame.gameObject.SetActive(false);
+            //pauseGame.gameObject.SetActive(false);
         }
 
         private bool CheckPause()
@@ -218,7 +219,7 @@ namespace pf
             {
                 controllerDisabled = true;
                 Time.timeScale = 0;
-                pauseGame.gameObject.SetActive(true);
+                //pauseGame.gameObject.SetActive(true);
                 pauseGame.ShowPause();
                 return true;
             }
@@ -232,7 +233,7 @@ namespace pf
                 //print("Continuing from pause game");
                 controllerDisabled = false;
                 pauseGame.ContinuedFromPause = false;
-                pauseGame.gameObject.SetActive(false);
+                //pauseGame.gameObject.SetActive(false);
                 return true;
             }
             return false;
@@ -476,7 +477,11 @@ namespace pf
                     trap = collision.gameObject.GetComponentInParent<Trap>();
                     type = trap.type;
                 }
-                Debug.Log("Collision with " + trap.type + " Object name: " + trap.gameObject.name);
+
+                if (!isInvulnerable)
+                {
+                    Debug.Log("Collision with " + trap.type + " Object name: " + trap.gameObject.name);
+                }
 
                 if (isInvulnerable)
                 {
@@ -543,6 +548,7 @@ namespace pf
 
                 controllerDisabled = true;
                 anim.Stop();
+                Powerup.Uninit();
 
                 float timerMs = levelCompletionTimer.Elapsed * 1000.0f;
                 levelEnd.ShowLevelEnd(health.Hits(), score.GetScore(), timerMs, health.Health());

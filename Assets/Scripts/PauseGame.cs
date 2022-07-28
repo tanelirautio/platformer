@@ -147,7 +147,7 @@ namespace pf
             //ContinuedFromPause = false;
             fadeImage.DOFade(0, 0);
             pauseBase.transform.localScale = Vector3.zero;
-            pauseBase.SetActive(false);
+            //pauseBase.SetActive(false);
         }
 
         public void ShowPause()
@@ -164,7 +164,7 @@ namespace pf
 
         private void ShowPauseBase()
         {
-            pauseBase.SetActive(true);
+            //pauseBase.SetActive(true);
             pauseBase.transform.DOScale(Defs.MENU_NORMAL_SCALE, 1.0f).SetUpdate(true);
         }
 
