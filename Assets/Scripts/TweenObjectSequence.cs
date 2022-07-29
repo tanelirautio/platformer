@@ -23,7 +23,6 @@ namespace pf
         
         private Vector3[] globalWaypoints;
 
-
         Sequence sequence;
 
         void Start()
@@ -33,21 +32,40 @@ namespace pf
 
         private void CreateSequence() 
         {
-            
+
+            List<Vector3> waypoints = new List<Vector3>(localWaypoints);
+
             if (type == Type.Yoyo)
             {
-                List<Vector3> waypoints = new List<Vector3>(localWaypoints);
+           
+                print("waypoints length: " + waypoints.Count);
+
                 List<Vector3> waypointsReversed = new List<Vector3>(localWaypoints);
                 waypointsReversed.RemoveAt(0); 
                 waypointsReversed.RemoveAt(waypointsReversed.Count - 1);
                 waypointsReversed.Reverse();
 
+                print("waypointsReversed length: " + waypointsReversed.Count);
+
                 waypoints.AddRange(waypointsReversed);
 
-                localWaypoints = waypoints.ToArray();
+                print("waypoints length after add: " + waypoints.Count);
             }
-           
 
+            globalWaypoints = new Vector3[waypoints.Count];
+            for (int i = 0; i < waypoints.Count; i++)
+            {
+                if (i != globalWaypoints.Length - 1)
+                {
+                    globalWaypoints[i] = waypoints[i + 1] + transform.position;
+                }
+                else
+                {
+                    globalWaypoints[i] = waypoints[0] + transform.position;
+                }
+            }
+
+            /*
             globalWaypoints = new Vector3[localWaypoints.Length];
             for (int i = 0; i < localWaypoints.Length; i++)
             {
@@ -60,6 +78,7 @@ namespace pf
                     globalWaypoints[i] = localWaypoints[0] + transform.position;
                 }
             }
+            */
 
             float[] time = new float[globalWaypoints.Length];
 
