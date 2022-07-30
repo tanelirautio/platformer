@@ -180,6 +180,7 @@ namespace pf
                 transform.position = spawnPoint.transform.position;
                 //print("Spawning at: " + transform.position);
             }
+            isInvulnerable = false;
         }
 
         public IEnumerator SpawnAtCheckpoint(float time, Transform checkpoint)
@@ -563,10 +564,12 @@ namespace pf
 
             if (collision.gameObject.tag == "Finish")
             {
+                isInvulnerable = true;
                 levelCompletionTimer.Stop();
 
                 music.StopFade(0.5f);
                 Invoke("PlayTrophySound", 0.5f);
+                
                 //audioManager.PlaySound2D("Trophy");
 
                 controllerDisabled = true;
