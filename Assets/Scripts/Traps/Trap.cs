@@ -19,6 +19,8 @@ namespace pf
             FallingPlatform = 5,
             RockHead = 6,
             SpikedBall = 7,
+            Bullet = 8,
+            Chicken = 9,
         }
 
         public Type type;

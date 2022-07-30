@@ -7,9 +7,12 @@ namespace pf
 {
     public class Enemy : MonoBehaviour
     {
+        private string currentAnimState;
+
         public enum Type
         {
             Plant,
+            Chicken,
         }
 
         public Type type;
@@ -24,13 +27,42 @@ namespace pf
 
         protected SpriteRenderer spriteRenderer;
         protected Animator animator;
+        protected AudioManager audioManager;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+
+            if (GameObject.Find("AudioSystem"))
+            {
+                audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
+            }
+
+            if (facing == Facing.Right)
+            {
+                print("flip spriterenderer x");
+                spriteRenderer.flipX = true;
+            }
         }
 
+        protected void ChangeAnimState(string newAnimState)
+        {
+            if (currentAnimState == newAnimState)
+            {
+                return;
+            }
+
+            animator.Play(newAnimState);
+            currentAnimState = newAnimState;
+        }
+
+        public string GetCurrentAnimState()
+        {
+            return currentAnimState;
+        }
+
+        /*
         void Start()
         {
 
@@ -40,5 +72,6 @@ namespace pf
         {
 
         }
+        */
     }
 }
