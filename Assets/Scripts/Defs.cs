@@ -51,5 +51,8 @@ namespace pf
 
         // TELEPORT
         public const float TELEPORT_TIME = 1f;
+
+        // END SCREEN
+        public const float END_SCREEN_WAIT_TIME = 3f;
     }
 }

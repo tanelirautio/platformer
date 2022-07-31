@@ -19,8 +19,12 @@ namespace pf
         private bool shouldRaycast = true;
         private float timer = 0f;
 
+        private Player player;
+
         void Start()
         {
+            player = GameObject.Find("Player").GetComponent<Player>();
+
             ChangeAnimState(IDLE);
 
             raycastDir = Vector2.left;
@@ -53,9 +57,12 @@ namespace pf
             RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, raycastDir, raycastDistance, 1 << LayerMask.NameToLayer("Player"));
             if(hit)
             {
-                ChangeAnimState(ATTACK);
-                shouldRaycast = false;
-                Debug.DrawRay(transform.position, raycastDir * raycastDistance, Color.red);
+                if (!player.IsDead)
+                {
+                    ChangeAnimState(ATTACK);
+                    shouldRaycast = false;
+                    Debug.DrawRay(transform.position, raycastDir * raycastDistance, Color.red);
+                }
             }
             else
             {

@@ -65,7 +65,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ddf00c23b907f47931218774e28a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundGroups: []
+  soundGroups:
+  - name: Jump
+    clip:
+    - {fileID: 8300000, guid: 1e4b8233d2d0ac4429f662bab097b394, type: 3}
+    - {fileID: 8300000, guid: 493fae528c2d25447a9901c0a338272a, type: 3}
+    - {fileID: 8300000, guid: 74327ad29ac68a341aef77a093c247bf, type: 3}
+    - {fileID: 8300000, guid: d82760b1316fb734c8a1a18984d5809f, type: 3}
+  - name: Pickup
+    clip:
+    - {fileID: 8300000, guid: 8d0318fcbffa3f44aad910208f9b71c6, type: 3}
+    - {fileID: 8300000, guid: bd1fbe142c31cc943920633320563215, type: 3}
+    - {fileID: 8300000, guid: 73234f47392eecc428efdafeaf2da9b1, type: 3}
+    - {fileID: 8300000, guid: 726ed9cb6f761ca4780d8aa0c5cb68ee, type: 3}
+    - {fileID: 8300000, guid: fd582d423e987cd44bad34c334f0463d, type: 3}
+  - name: Powerup
+    clip:
+    - {fileID: 8300000, guid: 0d8c0fc407c8531409554bcdfd0325ae, type: 3}
+    - {fileID: 8300000, guid: b7122e0a320e65e4bbd4a55b2aeb4435, type: 3}
+    - {fileID: 8300000, guid: 12039cfbc99551742a8643a778abeb6e, type: 3}
+    - {fileID: 8300000, guid: 95aa1f473aa9f394f9e6b74c15459769, type: 3}
+    - {fileID: 8300000, guid: 3179d74e577e1954f9d821f8d2f8d182, type: 3}
+  - name: Checkpoint
+    clip:
+    - {fileID: 8300000, guid: b4c773dc207bb504e89feaa520107356, type: 3}
+    - {fileID: 8300000, guid: 9ba1687413b166c4a9a7945685dbd03f, type: 3}
+    - {fileID: 8300000, guid: 47adc9f4c7aa2314a9c321c868512ee8, type: 3}
+  - name: Trophy
+    clip:
+    - {fileID: 8300000, guid: c2daac76cbed5e045880a7c3fc3b4a6b, type: 3}
+  - name: Hit
+    clip:
+    - {fileID: 8300000, guid: 0f48376a7712f3a40bd5be64efbb1b1e, type: 3}
+  - name: Achievement
+    clip:
+    - {fileID: 8300000, guid: a90e8c6e06c9ba3478f60bfb4a9d173c, type: 3}
+  - name: FallingPlatform
+    clip:
+    - {fileID: 8300000, guid: 5f8b360db97bac148a30c940e00b05de, type: 3}
+  - name: Teleport
+    clip:
+    - {fileID: 8300000, guid: 47a7932d0aa0b224f9522c53ae6b4801, type: 3}
+  - name: Chicken
+    clip:
+    - {fileID: 8300000, guid: c82f7faa61fa7aa4082ac5961ff54174, type: 3}
+  - name: Peashooter
+    clip:
+    - {fileID: 8300000, guid: 64aebe1b43cea894ebb8c680225ac27e, type: 3}
+    - {fileID: 8300000, guid: 11eeb3c680a162f4cbd3dc3e741f85dd, type: 3}
+    - {fileID: 8300000, guid: 0bd2b48abb50819468fe52bfeb3e3f70, type: 3}
+    - {fileID: 8300000, guid: 5eb3770e44b451e48b2536168ee56e5e, type: 3}
 --- !u!114 &776615953808885260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,8 +128,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicGroups:
-  - name: Funky
+  - name: Intro
+    clip: {fileID: 8300000, guid: 39341bef60dfb8a49b2777d2d96ee1a0, type: 3}
+  - name: Credits
     clip: {fileID: 8300000, guid: e840cda4b6217bc4ea89c60c7e46a521, type: 3}
+  - name: Level_0
+    clip: {fileID: 8300000, guid: 7cf48cdd3a00f59458511535c781f11f, type: 3}
+  - name: Level_1
+    clip: {fileID: 8300000, guid: 7cf48cdd3a00f59458511535c781f11f, type: 3}
+  - name: Level_2
+    clip: {fileID: 8300000, guid: 7cf48cdd3a00f59458511535c781f11f, type: 3}
+  - name: Level_3
+    clip: {fileID: 8300000, guid: 2469b74619cc2024582972d8e81fe803, type: 3}
+  - name: Level_4
+    clip: {fileID: 8300000, guid: 2469b74619cc2024582972d8e81fe803, type: 3}
+  - name: Level_5
+    clip: {fileID: 8300000, guid: 2469b74619cc2024582972d8e81fe803, type: 3}
+  - name: Level_6
+    clip: {fileID: 8300000, guid: 2469b74619cc2024582972d8e81fe803, type: 3}
+  - name: Level_7
+    clip: {fileID: 8300000, guid: 095c12a24b519434c89c80db3d78cde5, type: 3}
+  - name: Level_8
+    clip: {fileID: 8300000, guid: 095c12a24b519434c89c80db3d78cde5, type: 3}
+  - name: Level_9
+    clip: {fileID: 8300000, guid: 095c12a24b519434c89c80db3d78cde5, type: 3}
+  - name: End
+    clip: {fileID: 8300000, guid: 04c74a6f13f7ef74095e75936a0bbdf3, type: 3}
 --- !u!114 &2891919259224862696
 MonoBehaviour:
   m_ObjectHideFlags: 0

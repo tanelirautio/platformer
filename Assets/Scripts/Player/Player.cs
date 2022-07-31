@@ -449,6 +449,7 @@ namespace pf
 
         private void LoadNextScene()
         {
+
 #if UNITY_EDITOR
             // For easier debugging
             if(LevelLoader.GetCurrentSceneIndex() == (int)LevelLoader.Scenes.TestLevel)
@@ -462,7 +463,8 @@ namespace pf
             // In the real game show end screen
             if (PlayerStats.GetCurrentLevel() == Defs.LEVEL_AMOUNT-1)
             {
-                levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
+                //levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
+                levelLoader.LoadScene((int)LevelLoader.Scenes.End);
             }
             else
             {
