@@ -12,7 +12,7 @@ namespace pf
         private Vector2 raycastDir;
         public float raycastDistance = 10f;
 
-        private float speed = 5f;
+        public float speed = 5f;
         private bool shouldRaycast = true;
         private Vector2 hitpoint;
 
@@ -21,6 +21,11 @@ namespace pf
 
         // Start is called before the first frame update
         void Start()
+        {
+            Spawn();
+        }
+
+        private void Spawn()
         {
             ChangeAnimState(IDLE);
 

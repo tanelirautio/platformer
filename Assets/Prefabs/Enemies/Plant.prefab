@@ -118,4 +118,4 @@ MonoBehaviour:
   type: 0
   facing: 0
   raycastDistance: 5
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 1577012851767179943, guid: 0be68be706f469a489dd309cbfcf6f1d, type: 3}

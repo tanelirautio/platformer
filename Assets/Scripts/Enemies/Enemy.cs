@@ -29,6 +29,11 @@ namespace pf
         protected Animator animator;
         protected AudioManager audioManager;
 
+        public bool respawn = false;
+        private Facing originalFacing = Facing.Left;
+        private Vector2 originalPosition;
+        private static List<GameObject> respawnableEnemiesInScene = new List<GameObject>();
+
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -43,6 +48,27 @@ namespace pf
             {
                 print("flip spriterenderer x");
                 spriteRenderer.flipX = true;
+            }
+
+            originalFacing = facing;
+            originalPosition = transform.position;
+            if (respawn)
+            {
+                respawnableEnemiesInScene.Add(this.gameObject);
+            }
+        }
+
+        public static void Respawn()
+        {
+            Debug.Log("Trying to respawn enemies in the scene...");
+            foreach (GameObject obj in respawnableEnemiesInScene)
+            {
+                Enemy enemy = obj.GetComponent<Enemy>();
+                if (enemy.respawn == true)
+                {
+                    enemy.transform.position = enemy.originalPosition;
+                    enemy.facing = enemy.originalFacing;
+                }
             }
         }
 

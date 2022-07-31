@@ -189,6 +189,7 @@ namespace pf
             SpawnCommon();
 
             Powerup.Respawn();
+            Enemy.Respawn();
             Assert.IsNotNull(checkpoint);
             if (checkpoint)
             {
