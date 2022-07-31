@@ -10,10 +10,11 @@ namespace pf
 
         private float speed = 5f;
 
-        // Start is called before the first frame update
-        void Start()
-        {
+        private static List<GameObject> instancedBullets = new List<GameObject>();
 
+        private void Start()
+        {
+            instancedBullets.Add(this.gameObject);
         }
 
         public void SetDirection(Vector2 dir)
@@ -31,9 +32,19 @@ namespace pf
         {
             if (collision.gameObject.tag == "Ground")
             {
-                print("ground collision");
+                instancedBullets.Remove(this.gameObject);
                 Destroy(gameObject);
             }
+        }
+
+        public static void Uninit()
+        {
+            for (int i = 0; i < instancedBullets.Count; i++)
+            {
+                GameObject obj = instancedBullets[i];
+                Destroy(obj);
+            }
+            instancedBullets.Clear();
         }
     }
 }

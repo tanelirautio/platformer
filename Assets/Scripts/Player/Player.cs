@@ -190,6 +190,7 @@ namespace pf
 
             Powerup.Respawn();
             Enemy.Respawn();
+            Bullet.Uninit();
             Assert.IsNotNull(checkpoint);
             if (checkpoint)
             {
@@ -576,6 +577,7 @@ namespace pf
                 controllerDisabled = true;
                 anim.Stop();
                 Powerup.Uninit();
+                Bullet.Uninit();
 
                 float timerMs = levelCompletionTimer.Elapsed * 1000.0f;
                 levelEnd.ShowLevelEnd(health.Hits(), score.GetScore(), timerMs, health.Health());
