@@ -138,6 +138,8 @@ namespace pf
             playerInputActions = new PlayerInputActions();
             audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
             selectionSequence = DOTween.Sequence();
+
+            Cursor.visible = false;
         }
 
         private void OnEnable()

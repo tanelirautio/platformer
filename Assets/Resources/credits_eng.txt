@@ -17,6 +17,7 @@ Juha Lehtinen
 <b>Level Design</b>
 
 Taneli Rautio
+Leo Rautio
 
 
 
@@ -25,7 +26,8 @@ Taneli Rautio
 <b>Testers</b>
 
 Taneli Rautio
-
+Mikko Valjus
+Victor-Manuel Godoy-Hue
 
 
 
@@ -42,13 +44,29 @@ Pixel Adventure 2 - Pixel Frog
 Hearts and health bar - VampireGirl
 (https://fliflifly.itch.io/hearts-and-health-bar)
 
+Game Icons - Kenney
+(https://www.kenney.nl/assets/game-icons)
+
+RPG Potions - Bonsaiheldin
+(https://opengameart.org/content/rpg-potions-16x16)
+
+Speaker Icon - Mobius
+(https://commons.wikimedia.org/wiki/File:Speaker_Icon.svg)
+
+Mute Icon - Tehdog
+(https://commons.wikimedia.org/wiki/File:Mute_Icon.svg)
+
 
 
 
 
 <b>Music</b>
 
-TBD
+Platformer Game Music Pack - CodeManu
+(https://opengameart.org/content/platformer-game-music-pack)
+
+Bossa Nova - Joth
+(https://opengameart.org/content/bossa-nova)
 
 
 
@@ -56,7 +74,17 @@ TBD
 
 <b>Sound Effects</b>
 
-TBD
+8-Bit Sound FX - Dizzy Crow
+(https://opengameart.org/content/8-bit-sound-fx)
+
+512 Sound Effects (8-Bit Style) - SubspaceAudio
+(https://opengameart.org/content/512-sound-effects-8-bit-style)
+
+8-Bit Sound Effects Library - Little Robot Sound Factory
+(https://opengameart.org/content/8-bit-sound-effects-library)
+
+Chicken Sound Effect - IMadeIt
+(https://opengameart.org/content/chicken-sound-effect)
 
 
 
