@@ -16,6 +16,7 @@ namespace pf
 
         void Update()
         {
+#if UNITY_EDITOR
             // TODO: this is for debugging, remove/hide GameObject which uses this from the final build
             if (Keyboard.current.f10Key.wasPressedThisFrame)
             {
@@ -26,32 +27,6 @@ namespace pf
                 }
                 levelLoader.LoadScene((int)LevelLoader.Scenes.LevelSelect);
             }
-            /*
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            {
-                
-                print("should exit!");
-                if(levelLoader == null)
-                {
-                    print("levelloader is null, fetch it from scene...");
-                    levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
-                }
-                if (levelLoader == null)
-                {
-                    print("levelloader is still null!");
-                }
-
-                
-                    print("quit application!");
-#if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
-#else
-                    Application.Quit();
-#endif
-                
-                
-            }
-            */
 
             if (Keyboard.current.sKey.wasPressedThisFrame)
             {
@@ -109,6 +84,7 @@ namespace pf
                 SaveSystem.Reset();
                 print("Save file reset!");
 
+
             }
 
             if (Keyboard.current.tKey.wasPressedThisFrame)
@@ -118,6 +94,6 @@ namespace pf
 
             }
         }
-
+#endif
     }
 }

@@ -139,7 +139,11 @@ namespace pf
             audioManager = GameObject.Find("AudioSystem/TinyAudioManager").GetComponent<AudioManager>();
             selectionSequence = DOTween.Sequence();
 
+#if UNITY_EDITOR
+            Cursor.visible = true;
+#else
             Cursor.visible = false;
+#endif
         }
 
         private void OnEnable()

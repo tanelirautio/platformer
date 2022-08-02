@@ -83,7 +83,7 @@ namespace pf {
             TextMeshProUGUI count = t.Find("Count").GetComponent<TextMeshProUGUI>();
             count.DOColor(c, 0.01f);
 
-            print("Colorizing panel text: " + title.text + " to: " + c);
+            //print("Colorizing panel text: " + title.text + " to: " + c);
         }
 
         private void Navigate(RectTransform item)

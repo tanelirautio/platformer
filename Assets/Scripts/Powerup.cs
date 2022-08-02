@@ -72,7 +72,7 @@ namespace pf
                         //print(activePowerups[i].Time);
                         if(activePowerups[i].Time <= 0)
                         {
-                            print("Powerup: " + type.ToString() + " expired!");
+                            //print("Powerup: " + type.ToString() + " expired!");
                             player.PowerupExpired(type);
                             activePowerups.RemoveAt(i);
                         }
@@ -110,7 +110,7 @@ namespace pf
 
         public static void Respawn()
         {
-            Debug.Log("Trying to respawn powerups in the scene...");
+            //Debug.Log("Trying to respawn powerups in the scene...");
             foreach(GameObject obj in respawnablePowerupsInScene)
             {
                 if(obj.GetComponent<Powerup>().respawn == true)

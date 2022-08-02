@@ -90,7 +90,7 @@ namespace pf
 
         private void OnDestroy()
         {
-            print("Destroy all");
+            //print("Destroy all");
             DOTween.KillAll();
         }
 
@@ -125,7 +125,7 @@ namespace pf
 
         public void ShowLevelEnd(int hits, int score, float timer, int hearts)
         {
-            Debug.Log("Show Level End");
+            //Debug.Log("Show Level End");
             FadeBackground();
             ShowTrophyBase();
             CheckTrophies(hits, score, timer, hearts);
@@ -171,7 +171,7 @@ namespace pf
                 level = PlayerStats.GetCurrentLevel();
             }
 
-            print("*** level is: " + level + " ***");
+            //print("*** level is: " + level + " ***");
             float parTime = 0;
             float playerTime = time;
 
@@ -181,32 +181,36 @@ namespace pf
                 parTime = o.GetRequiredTime();
                 PlayerStats.LevelsCompleted[level] = true;
 
-                int fullScore = score + (hearts * Defs.HEALTH_BONUS_MULTIPLIER);
+                //TODO: heart multiplier for score
+                int fullScore = score;  //+ (hearts * Defs.HEALTH_BONUS_MULTIPLIER);
 
                 if (hits == 0)
                 {
                     showFirst = true;
+                    PlayerStats.CompletedObjectives[level].CompletedNoHits = true;
                 }
                 if (fullScore >= o.GetRequiredScore())
                 {
                     showSecond = true;
+                    PlayerStats.CompletedObjectives[level].CompletedPoints = true;
                 }
                 if (time <= parTime)
                 {
-                    showThird = true;     
+                    showThird = true;
+                    PlayerStats.CompletedObjectives[level].CompletedTime = true;
                 }
             }
 
             lv = new LevelEndVariables(showFirst, showSecond, showThird, hits, o.GetRequiredScore(), score, hearts, parTime, playerTime);
 
-            Debug.Log("Change from State.Init to State.Start");
+            //Debug.Log("Change from State.Init to State.Start");
             ChangeState(State.Start);
 
         }
 
         private void ChangeState(State s)
         {
-            Debug.Log("Changing state to: " + s);
+            //Debug.Log("Changing state to: " + s);
             state = s;
             runStateUpdate = true;
         }
@@ -218,33 +222,31 @@ namespace pf
                 return;
             }
 
-            Debug.Log("*** huu ***");
-
             switch (state)
             {
                 case State.Start:
                 {
-                    Debug.Log("State.Start");
+                    //Debug.Log("State.Start");
                     StartCoroutine(WaitBeforeStateChange(1.0f));           
                     break;
                 }
                 case State.Trophy1:
                 {
-                    Debug.Log("State.T1");
+                    //Debug.Log("State.T1");
                     LocalizeFirst(lv.success[0], true, lv.hits);
                     StartCoroutine(WaitBeforeStateChange(2.0f));
                     break;
                 }
                 case State.Trophy2:
                 {
-                    Debug.Log("State.T2");
+                    //Debug.Log("State.T2");
                     LocalizeSecond(lv.success[1], true, lv.requiredScore, lv.score, lv.hearts);
                     StartCoroutine(WaitBeforeStateChange(2.0f));
                     break;
                 }
                 case State.Trophy3:
                 {
-                    Debug.Log("State.T3");
+                    //Debug.Log("State.T3");
                     LocalizeThird(lv.success[2], true, lv.parTime, lv.playerTime);
                     StartCoroutine(WaitBeforeStateChange(1.0f));
                     break;

@@ -320,6 +320,17 @@
                 },
                 {
                     "name": "",
+                    "id": "7e62898f-e8e5-4195-ab03-b27d1a8ca14e",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "aef84cc6-2b88-46fd-89f1-3f6a8a10acf5",
                     "path": "<Keyboard>/tab",
                     "interactions": "",

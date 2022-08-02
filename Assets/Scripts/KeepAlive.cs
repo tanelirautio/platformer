@@ -44,7 +44,7 @@ namespace pf
                 {
                     if (obj.instanceName == instanceName)
                     {
-                        Debug.Log("Duplicate object in loaded scene, deleting now...");
+                        //Debug.Log("Duplicate object in loaded scene, deleting now...");
                         DestroyImmediate(obj.gameObject);
                     }
                 }

@@ -37,13 +37,13 @@ namespace pf
 
         public void Reset()
         {
-            print("Reset player health");
+            //print("Reset player health");
 
             if (LevelLoader.GetCurrentSceneIndex() != (int)LevelLoader.Scenes.StartLevel &&
                 LevelLoader.GetPreviousSceneIndex() != (int)LevelLoader.Scenes.Continue &&
                 LevelLoader.GetPreviousSceneIndex() != -1)
             {
-                print("get value from PlayerStats.CurrentHealth");
+                //print("get value from PlayerStats.CurrentHealth");
                 startingHealth = PlayerStats.Health;
             }
             else
@@ -77,16 +77,16 @@ namespace pf
 
         public bool AddHealth()
         {
-            print("Adding health to player");
+            //print("Adding health to player");
             if(currentHealth + 1 > Defs.HEALTH_MAX)
             {
-                //give score instead of health
+                //TODO: give score instead of health
                 print("Should give extra score");
                 return false;
             }
             else
             {
-                print("add 1 health");
+                //print("add 1 health");
                 Animator anim = uiHealthAnim[currentHealth];
                 anim.Play(HEALTH_ADD);
                 currentHealth = currentHealth + 1;
@@ -115,7 +115,7 @@ namespace pf
         public int TakeDamage(Trap.Type trapType)
         {
 
-            print("Trap type: " + trapType.ToString());
+            //print("Trap type: " + trapType.ToString());
             //hasBeenHit = true;
             hits++;
 

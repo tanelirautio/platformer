@@ -38,18 +38,18 @@ namespace pf
             if (type == Type.Yoyo)
             {
            
-                print("waypoints length: " + waypoints.Count);
+                //print("waypoints length: " + waypoints.Count);
 
                 List<Vector3> waypointsReversed = new List<Vector3>(localWaypoints);
                 waypointsReversed.RemoveAt(0); 
                 waypointsReversed.RemoveAt(waypointsReversed.Count - 1);
                 waypointsReversed.Reverse();
 
-                print("waypointsReversed length: " + waypointsReversed.Count);
+                //print("waypointsReversed length: " + waypointsReversed.Count);
 
                 waypoints.AddRange(waypointsReversed);
 
-                print("waypoints length after add: " + waypoints.Count);
+                //print("waypoints length after add: " + waypoints.Count);
             }
 
             globalWaypoints = new Vector3[waypoints.Count];
@@ -93,13 +93,6 @@ namespace pf
                     time[i+1] = d / speed;
                 }
             }
-
-            /*
-            for(int i = 0; i<time.Length; i++)
-            {
-                print("Time " + i + ": " + time[i]);
-            }
-            */
 
             sequence = DOTween.Sequence();
             for (int i = 0; i < globalWaypoints.Length; i++)

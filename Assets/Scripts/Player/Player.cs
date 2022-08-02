@@ -216,15 +216,11 @@ namespace pf
         {
             if (pauseAction.WasPressedThisFrame() && !pauseGame.Paused)
             {
-                print("*** show pause ***");
+                //print("*** show pause ***");
                 controllerDisabled = true;
                 Time.timeScale = 0;
                 pauseGame.ShowPause();
                 return true;
-            }
-            else if (pauseAction.WasPressedThisFrame() && pauseGame.Paused)
-            {
-                print("*** game already paused ***");
             }
 
             if (pauseGame.Paused)
@@ -287,7 +283,7 @@ namespace pf
                 {
                     if(levelEnd.LevelEndReady())
                     {
-                        print("*** level end - load next scene ***");
+                        //print("*** level end - load next scene ***");
                         levelEnd.gameObject.SetActive(false);
                         LoadNextScene();
                     }
@@ -463,6 +459,7 @@ namespace pf
             // In the real game show end screen
             if (PlayerStats.GetCurrentLevel() == Defs.LEVEL_AMOUNT-1)
             {
+                SaveSystem.Save();
                 //levelLoader.LoadScene((int)LevelLoader.Scenes.Credits);
                 levelLoader.LoadScene((int)LevelLoader.Scenes.End);
             }
@@ -578,6 +575,7 @@ namespace pf
 
                 controllerDisabled = true;
                 anim.Stop();
+                Enemy.Uninit();
                 Powerup.Uninit();
                 Bullet.Uninit();
 
@@ -633,9 +631,7 @@ namespace pf
             }
             else if(collision.gameObject.tag == "Trampoline")
             {
-                print("**** TRAMPOLINE! *******");
-               
-
+                //print("**** TRAMPOLINE! *******");           
                 Trampoline t = collision.gameObject.GetComponent<Trampoline>();
                 if (t != null) {
                     trampolineJump.IsJumping = true;

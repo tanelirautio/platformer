@@ -68,7 +68,7 @@ namespace pf
 
         public void PlayerTouch()
         {
-            Debug.Log("Player Touch!");
+            //Debug.Log("Player Touch!");
             state = State.PlayerTouch;
         }
     }

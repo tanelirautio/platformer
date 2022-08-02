@@ -135,22 +135,22 @@ namespace pf
             state = State.Hit;
             if(c == top)
             {
-                Debug.Log("TOP HIT");
+                //Debug.Log("TOP HIT");
                 hitDirection = HitDirection.Top;
             }
             else if(c == bottom)
             {
-                Debug.Log("BOTTOM HIT");
+                //Debug.Log("BOTTOM HIT");
                 hitDirection = HitDirection.Bottom;
             }
             else if(c == left)
             {
-                Debug.Log("LEFT HIT");
+                //Debug.Log("LEFT HIT");
                 hitDirection = HitDirection.Left;
             }
             else if(c == right)
             {
-                Debug.Log("RIGHT HIT");
+                //Debug.Log("RIGHT HIT");
                 hitDirection = HitDirection.Right;
             }
             else

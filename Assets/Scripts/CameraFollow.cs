@@ -41,13 +41,13 @@ namespace pf
 
         public void StartFollowingPlayer()
         {
-            print("--- start following player!");
+            //print("--- start following player!");
             isFollowingPlayer = true;
         }
 
         public void StopFollowingPlayer()
         {
-            print("--- stop following player!");
+            //print("--- stop following player!");
             isFollowingPlayer = false;
         }
         

@@ -60,19 +60,11 @@ namespace pf
             return teleportPoint + transform.position;
         }
 
-        /*
-        public void ChangePosition(Transform player)
-        {
-            player.position = teleportPoint + transform.position;
-            Debug.Log("*** Setting player position: " + player.position);
-        }
-        */
-
         public void DestroyOrReactivate()
         {
             if (oneUseOnly)
             {
-                print("Destroying gameobject: " + gameObject.name);
+                //print("Destroying gameobject: " + gameObject.name);
                 Destroy(gameObject);
             }
             else

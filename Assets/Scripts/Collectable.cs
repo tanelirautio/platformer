@@ -146,7 +146,7 @@ namespace pf
 
         private void Destroy()
         {
-            print("Destroying gameobject: " + gameObject.name);
+            //print("Destroying gameobject: " + gameObject.name);
             Destroy(gameObject);
         }
 

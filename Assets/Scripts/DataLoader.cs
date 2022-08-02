@@ -14,11 +14,11 @@ namespace pf
 
         void Start()
         {
-            print("Mainmenu start");
+            //print("Mainmenu start");
             ParseData();
 
             saveData = SaveSystem.Load();
-            print("Savedata loaded!");
+            //print("*** Savedata loaded! ***");
             if (saveData != null)
             {
                 //print("Save version: " + saveData.version);

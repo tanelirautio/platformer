@@ -28,7 +28,7 @@ namespace pf
 
         public void Reset()
         {
-            print("Reset player score");
+            //print("Reset player score");
             score = 0;
             string str = score.ToString();
             scoreText.text = str.PadLeft(MAX_SCORE_CHARACTER_COUNT, '0');
@@ -39,7 +39,7 @@ namespace pf
             this.score += score;
 
             //debug
-            print("Current level score: " + this.score);
+            //print("Current level score: " + this.score);
             UpdateUiScore();
         }
 

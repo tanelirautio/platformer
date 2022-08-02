@@ -45,6 +45,7 @@ namespace pf
         public static List<LevelObjectives> LevelObjectives = new List<LevelObjectives>();
         public static List<Achievements> Achievements = new List<Achievements>();
 
+        
         static PlayerStats() 
         {
             for(int i=0; i<Defs.LEVEL_AMOUNT; i++)
@@ -52,5 +53,6 @@ namespace pf
                 CompletedObjectives[i] = new CompletedObjectives();
             }
         }
+       
     }
 }

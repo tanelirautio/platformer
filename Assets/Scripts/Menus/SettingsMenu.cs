@@ -200,7 +200,7 @@ namespace pf
                 {
                     if(lockedIndex == (int)LockedSettings.Language)
                     {
-                        print("Should change language selection here!");
+                        //print("Should change language selection here!");
                         ChangeLanguageSelection(deltaY, lockedIndex);
                     }
                 }
@@ -224,12 +224,12 @@ namespace pf
                 int selectedLanguage = language.GetSelectedLanguage();
                 if (deltaY == 1)
                 {
-                    print("down");
+                    //print("down");
                     language.ChangeLanguage(selectedLanguage + 1);
                 }
                 else
                 {
-                    print("up");
+                    //print("up");
                     language.ChangeLanguage(selectedLanguage - 1);
                 }
             }

@@ -46,7 +46,6 @@ namespace pf
 
             if (facing == Facing.Right)
             {
-                print("flip spriterenderer x");
                 spriteRenderer.flipX = true;
             }
 
@@ -60,7 +59,7 @@ namespace pf
 
         public static void Respawn()
         {
-            Debug.Log("Trying to respawn enemies in the scene...");
+            //Debug.Log("Trying to respawn enemies in the scene...");
             foreach (GameObject obj in respawnableEnemiesInScene)
             {
                 Enemy enemy = obj.GetComponent<Enemy>();
@@ -88,16 +87,9 @@ namespace pf
             return currentAnimState;
         }
 
-        /*
-        void Start()
+        public static void Uninit()
         {
-
+            respawnableEnemiesInScene.Clear();
         }
-
-        void Update()
-        {
-
-        }
-        */
     }
 }

@@ -36,7 +36,6 @@ namespace pf
             }
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (!shouldRaycast)
@@ -47,7 +46,7 @@ namespace pf
                     soundTimerOn = true;
                 }
 
-                print("RUN!");
+                //print("RUN!");
                 transform.Translate(raycastDir * speed * Time.deltaTime);
                 float distance = Vector2.Distance((Vector2)transform.position, hitpoint);
                 if(distance < 0.2f)
@@ -74,9 +73,7 @@ namespace pf
                 bool skipPlayerHit = false;
                 if (hit.collider.gameObject.tag == "Ground")
                 {
-                    print("Ground hit!!!");
                     float distance = Vector2.Distance((Vector2)transform.position, hit.point);
-                    print("distance: " + distance);
                     if (distance <= 2f)
                     {
                         if (raycastDir == Vector2.left)

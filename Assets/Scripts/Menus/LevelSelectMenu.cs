@@ -191,16 +191,12 @@ namespace pf
                 levelSelectionObjects.Add(go.transform);
             }
 
-            print("LevelSelectionObjects.Count: " + levelSelectionObjects.Count);
-
-            
 
             // Open the first not completed level to be played
-            if (lastCompletedLevel < Defs.LEVEL_AMOUNT)
+            if (lastCompletedLevel < Defs.LEVEL_AMOUNT-1)
             {
                 int i = lastCompletedLevel + 1;
                 index = i;
-                print("Opening index: " + i);
 
                 if (i < levelSelectionObjects.Count)
                 {
@@ -211,13 +207,18 @@ namespace pf
                     TextMeshProUGUI name = go.transform.Find("Name").GetComponent<TextMeshProUGUI>();
                     SetLevelOpen(go, i, trophy0, trophy1, trophy2, name);
                     SetSelectionActive(levelSelectionObjects[i]);
+                    if(i >= 5)
+                    {
+                        isBottomRow = true;
+                    }
                 }
             }
             else
             {
-                print("ALL LEVELS OPEN - just select the last one");
+                //print("ALL LEVELS OPEN - just select the last one");
                 SetSelectionActive(levelSelectionObjects[Defs.LEVEL_AMOUNT-1]);
                 index = Defs.LEVEL_AMOUNT - 1;
+                isBottomRow = true;
             }
             
 
@@ -235,7 +236,7 @@ namespace pf
             go.GetComponent<Image>().color = colors[ColorInfoKey.Open].BgColor;
             name.color = colors[ColorInfoKey.Open].TextColor;
 
-            if (PlayerStats.CompletedObjectives[i].CompletedNoHits)
+            if (PlayerStats.CompletedObjectives[i].CompletedNoHits == true)
             {
                 trophy0.color = colors[ColorInfoKey.Open].TrophyColor;
             }
@@ -244,7 +245,7 @@ namespace pf
                 trophy0.color = colors[ColorInfoKey.Closed].TrophyColor;
             }
 
-            if (PlayerStats.CompletedObjectives[i].CompletedPoints)
+            if (PlayerStats.CompletedObjectives[i].CompletedPoints == true)
             {
                 trophy1.color = colors[ColorInfoKey.Open].TrophyColor;
             }
@@ -253,7 +254,7 @@ namespace pf
                 trophy1.color = colors[ColorInfoKey.Closed].TrophyColor;
             }
 
-            if (PlayerStats.CompletedObjectives[i].CompletedTime)
+            if (PlayerStats.CompletedObjectives[i].CompletedTime == true)
             {
                 trophy2.color = colors[ColorInfoKey.Open].TrophyColor;
             }
@@ -362,7 +363,11 @@ namespace pf
                             */
                             {
                                 index = index - 1;
-                                if(index == 4)
+                                if(index < 0)
+                                {
+                                    index = 0;
+                                }
+                                if(index <= 4)
                                 {
                                     isBottomRow = false;
                                 }
@@ -383,7 +388,11 @@ namespace pf
                         */
                         {
                             index = index + 1;
-                            if(index == 5)
+                            if(index > 9)
+                            {
+                                index = 9;
+                            }
+                            if(index >= 5)
                             {
                                 isBottomRow = true;
                             }
@@ -397,6 +406,10 @@ namespace pf
                         if (!isBottomRow)
                         {
                             index = index + 5;
+                            if(index > 9)
+                            {
+                                index = 9;
+                            }
                             isBottomRow = true;
                         }
                     }
@@ -405,6 +418,10 @@ namespace pf
                         if (isBottomRow)
                         {
                             index = index - 5;
+                            if(index < 0)
+                            {
+                                index = 0;
+                            }
                             isBottomRow = false;
                         }
                         else
@@ -419,7 +436,7 @@ namespace pf
                 if (selection == Selection.Scroll)
                 {
                     index = Mathf.Clamp(index, 0, levelSelectionObjects.Count - 1);
-                    print("ALRIGHTY THEN: index is: " + index);
+                    //print("ALRIGHTY THEN: index is: " + index);
                     SetSelectionInactive(levelSelectionObjects[prevIndex]);
                     SetSelectionActive(levelSelectionObjects[index]);
                 }
@@ -440,6 +457,8 @@ namespace pf
                     SetSelectionActive(levelSelectionObjects[index]);
                 }
             }
+
+            //print("NAVIGATE: Current index is: " + index);
         }
 
         private void SetSelectionActive(Transform t)
