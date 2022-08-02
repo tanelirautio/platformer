@@ -45,7 +45,7 @@ namespace pf
                     {
                         audioManager.PlaySound2D("Peashooter");
                     }
-                    print("SHOOT!");
+                    //print("SHOOT!");
                     GameObject bullet = Instantiate(bulletPrefab, transform.position + (Vector3)raycastDir*0.8f + Vector3.up * 0.2f, Quaternion.identity);
                     bullet.GetComponent<Bullet>().SetDirection(raycastDir);
                     timer = 0f;
