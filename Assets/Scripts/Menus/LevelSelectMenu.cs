@@ -45,42 +45,6 @@ namespace pf
         private string levelPackNameBase = "level_pack_title_";
         private string levelNameBase = "level_title_";
 
-        /*
-        private List<string> levelPackNames = new List<string>()
-        {
-            "level_pack_1_title",
-            "TODO",
-            "TODO",
-            "TODO"
-            
-        };
-        */
-
-        /*
-        private List<string> levelNames = new List<string>()
-        {
-            "When You Gonna Learn?",
-            "Too Young To Die",
-            "Hooked Up",
-            "If I Like It, I Do It",
-            "Music of the Mind",
-            "Emergency on Planet Earth",
-            "Whatever It Is, I Just Can't Stop",
-            "Blow Your Mind",
-            "Revolution 1993",
-            "Didgin' Out",
-            "Just Another Story",
-            "Stillness In Time",
-            "Half the Man",
-            "Light Years",
-            "Manifest Destiny",
-            "The Kids",
-            "Mr. Moon",
-            "Scam",
-            "Morning Glory",
-            "Space Cowboy"
-        };
-        */
 
         private enum ColorInfoKey
         {
@@ -172,7 +136,12 @@ namespace pf
                 Image trophy2 = go.transform.Find("TrophyBg/Trophy2").GetComponent<Image>();
                 if (i < Defs.LEVEL_AMOUNT)
                 {
-                    if (PlayerStats.LevelsCompleted[i])
+                    if(i == 0)
+                    {
+                        //First level is always open, no matter what
+                        SetLevelOpen(go, i, trophy0, trophy1, trophy2, name);
+                    }
+                    else if (PlayerStats.LevelsCompleted[i])
                     {
                         SetLevelOpen(go, i, trophy0, trophy1, trophy2, name);
                         lastCompletedLevel = i;
@@ -220,7 +189,6 @@ namespace pf
                 index = Defs.LEVEL_AMOUNT - 1;
                 isBottomRow = true;
             }
-            
 
             back.GetComponent<SpriteRenderer>().color = Color.gray;
 

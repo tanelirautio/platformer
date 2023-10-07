@@ -14,9 +14,9 @@ namespace pf
             levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
         }
 
+#if UNITY_EDITOR
         void Update()
         {
-#if UNITY_EDITOR
             // TODO: this is for debugging, remove/hide GameObject which uses this from the final build
             if (Keyboard.current.f10Key.wasPressedThisFrame)
             {
@@ -93,7 +93,8 @@ namespace pf
                 print("Load test level!");
 
             }
-        }
+
+    }
 #endif
     }
 }

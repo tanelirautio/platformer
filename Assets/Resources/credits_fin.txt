@@ -1,4 +1,4 @@
-Rautionauts v.1.0.0
+Rautionauts v.1.0.2
 
 
 
@@ -110,3 +110,11 @@ Brackeys
 Teemu Ikonen
 Sebastian Lague
 Lost Relic Games
+
+
+
+
+
+<b>Erittäin erityiset kiitokset</b>
+
+Anniina & Viivi
