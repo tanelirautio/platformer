@@ -12,6 +12,12 @@ namespace pf
         private SaveData saveData = null; 
         private static bool initialized = false;
 
+        void Awake()
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+        }
+
         void Start()
         {
             //print("Mainmenu start");
